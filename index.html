@@ -835,7 +835,7 @@
                             <i class="fas fa-calculator" ></i> ครั้งละ 333 บาท • ชม.ละ 111 บาท
                         </div>
                         <div class="seat-counter" id="badge-med">
-                            <i class="fas fa-users"></i> สมัครแล้ว: <span id="count-med" class="loading-spinner"></span> / 15 ท่าน
+                            <i class="fas fa-users"></i> สมัครแล้ว: <span id="count-med" class="loading-spinner"></span> / 20 ท่าน
                         </div>
                         <div class="price-detail">
                             <i class="fas fa-calculator" ></i> เรียนวันที่ 6-7 ธันวาคม 2568 09.00-12.00 น. และวันที่ 8 ธันวาคม 2568 เวลา 19.00-22.00 น.
@@ -1041,7 +1041,7 @@
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDelay = Math.random() * 20 + 's';
             particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
             container.appendChild(particle);
         }
@@ -1074,7 +1074,7 @@
 
     function updateCounts(counts) {
         document.getElementById('count-med').innerText = counts.medical;
-        if(counts.medical >= 15) disableBtn('btn-med', 'badge-med');
+        if(counts.medical >= 20) disableBtn('btn-med', 'badge-med');
 
         document.getElementById('count-res').innerText = counts.research;
         if(counts.research >= 10) disableBtn('btn-res', 'badge-res');
@@ -1183,5 +1183,3 @@
 </script>
 </body>
 </html>
-
-
