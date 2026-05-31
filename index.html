@@ -1,0 +1,3799 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fbbf24">
+    <title>ลงทะเบียนอบรม AI Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --forest: #064e24;
+            --leaf: #00c84e;
+            --leaf-dark: #009e3c;
+            --leaf-soft: #c0f5da;
+            --mint: #edfff4;
+            --sage: #e0faf0;
+            --sky: #d1faeb;
+            --gold: #f59e0b;
+            --earth: #044d35;
+            --ink: #041f0e;
+            --muted: #1a6b38;
+            --line: #6ee7a0;
+            --surface: #ffffff;
+            --danger: #dc2626;
+            --shadow: 0 18px 45px rgba(0, 180, 60, 0.16);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Sarabun', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--mint) 0%, var(--sage) 52%, var(--mint) 100%);
+            letter-spacing: 0;
+            overflow-wrap: break-word;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .page-shell {
+            overflow: hidden;
+        }
+
+        .container-narrow {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(134, 239, 172, 0.85);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav-row {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--forest);
+            font-size: 1.08rem;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .brand-mark i {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: var(--leaf);
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 0.96rem;
+            color: var(--muted);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--leaf-dark);
+        }
+
+        .hero {
+            position: relative;
+            color: #ffffff;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.93) 0%, rgba(0, 0, 0, 0.80) 48%, rgba(0, 22, 8, 0.48) 100%),
+                url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=82") center/cover no-repeat;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 46%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(9, 8, 10, 0.97) 100%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            padding: 54px 0 64px;
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            padding: 8px 12px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(0, 255, 100, 0.5);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin: 0;
+            font-size: 3.45rem;
+            line-height: 1.12;
+            font-weight: 800;
+        }
+
+        .hero-lead {
+            max-width: 760px;
+            margin: 18px 0 0;
+            color: #ffffff;
+            font-size: 1.22rem;
+            line-height: 1.85;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn-main,
+        .btn-ghost,
+        .btn-modern {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .btn-main,
+        .btn-modern {
+            color: #ffffff;
+            background: var(--leaf);
+            box-shadow: 0 12px 28px rgba(34, 197, 94, 0.28);
+        }
+
+        .btn-main:hover,
+        .btn-modern:hover {
+            color: #ffffff;
+            background: var(--leaf-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 32px rgba(34, 197, 94, 0.25);
+        }
+
+        .btn-ghost {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.36);
+        }
+
+        .btn-ghost:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hero-facts li {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 64px 0;
+        }
+
+        .section-tight {
+            padding: 42px 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 26px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            color: var(--forest);
+            font-size: 2rem;
+            line-height: 1.28;
+            font-weight: 800;
+        }
+
+        .section-title p {
+            max-width: 560px;
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .instructor-strip {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 22px;
+            align-items: center;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .speaker-img,
+        .speaker-avatar {
+            width: 132px;
+            height: 86px;
+            object-fit: cover;
+            object-position: center;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+            background: var(--leaf-soft);
+            box-shadow: 0 10px 24px rgba(34, 197, 94, 0.12);
+        }
+
+        .speaker-avatar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background:
+                linear-gradient(135deg, rgba(225, 29, 46, 0.96), rgba(14, 165, 233, 0.9)),
+                #0b1024;
+            font-size: 2.1rem;
+            flex: 0 0 auto;
+        }
+
+        .instructor-strip h2 {
+            margin: 0 0 5px;
+            color: var(--forest);
+            font-size: 1.32rem;
+            font-weight: 800;
+        }
+
+        .instructor-strip p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .line-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 9px 12px;
+            color: #166534;
+            background: #bbf7d0;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* ===== Course Cards — Apple Style ===== */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 26px;
+            align-items: stretch;
+            min-width: 0;
+        }
+
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 26px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 30px rgba(0,0,0,0.06), 0 20px 50px rgba(0,180,60,0.05);
+            overflow: hidden;
+            transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), box-shadow 0.32s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-9px) scale(1.012);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 20px 55px rgba(0,0,0,0.09), 0 36px 72px rgba(0,180,60,0.09);
+        }
+
+        .course-card.research {
+            border: 1px solid rgba(0, 0, 0, 0.07);
+        }
+
+        .course-card.research:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 20px 55px rgba(0,0,0,0.09), 0 36px 72px rgba(6,78,36,0.1);
+        }
+
+        .course-head {
+            padding: 34px 30px 28px;
+            min-width: 0;
+            background: linear-gradient(150deg, #f2fff7 0%, #e5faee 55%, #d2f5e4 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-head::after {
+            content: '';
+            position: absolute;
+            top: -70px; right: -70px;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(0,200,78,0.13) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .course-card.research .course-head {
+            background: linear-gradient(150deg, #ebfff5 0%, #d8f9ea 55%, #c4f2dc 100%);
+        }
+
+        .course-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 5px 14px 5px 5px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(0, 200, 78, 0.22);
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            color: var(--forest);
+            font-weight: 700;
+            font-size: 0.84rem;
+        }
+
+        .course-label i {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--forest), var(--leaf));
+            border-radius: 50%;
+            font-size: 0.82rem;
+            flex-shrink: 0;
+        }
+
+        .course-card.research .course-label i {
+            background: linear-gradient(135deg, #033e1a, var(--forest));
+        }
+
+        .course-head h3 {
+            margin: 0;
+            color: var(--forest);
+            font-size: 1.7rem;
+            line-height: 1.26;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .price-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .course-price {
+            color: var(--forest);
+            font-size: 2.7rem;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+        }
+
+        .price-note {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            background: rgba(0, 200, 78, 0.1);
+            border: 1px solid rgba(0, 200, 78, 0.22);
+            border-radius: 100px;
+            color: var(--forest);
+            font-weight: 700;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .seat-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+            padding: 9px 12px;
+            color: var(--forest);
+            background: var(--leaf-soft);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            font-weight: 800;
+        }
+
+        .seat-counter.seat-full {
+            color: var(--danger);
+            background: #fee2e2;
+            border-color: #fecaca;
+        }
+
+        .loading-spinner {
+            display: inline-flex;
+            align-items: center;
+            min-width: 24px;
+        }
+
+        .loading-spinner::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(22, 101, 52, 0.18);
+            border-top-color: var(--leaf);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-spinner.loaded::after {
+            display: none;
+        }
+
+        .course-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 26px 30px 30px;
+            min-width: 0;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .tag-row span {
+            padding: 5px 13px;
+            color: var(--forest);
+            background: var(--mint);
+            border: 1px solid rgba(0, 200, 78, 0.2);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .course-list {
+            display: grid;
+            gap: 11px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .course-list li {
+            display: grid;
+            grid-template-columns: 20px 1fr;
+            gap: 10px;
+            color: #374151;
+            line-height: 1.65;
+            font-size: 0.9rem;
+        }
+
+        .course-list span,
+        .section-title p,
+        .outline-list li,
+        .system-mini-list li {
+            overflow-wrap: anywhere;
+        }
+
+        .course-list i {
+            margin-top: 4px;
+            color: var(--leaf);
+        }
+
+        .course-preview {
+            margin-bottom: 16px;
+        }
+
+        .course-expand {
+            margin: 20px 0 24px;
+            overflow: hidden;
+            background: #fafffe;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 16px;
+        }
+
+        .course-expand summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 16px;
+            color: var(--forest);
+            background: rgba(0, 200, 78, 0.06);
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 0.88rem;
+            list-style: none;
+        }
+
+        .course-expand summary::-webkit-details-marker {
+            display: none;
+        }
+
+        @keyframes summaryPulse {
+            0%   { background: rgba(251,146,60,0.15);  box-shadow: 0 0 12px rgba(251,146,60,0.3);  color: #c2410c; }
+            25%  { background: rgba(0,200,78,0.14);   box-shadow: 0 0 12px rgba(0,200,78,0.28);   color: var(--forest); }
+            50%  { background: rgba(56,189,248,0.14); box-shadow: 0 0 12px rgba(56,189,248,0.28); color: #0369a1; }
+            75%  { background: rgba(255,255,255,0.55); box-shadow: 0 0 14px rgba(255,255,255,0.4); color: var(--forest); }
+            100% { background: rgba(251,146,60,0.15);  box-shadow: 0 0 12px rgba(251,146,60,0.3);  color: #c2410c; }
+        }
+
+        .course-expand:not([open]) summary {
+            animation: summaryPulse 3s ease-in-out infinite;
+        }
+
+        .course-expand summary i {
+            transition: transform 0.18s ease;
+        }
+
+        .course-expand[open] summary i {
+            transform: rotate(180deg);
+        }
+
+        .course-full {
+            display: grid;
+            gap: 18px;
+            padding: 16px;
+        }
+
+        .course-full h4 {
+            margin: 0 0 10px;
+            color: var(--forest);
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .outline-list {
+            display: grid;
+            gap: 9px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .outline-list li {
+            position: relative;
+            padding-left: 24px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .outline-list li::before {
+            content: "\f058";
+            position: absolute;
+            top: 2px;
+            left: 0;
+            color: var(--leaf);
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+
+        .outline-list .outline-heading {
+            margin-top: 8px;
+            padding: 8px 10px;
+            color: var(--forest);
+            background: #f0fdf4;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-weight: 800;
+        }
+
+        .outline-list .outline-heading::before {
+            content: "";
+        }
+
+        .system-mini-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .system-mini-list li {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .system-mini-list strong {
+            color: var(--forest);
+        }
+
+        .course-card .btn-modern {
+            width: 100%;
+            margin-top: auto;
+            border-radius: 14px;
+            padding: 14px 22px;
+            font-size: 0.97rem;
+            letter-spacing: 0.01em;
+        }
+
+        .tools-band {
+            background: #ffffff;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .tools-list li {
+            padding: 8px 11px;
+            color: var(--forest);
+            background: var(--mint);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        /* ===== Workflow Steps ===== */
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            position: relative;
+        }
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 34px;
+            left: calc(12.5% + 6px);
+            right: calc(12.5% + 6px);
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--leaf) 0px, var(--leaf) 8px,
+                transparent 8px, transparent 18px
+            );
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .wf-step {
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+            border: 1.5px solid var(--line);
+            border-radius: 20px;
+            padding: 28px 20px 24px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 180, 60, 0.08);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            overflow: hidden;
+        }
+        .wf-step::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--leaf), var(--leaf-dark));
+        }
+        .wf-step:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 18px 44px rgba(0, 180, 60, 0.18);
+            border-color: var(--leaf);
+        }
+        .wf-circle {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--forest) 0%, var(--leaf) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 8px 24px rgba(0, 180, 60, 0.30);
+            position: relative;
+        }
+        .wf-circle i { font-size: 1.55rem; color: #ffffff; }
+        .wf-badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            width: 26px; height: 26px;
+            background: #ffffff;
+            border: 2.5px solid var(--leaf);
+            border-radius: 50%;
+            color: var(--forest);
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .wf-step h3 {
+            margin: 0 0 8px;
+            color: var(--forest);
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+        .wf-step p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.75;
+        }
+
+        /* ===== Curriculum Cards — Modern ===== */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .detail-panel {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.05), 0 8px 32px rgba(0,180,60,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .detail-panel:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 18px 50px rgba(0,180,60,0.11);
+        }
+
+        .detail-panel-head {
+            padding: 28px 28px 22px;
+            background: linear-gradient(135deg, var(--forest) 0%, var(--leaf) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-panel-head::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 170px; height: 170px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            pointer-events: none;
+        }
+
+        .detail-panel-head::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; left: -20px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .detail-panel-icon {
+            width: 50px; height: 50px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            font-size: 1.3rem;
+            color: #ffffff;
+        }
+
+        .detail-panel-head h3 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .detail-panel-body { padding: 22px 28px 28px; }
+
+        .curriculum-list {
+            display: grid;
+            gap: 0;
+            margin: 0; padding: 0;
+            list-style: none;
+            counter-reset: curriculum;
+        }
+
+        .curriculum-list li {
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            counter-increment: curriculum;
+        }
+
+        .curriculum-list li:last-child { border-bottom: none; }
+
+        .curriculum-list li::before {
+            content: counter(curriculum, decimal-leading-zero);
+            font-size: 0.7rem; font-weight: 800;
+            color: var(--leaf-dark);
+            min-width: 28px; height: 26px;
+            background: rgba(0,200,78,0.1);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        .curriculum-list li span {
+            color: #374151;
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .system-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 18px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .system-list a {
+            display: grid;
+            grid-template-columns: 24px 1fr;
+            gap: 9px;
+            padding: 10px 0;
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+            line-height: 1.55;
+        }
+
+        .system-list a:hover {
+            color: var(--leaf-dark);
+        }
+
+        .system-list i {
+            color: var(--leaf);
+            margin-top: 4px;
+        }
+
+        .cta-band {
+            color: #ffffff;
+            background: linear-gradient(90deg, var(--forest), var(--leaf-dark));
+        }
+
+        .cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .cta-row h2 {
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .cta-row p {
+            margin: 0;
+            color: #ffffff;
+            line-height: 1.75;
+        }
+
+        .cta-row .btn-main {
+            color: var(--forest);
+            background: #ffffff;
+            box-shadow: none;
+            white-space: nowrap;
+        }
+
+        .cta-row .btn-main:hover {
+            color: var(--forest);
+            background: #ffffff;
+        }
+
+        .modal-content {
+            border: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 28px 70px rgba(22, 101, 52, 0.24);
+        }
+
+        .modal-header {
+            color: #ffffff;
+            background: var(--forest);
+            border: 0;
+            padding: 22px 24px;
+        }
+
+        .modal-title {
+            font-weight: 800;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 26px;
+            background: #f0fdf4;
+        }
+
+        .form-label {
+            color: var(--forest);
+            font-weight: 800;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 46px;
+            color: var(--ink);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--leaf);
+            box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.12);
+        }
+
+        .input-group-text {
+            color: #ffffff;
+            background: #22c55e;
+            border-color: #22c55e;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .payment-box {
+            padding: 16px;
+            color: var(--forest);
+            background: var(--leaf-soft);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+        }
+
+        .btn-modern:disabled,
+        .btn-disabled {
+            cursor: not-allowed;
+            color: #ffffff;
+            background: #94a3b8;
+            box-shadow: none;
+            transform: none;
+            opacity: 0.8;
+        }
+
+        .site-footer {
+            padding: 26px 0;
+            color: var(--muted);
+            background: #ffffff;
+            border-top: 1px solid var(--line);
+            text-align: center;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.65rem;
+            }
+
+            .course-grid,
+            .details-grid,
+            .system-list {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .workflow-steps::before { display: none; }
+
+            .section-title,
+            .cta-row {
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container-narrow {
+                width: min(100% - 24px, 1120px);
+            }
+
+            .nav-row {
+                min-height: auto;
+                padding: 12px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                gap: 12px;
+                overflow-x: auto;
+                padding-bottom: 4px;
+            }
+
+            .hero-inner {
+                padding: 38px 0 48px;
+            }
+
+            .hero h1 {
+                font-size: 2.12rem;
+            }
+
+            .hero-lead {
+                font-size: 1.04rem;
+            }
+
+            .hero-actions,
+            .hero-actions .btn-main,
+            .hero-actions .btn-ghost {
+                width: 100%;
+            }
+
+            .section {
+                padding: 46px 0;
+            }
+
+            .instructor-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .speaker-img,
+            .speaker-avatar {
+                width: 112px;
+                height: 76px;
+            }
+
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .course-head,
+            .course-body {
+                padding: 22px 20px;
+            }
+            .detail-panel-head { padding: 22px 20px 18px; }
+            .detail-panel-body { padding: 18px 20px 22px; }
+            .modal-body { padding: 20px; }
+            .course-card {
+                border-radius: 20px;
+            }
+            .course-head h3 {
+                font-size: 1.4rem;
+            }
+            .course-price {
+                font-size: 2.2rem;
+            }
+
+            .course-price {
+                font-size: 1.9rem;
+            }
+
+            .course-head h3 {
+                word-break: break-all;
+            }
+        }
+
+        /* ===== Hero Neon ===== */
+        .hero h1 {
+            text-shadow: 0 0 18px rgba(255,255,255,0.45), 0 0 50px rgba(0,255,100,0.3);
+        }
+        .hero-lead {
+            text-shadow: 0 0 12px rgba(0,255,100,0.25);
+        }
+        .hero-kicker {
+            color: #b8ffe8 !important;
+            background: rgba(0,200,80,0.1) !important;
+            box-shadow: 0 0 16px rgba(0,255,100,0.2), inset 0 0 16px rgba(0,255,100,0.05);
+        }
+        .hero-facts li {
+            background: rgba(0,200,80,0.07) !important;
+            border: 1px solid rgba(0,255,100,0.3) !important;
+            box-shadow: 0 0 8px rgba(0,255,100,0.14);
+            text-shadow: 0 0 6px rgba(0,255,100,0.4);
+        }
+        .hero .btn-main,
+        .hero .btn-modern {
+            background: rgba(0,200,78,0.08);
+            border: 2px solid rgba(0,255,100,0.7);
+            color: #ffffff;
+            box-shadow: 0 0 18px rgba(0,255,100,0.5), 0 0 40px rgba(0,255,100,0.15), inset 0 0 15px rgba(0,255,100,0.04);
+        }
+        .hero .btn-main:hover,
+        .hero .btn-modern:hover {
+            background: rgba(0,200,78,0.18);
+            border-color: #00ff64;
+            color: #ffffff;
+            box-shadow: 0 0 28px rgba(0,255,100,0.7), 0 0 60px rgba(0,255,100,0.25);
+            transform: translateY(-2px);
+        }
+        .hero .btn-ghost {
+            background: rgba(0,0,0,0.2);
+            border-color: rgba(0,229,180,0.5);
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(0,229,180,0.2);
+        }
+        .hero .btn-ghost:hover {
+            background: rgba(0,229,180,0.1);
+            border-color: rgba(0,229,180,0.9);
+            color: #ffffff;
+            box-shadow: 0 0 24px rgba(0,229,180,0.5);
+        }
+
+        /* ===== Curriculum Section — Dark Header ===== */
+        #curriculum {
+            background: linear-gradient(135deg, var(--forest) 0%, #0a6b32 60%, var(--leaf-dark) 100%);
+            border-radius: 28px;
+            padding: 56px 0;
+            margin: 0 16px;
+        }
+
+        #curriculum .section-title h2 {
+            color: #ffffff;
+            font-size: 2.4rem;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 16px rgba(0,0,0,0.2);
+        }
+
+        #curriculum .section-title p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.05rem;
+        }
+
+        /* ===== Floating TOC — White Neon Luxury ===== */
+        @keyframes tocGlow {
+            0%, 100% { box-shadow: -6px 0 32px rgba(255,255,255,0.18), 0 0 60px rgba(255,255,255,0.06); }
+            50%       { box-shadow: -6px 0 48px rgba(255,255,255,0.32), 0 0 80px rgba(255,255,255,0.12); }
+        }
+        .toc-nav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) translateX(calc(100% - 36px));
+            z-index: 80;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toc-nav.toc-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .toc-nav.toc-visible:hover {
+            transform: translateY(-50%) translateX(0);
+        }
+        .toc-nav::before {
+            content: '\f053';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%);
+            width: 36px; height: 56px;
+            display: flex; align-items: center; justify-content: center;
+            color: #b8860b;
+            font-size: 0.68rem;
+            background: #ffffff;
+            border: 1.5px solid rgba(255, 204, 0, 0.7);
+            border-right: none;
+            border-radius: 14px 0 0 14px;
+            box-shadow: -4px 0 16px rgba(255, 204, 0, 0.3), 0 0 8px rgba(255, 204, 0, 0.15);
+            z-index: 1;
+            pointer-events: none;
+            text-shadow: none;
+        }
+        .toc-nav:hover::before { display: none; }
+        .toc-panel {
+            background: #ffffff;
+            border: 1.5px solid rgba(255, 204, 0, 0.55);
+            border-right: none;
+            border-radius: 18px 0 0 18px;
+            box-shadow: -4px 0 24px rgba(255, 204, 0, 0.22), -1px 0 8px rgba(255, 204, 0, 0.12);
+            overflow: hidden;
+            min-width: 168px;
+            backdrop-filter: blur(24px) saturate(160%);
+            animation: none;
+        }
+        .toc-header {
+            display: flex; align-items: center; gap: 7px;
+            padding: 12px 15px 10px;
+            font-size: 0.68rem; font-weight: 800;
+            color: #1d1d1f; text-transform: uppercase; letter-spacing: 0.12em;
+            border-bottom: 1px solid rgba(60, 60, 67, 0.1);
+            background: #f5f5f7;
+        }
+        .toc-header i {
+            color: #ff9500; font-size: 0.72rem;
+        }
+        .toc-list { list-style: none; margin: 0; padding: 6px 0; }
+        .toc-link {
+            display: flex; align-items: center; gap: 9px;
+            padding: 8px 15px;
+            color: #3a3a3c; text-decoration: none;
+            font-size: 0.82rem; font-weight: 600;
+            border-left: 2px solid transparent;
+            transition: all 0.18s ease; white-space: nowrap;
+            letter-spacing: 0.01em;
+        }
+        .toc-link:hover {
+            color: #1d1d1f;
+            background: rgba(60, 60, 67, 0.05);
+            border-left-color: rgba(60, 60, 67, 0.3);
+        }
+        .toc-link.toc-active {
+            color: #1d1d1f;
+            background: rgba(255, 149, 0, 0.08);
+            border-left-color: #ff9500;
+            font-weight: 800;
+        }
+        .toc-link i {
+            width: 15px; text-align: center; font-size: 0.76rem;
+            color: #aeaeb2; flex-shrink: 0;
+        }
+        .toc-link:hover i { color: #6e6e73; }
+        .toc-link.toc-active i { color: #ff9500; }
+        .toc-divider { height: 1px; background: rgba(60, 60, 67, 0.08); margin: 4px 0; }
+        .toc-btn-reg {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin: 8px 10px 10px; padding: 9px 13px;
+            background: #ff9500;
+            border: 1px solid rgba(255, 149, 0, 0.5) !important;
+            border-left: 1px solid rgba(255, 149, 0, 0.5) !important;
+            color: #ffffff !important; font-size: 0.82rem; font-weight: 800;
+            text-decoration: none; border-radius: 11px;
+            transition: all 0.18s ease;
+            box-shadow: 0 4px 14px rgba(255, 149, 0, 0.3);
+            letter-spacing: 0.01em;
+        }
+        .toc-btn-reg:hover {
+            background: #e08000;
+            box-shadow: 0 6px 20px rgba(255, 149, 0, 0.42);
+            transform: translateY(-1px);
+        }
+        .toc-btn-reg i { color: #fff !important; opacity: 1 !important; width: auto; }
+        @media (max-width: 1180px) { .toc-nav { display: none; } }
+
+        /* Stars */
+        @keyframes starPulse { 0%,100%{opacity:.15;transform:scale(.6);} 50%{opacity:1;transform:scale(1.4);} }
+        @keyframes starGlow  { 0%,100%{opacity:.7;} 50%{opacity:.05;} }
+        .hero-starfield { position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden; }
+        .hero-starfield .s { position:absolute;border-radius:50%;animation:starPulse ease-in-out infinite; }
+        .hero-starfield .s.dim { animation-name:starGlow; }
+
+        /* Legacy aerospace AI theme base */
+        :root {
+            --forest: #080d1f;
+            --leaf: #0ea5e9;
+            --leaf-dark: #c1121f;
+            --leaf-soft: #e7f7ff;
+            --mint: #f4f8ff;
+            --line: #c8d4ea;
+            --ink: #101827;
+            --muted: #52647f;
+            --space: #030711;
+            --space-2: #0b1024;
+            --signal: #e11d2e;
+            --telemetry: #27d7ff;
+            --solar: #f7b538;
+        }
+
+        * {
+            letter-spacing: 0;
+        }
+
+        body {
+            color: var(--ink);
+            background:
+                linear-gradient(180deg, #030711 0, #071126 520px, #f4f8ff 980px),
+                #f4f8ff;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(39, 215, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(39, 215, 255, 0.08) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 72%);
+        }
+
+        .page-shell {
+            background: transparent;
+        }
+
+        .site-header {
+            color: #1d1d1f;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.1);
+            box-shadow: 0 1px 0 rgba(60, 60, 67, 0.06);
+        }
+
+        .brand-mark {
+            color: #1d1d1f;
+            text-transform: uppercase;
+        }
+
+        .brand-mark i {
+            color: #ffffff;
+            background: #1d1d1f;
+            border: none;
+            box-shadow: none;
+        }
+
+        .nav-links {
+            color: #3a3a3c;
+        }
+
+        .nav-links a {
+            color: inherit;
+        }
+
+        .nav-links a:hover {
+            color: #1d1d1f;
+        }
+
+        .nav-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            color: #ffffff !important;
+            border-radius: 8px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+        }
+
+        .nav-pill-ai {
+            background: #007aff;
+        }
+
+        .nav-pill-console {
+            background: #ff3b30;
+        }
+
+        .hero {
+            min-height: 580px;
+            color: #1d1d1f;
+            isolation: isolate;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(60, 60, 67, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 70% 60% at 80% 50%, rgba(0, 122, 255, 0.07) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 40% at 10% 80%, rgba(255, 149, 0, 0.06) 0%, transparent 60%);
+        }
+
+        .hero::after {
+            background: none;
+            background-size: auto;
+        }
+
+        .hero-inner {
+            min-height: 580px;
+            max-width: 760px;
+            padding: 96px 0 76px;
+        }
+
+        .hero-kicker {
+            color: #007aff !important;
+            background: rgba(0, 122, 255, 0.08) !important;
+            border: 1px solid rgba(0, 122, 255, 0.22) !important;
+            box-shadow: none;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            max-width: 720px;
+            color: #1d1d1f;
+            text-shadow: none;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-lead {
+            color: #6e6e73;
+        }
+
+        .mission-telemetry {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 26px;
+            max-width: 720px;
+        }
+
+        .mission-telemetry span,
+        .mission-telemetry .telemetry-link {
+            display: grid;
+            gap: 2px;
+            padding: 10px 12px;
+            color: #1d1d1f;
+            background: #f5f5f7;
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            border-left: 3px solid #007aff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+
+        .mission-telemetry .telemetry-link {
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .mission-telemetry .telemetry-link:hover {
+            border-left-color: #ff9500;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+            transform: translateY(-2px);
+        }
+
+        .mission-telemetry small {
+            color: #007aff;
+            font-size: 0.74rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .mission-telemetry strong {
+            color: #1d1d1f;
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+
+        .hero .btn-main,
+        .hero .btn-modern {
+            color: #ffffff;
+            background: #1d1d1f;
+            border: 1px solid #1d1d1f;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .hero .btn-main:hover,
+        .hero .btn-modern:hover {
+            color: #ffffff;
+            background: #3a3a3c;
+            border-color: #3a3a3c;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        .hero .btn-ghost {
+            color: #1d1d1f;
+            background: #ffffff;
+            border: 1px solid rgba(60, 60, 67, 0.26);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .hero .btn-ghost:hover {
+            color: #1d1d1f;
+            background: #f5f5f7;
+            border-color: rgba(60, 60, 67, 0.4);
+        }
+
+        .hero-facts li {
+            color: #3a3a3c !important;
+            background: #f5f5f7 !important;
+            border: 1px solid rgba(60, 60, 67, 0.14) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            text-shadow: none;
+        }
+
+        .hero-facts i {
+            color: #ff9500;
+        }
+
+        .hero-starfield .s {
+            background: rgba(0, 122, 255, 0.18) !important;
+            box-shadow: 0 0 8px rgba(0, 122, 255, 0.3) !important;
+        }
+
+        .section,
+        .section-tight,
+        .tools-band {
+            background: transparent;
+        }
+
+        .instructor-strip,
+        .course-card,
+        .detail-panel,
+        .modal-content {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(200, 212, 234, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 22px 54px rgba(8, 13, 31, 0.08);
+        }
+
+        .course-card {
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: "";
+            display: block;
+            height: 4px;
+            background: linear-gradient(90deg, var(--signal), var(--telemetry), var(--solar));
+        }
+
+        .course-card.research::before {
+            background: linear-gradient(90deg, var(--telemetry), var(--solar), var(--signal));
+        }
+
+        .course-label i,
+        .section-title i,
+        .detail-panel h3 i,
+        .system-list i {
+            color: var(--signal);
+        }
+
+        .course-label,
+        .section-title h2,
+        .detail-panel h3,
+        .course-price {
+            color: var(--forest);
+        }
+
+        .tag-row span,
+        .tools-list li {
+            color: var(--forest);
+            background: #ffffff;
+            border: 1px solid rgba(14, 165, 233, 0.24);
+            border-radius: 8px;
+            box-shadow: inset 0 -2px 0 rgba(225, 29, 46, 0.08);
+        }
+
+        .speaker-img,
+        .speaker-avatar {
+            border-color: var(--signal);
+            box-shadow: 0 12px 26px rgba(8, 13, 31, 0.14);
+        }
+
+        .course-expand {
+            background: #f6fbff;
+            border: 1px solid rgba(14, 165, 233, 0.18);
+            border-radius: 8px;
+        }
+
+        .course-expand summary {
+            color: var(--forest);
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.12), rgba(247, 181, 56, 0.12));
+        }
+
+        .outline-list .outline-heading {
+            color: var(--forest);
+            background: #ffffff;
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        .outline-list li::before,
+        .course-list i {
+            color: var(--telemetry);
+        }
+
+        .process-card {
+            border-radius: 8px;
+            background: #ffffff;
+            border: 1px solid rgba(200, 212, 234, 0.95);
+            box-shadow: 0 16px 40px rgba(8, 13, 31, 0.07);
+        }
+
+        .process-card i {
+            color: var(--signal);
+            background: rgba(225, 29, 46, 0.08);
+        }
+
+        .system-list a {
+            color: var(--muted);
+            border-bottom-color: rgba(200, 212, 234, 0.8);
+        }
+
+        .system-list a:hover {
+            color: var(--signal);
+        }
+
+        .btn-main,
+        .btn-modern {
+            background: var(--signal);
+            box-shadow: 0 12px 28px rgba(225, 29, 46, 0.22);
+        }
+
+        .btn-main:hover,
+        .btn-modern:hover {
+            background: #9f111d;
+            box-shadow: 0 14px 32px rgba(225, 29, 46, 0.26);
+        }
+
+        .cta-band {
+            background: #f5f5f7;
+            border-top: 1px solid rgba(60, 60, 67, 0.1);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.08);
+        }
+
+        .cta-row h2 {
+            color: #1d1d1f;
+        }
+
+        .cta-row p {
+            color: #6e6e73;
+        }
+
+        .cta-row .btn-main {
+            color: #ffffff;
+            background: #1d1d1f;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .cta-row .btn-main:hover {
+            background: #3a3a3c;
+            color: #ffffff;
+        }
+
+        .site-footer {
+            color: #6e6e73;
+            background: #ffffff;
+            border-top: 1px solid rgba(60, 60, 67, 0.1);
+        }
+
+        .form-control,
+        .form-select {
+            border-color: rgba(82, 100, 127, 0.28);
+            border-radius: 8px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--telemetry);
+            box-shadow: 0 0 0 3px rgba(39, 215, 255, 0.16);
+        }
+
+        .input-group-text {
+            background: var(--signal);
+            border-color: var(--signal);
+        }
+
+        .payment-box {
+            color: var(--forest);
+            background: #f6fbff;
+            border-color: rgba(14, 165, 233, 0.22);
+        }
+
+        .modal-header {
+            background: #f5f5f7;
+            color: #1d1d1f;
+            border-bottom: 1px solid rgba(60, 60, 67, 0.1);
+        }
+
+        .btn-close {
+            filter: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero,
+            .hero-inner {
+                min-height: auto;
+            }
+
+            .hero {
+                background: #ffffff;
+            }
+
+            .mission-telemetry {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-pill {
+                white-space: nowrap;
+            }
+        }
+
+        /* macOS-inspired AI studio theme */
+        :root {
+            --forest: #1d1d1f;
+            --leaf: #007aff;
+            --leaf-dark: #005ecb;
+            --leaf-soft: #eaf3ff;
+            --mint: #f7faff;
+            --line: rgba(60, 60, 67, 0.16);
+            --ink: #1d1d1f;
+            --muted: #6e6e73;
+            --mac-blue: #007aff;
+            --mac-green: #34c759;
+            --mac-yellow: #ffcc00;
+            --mac-red: #ff3b30;
+            --mac-purple: #af52de;
+            --mac-glass: rgba(255, 255, 255, 0.74);
+            --mac-shadow: 0 24px 70px rgba(29, 29, 31, 0.13);
+        }
+
+        body {
+            color: var(--ink);
+            background: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            display: none;
+        }
+
+        .site-header {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.72);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.14);
+            box-shadow: 0 10px 32px rgba(29, 29, 31, 0.08);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+        }
+
+        .brand-mark {
+            color: var(--ink);
+            text-transform: none;
+        }
+
+        .brand-mark i {
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--mac-blue), var(--mac-purple));
+            border: 0;
+            border-radius: 8px;
+            box-shadow: 0 10px 24px rgba(0, 122, 255, 0.25);
+        }
+
+        .nav-links {
+            color: var(--muted);
+        }
+
+        .nav-links a:hover {
+            color: var(--mac-blue);
+        }
+
+        .nav-pill {
+            color: #ffffff !important;
+            border: 0;
+            border-radius: 999px;
+            box-shadow: 0 10px 24px rgba(0, 122, 255, 0.18);
+        }
+
+        .nav-pill-ai {
+            background: var(--mac-blue);
+        }
+
+        .nav-pill-console {
+            background: #1d1d1f;
+        }
+
+        .hero {
+            min-height: 650px;
+            color: var(--ink);
+            background:
+                linear-gradient(90deg, rgba(248, 251, 255, 0.96) 0%, rgba(248, 251, 255, 0.86) 43%, rgba(248, 251, 255, 0.42) 70%, rgba(248, 251, 255, 0.84) 100%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(245, 245, 247, 0.9)),
+                url("assets/space-ai-mission-hero.png") center right / cover no-repeat;
+            border-bottom: 1px solid rgba(60, 60, 67, 0.12);
+        }
+
+        .hero::before {
+            background:
+                radial-gradient(circle at 74% 28%, rgba(0, 122, 255, 0.2), transparent 24%),
+                radial-gradient(circle at 84% 58%, rgba(175, 82, 222, 0.16), transparent 28%);
+            opacity: 0.86;
+        }
+
+        .hero::after {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0) 58%, #f5f5f7 100%),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.46), transparent);
+            background-size: auto;
+        }
+
+        .hero-inner {
+            min-height: 650px;
+            max-width: 760px;
+            padding: 96px 0 82px;
+        }
+
+        .hero-starfield {
+            display: none;
+        }
+
+        .hero-kicker {
+            color: var(--ink) !important;
+            background: rgba(255, 255, 255, 0.68) !important;
+            border: 1px solid rgba(60, 60, 67, 0.16) !important;
+            border-radius: 999px;
+            box-shadow: 0 12px 36px rgba(29, 29, 31, 0.08);
+            text-transform: none;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .hero-kicker i {
+            color: var(--mac-blue) !important;
+        }
+
+        .hero h1 {
+            color: var(--ink);
+            text-shadow: none;
+        }
+
+        .hero-lead {
+            color: #424245;
+        }
+
+        .mission-telemetry {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .mission-telemetry span,
+        .mission-telemetry .telemetry-link {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            border-left: 0;
+            border-radius: 8px;
+            box-shadow: 0 16px 46px rgba(29, 29, 31, 0.08);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            position: relative;
+            text-decoration: none;
+        }
+
+        .mission-telemetry .telemetry-link:hover {
+            border-left: 3px solid #ff9500;
+            box-shadow: 0 20px 54px rgba(29, 29, 31, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .mission-telemetry span::before,
+        .mission-telemetry .telemetry-link::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--mac-red);
+            box-shadow: 18px 0 0 var(--mac-yellow), 36px 0 0 var(--mac-green);
+            margin-bottom: 8px;
+        }
+
+        .mission-telemetry small {
+            color: var(--mac-blue);
+            text-transform: none;
+        }
+
+        .hero .btn-main,
+        .hero .btn-modern,
+        .btn-main,
+        .btn-modern {
+            color: #ffffff;
+            background: var(--mac-blue);
+            border: 0;
+            border-radius: 999px;
+            box-shadow: 0 16px 32px rgba(0, 122, 255, 0.22);
+        }
+
+        .hero .btn-main:hover,
+        .hero .btn-modern:hover,
+        .btn-main:hover,
+        .btn-modern:hover {
+            color: #ffffff;
+            background: var(--leaf-dark);
+            box-shadow: 0 18px 40px rgba(0, 122, 255, 0.28);
+        }
+
+        .hero .btn-ghost,
+        .btn-ghost {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(60, 60, 67, 0.16);
+            border-radius: 999px;
+            box-shadow: 0 16px 32px rgba(29, 29, 31, 0.08);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .hero .btn-ghost:hover,
+        .btn-ghost:hover {
+            color: var(--mac-blue);
+            background: rgba(255, 255, 255, 0.82);
+            border-color: rgba(0, 122, 255, 0.22);
+        }
+
+        .hero-facts li {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.64) !important;
+            border: 1px solid rgba(60, 60, 67, 0.14) !important;
+            border-radius: 999px;
+            box-shadow: 0 12px 30px rgba(29, 29, 31, 0.07);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .hero-facts i {
+            color: var(--mac-blue);
+        }
+
+        .section-tight {
+            margin-top: -32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .instructor-strip,
+        .course-card,
+        .detail-panel,
+        .process-card,
+        .modal-content {
+            background: var(--mac-glass);
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            border-radius: 8px;
+            box-shadow: var(--mac-shadow);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+        }
+
+        .instructor-strip {
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        .speaker-img {
+            width: 150px;
+            height: 92px;
+            border-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 18px 42px rgba(29, 29, 31, 0.16);
+        }
+
+        .section-title h2,
+        .course-label,
+        .detail-panel h3,
+        .course-price {
+            color: var(--ink);
+        }
+
+        .course-label i,
+        .section-title i,
+        .detail-panel h3 i,
+        .system-list i,
+        .course-list i,
+        .outline-list li::before {
+            color: var(--mac-blue);
+        }
+
+        .course-card::before,
+        .course-card.research::before {
+            background: linear-gradient(90deg, var(--mac-red), var(--mac-yellow), var(--mac-green), var(--mac-blue), var(--mac-purple));
+        }
+
+        .course-head,
+        .course-card.research .course-head,
+        .course-body {
+            background: rgba(255, 255, 255, 0.62);
+        }
+
+        .course-card .course-label i,
+        .course-card.research .course-label i {
+            color: var(--mac-blue);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .tag-row span,
+        .tools-list li,
+        .outline-list .outline-heading {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.74);
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            box-shadow: inset 0 -1px 0 rgba(60, 60, 67, 0.06);
+        }
+
+        .course-expand,
+        .payment-box {
+            background: rgba(255, 255, 255, 0.64);
+            border-color: rgba(60, 60, 67, 0.14);
+            border-radius: 8px;
+        }
+
+        .course-expand summary {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.74);
+        }
+
+        .process-card i {
+            color: var(--mac-blue);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .system-list a {
+            color: #424245;
+            border-bottom-color: rgba(60, 60, 67, 0.12);
+        }
+
+        .system-list a:hover {
+            color: var(--mac-blue);
+        }
+
+        .cta-band {
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 18% 16%, rgba(0, 122, 255, 0.16), transparent 36%),
+                radial-gradient(circle at 82% 20%, rgba(255, 45, 85, 0.12), transparent 34%),
+                rgba(255, 255, 255, 0.68);
+            border-top: 1px solid rgba(60, 60, 67, 0.12);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.12);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+        }
+
+        .cta-row p {
+            color: var(--muted);
+        }
+
+        .cta-row .btn-main {
+            color: #ffffff;
+            background: #1d1d1f;
+        }
+
+        .site-footer {
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.72);
+            border-top: 1px solid rgba(60, 60, 67, 0.12);
+        }
+
+        .modal-header {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.82);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.12);
+        }
+
+        .modal-header::before {
+            content: "";
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--mac-red);
+            box-shadow: 18px 0 0 var(--mac-yellow), 36px 0 0 var(--mac-green);
+            margin-right: 28px;
+            flex: 0 0 auto;
+        }
+
+        .modal-header .btn-close,
+        .btn-close {
+            filter: none;
+        }
+
+        .input-group-text {
+            background: var(--mac-blue);
+            border-color: var(--mac-blue);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--mac-blue);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.16);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                background:
+                    linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(248, 251, 255, 0.88), rgba(245, 245, 247, 0.94)),
+                    url("assets/space-ai-mission-hero.png") center / cover no-repeat;
+            }
+
+            .mission-telemetry {
+                grid-template-columns: 1fr;
+            }
+
+            .speaker-img {
+                width: 122px;
+                height: 78px;
+            }
+        }
+
+        /* ===== Neon Nav Links ===== */
+        @keyframes neonCyan   { 0%,100%{box-shadow:0 0 4px #00cfff,0 0 10px rgba(0,207,255,.25);} 50%{box-shadow:0 0 7px #00cfff,0 0 16px rgba(0,207,255,.35);} }
+        @keyframes neonGreen  { 0%,100%{box-shadow:0 0 4px #00e87a,0 0 10px rgba(0,232,122,.25);} 50%{box-shadow:0 0 7px #00e87a,0 0 16px rgba(0,232,122,.35);} }
+        @keyframes neonPurple { 0%,100%{box-shadow:0 0 4px #b06aff,0 0 10px rgba(176,106,255,.25);} 50%{box-shadow:0 0 7px #b06aff,0 0 16px rgba(176,106,255,.35);} }
+        @keyframes neonRed    { 0%,100%{box-shadow:0 0 4px #ff4d6a,0 0 10px rgba(255,77,106,.25);} 50%{box-shadow:0 0 7px #ff4d6a,0 0 16px rgba(255,77,106,.35);} }
+
+        .nav-links a[href="#courses"] {
+            background: #fff !important;
+            border: 1.5px solid #00cfff;
+            border-radius: 999px;
+            padding: 5px 13px;
+            color: #007a99 !important;
+            font-weight: 800;
+            animation: neonCyan 2.6s ease-in-out infinite;
+            transition: background .18s, transform .18s;
+        }
+        .nav-links a[href="#courses"]:hover { background: #e8faff !important; transform: translateY(-1px); }
+
+        .nav-links a[href="#workflow"] {
+            background: #fff !important;
+            border: 1.5px solid #00e87a;
+            border-radius: 999px;
+            padding: 5px 13px;
+            color: #007a3a !important;
+            font-weight: 800;
+            animation: neonGreen 2.8s ease-in-out infinite;
+            transition: background .18s, transform .18s;
+        }
+        .nav-links a[href="#workflow"]:hover { background: #e8fff4 !important; transform: translateY(-1px); }
+
+        .nav-links a[href="#curriculum"] {
+            background: #fff !important;
+            border: 1.5px solid #b06aff;
+            border-radius: 999px;
+            padding: 5px 13px;
+            color: #6a00cc !important;
+            font-weight: 800;
+            animation: neonPurple 3s ease-in-out infinite;
+            transition: background .18s, transform .18s;
+        }
+        .nav-links a[href="#curriculum"]:hover { background: #f5eeff !important; transform: translateY(-1px); }
+
+        .nav-links a[href="#registerModal"] {
+            background: #fff !important;
+            border: 1.5px solid #ff4d6a;
+            border-radius: 999px;
+            padding: 5px 13px;
+            color: #cc0022 !important;
+            font-weight: 800;
+            animation: neonRed 2.4s ease-in-out infinite;
+            transition: background .18s, transform .18s;
+        }
+        .nav-links a[href="#registerModal"]:hover { background: #fff0f2 !important; transform: translateY(-1px); }
+
+        /* ===== Neon Chat Button ===== */
+        @keyframes neonPulse {
+            0%, 100% {
+                box-shadow: 0 0 5px #ffaa00, 0 0 12px rgba(255,170,0,0.35),
+                            inset 0 0 6px rgba(255,170,0,0.06);
+            }
+            50% {
+                box-shadow: 0 0 9px #ffaa00, 0 0 20px rgba(255,170,0,0.45),
+                            inset 0 0 10px rgba(255,170,0,0.1);
+            }
+        }
+        .nav-pill-ai {
+            background: #ffffff !important;
+            border: 1.5px solid #ffaa00 !important;
+            border-radius: 999px !important;
+            color: #cc7a00 !important;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-shadow: none;
+            animation: neonPulse 2.8s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .nav-pill-ai i {
+            color: #ffaa00 !important;
+            filter: drop-shadow(0 0 4px rgba(255,170,0,0.6));
+        }
+        .nav-pill-ai:hover {
+            background: #fff8e6 !important;
+            transform: translateY(-1px) scale(1.03);
+        }
+
+        /* Keep the hero section dark while retaining macOS-style glass panels */
+        .hero {
+            color: #ffffff;
+            background:
+                linear-gradient(90deg, rgba(2, 6, 23, 0.98) 0%, rgba(2, 6, 23, 0.9) 42%, rgba(2, 6, 23, 0.42) 72%, rgba(2, 6, 23, 0.82) 100%),
+                linear-gradient(180deg, rgba(2, 6, 23, 0.18), rgba(2, 6, 23, 0.96)),
+                url("assets/space-ai-mission-hero.png") center right / cover no-repeat;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .hero::before {
+            background:
+                radial-gradient(circle at 72% 26%, rgba(0, 122, 255, 0.24), transparent 28%),
+                radial-gradient(circle at 86% 62%, rgba(175, 82, 222, 0.2), transparent 30%);
+        }
+
+        .hero::after {
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0) 48%, rgba(2, 6, 23, 0.86) 100%);
+        }
+
+        .hero-starfield {
+            display: block;
+        }
+
+        .hero h1,
+        .hero-lead {
+            color: #ffffff;
+            text-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-price {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .hero-lead {
+            max-width: 820px;
+        }
+
+        .hero-lead-line {
+            display: block;
+            overflow-wrap: anywhere;
+        }
+
+        .hero-kicker,
+        .mission-telemetry span,
+        .mission-telemetry .telemetry-link,
+        .hero-facts li,
+        .hero .btn-ghost {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+        }
+
+        .hero-kicker i,
+        .mission-telemetry small,
+        .hero-facts i {
+            color: #67e8f9 !important;
+        }
+
+        .mission-telemetry strong {
+            color: #ffffff;
+            font-size: 1.04rem;
+        }
+
+        .hero .btn-main {
+            background: #007aff;
+            box-shadow: 0 16px 36px rgba(0, 122, 255, 0.34);
+        }
+
+        .hero .btn-ghost:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                background:
+                    linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 0.84), rgba(2, 6, 23, 0.96)),
+                    url("assets/space-ai-mission-hero.png") center / cover no-repeat;
+            }
+
+            .hero h1 {
+                font-size: 1.98rem;
+            }
+
+            .hero-price {
+                display: block;
+            }
+        }
+
+        /* Curriculum module library */
+        #curriculum.curriculum-section {
+            position: relative;
+            margin: 0;
+            padding: 76px 0;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(245, 245, 247, 0.96), rgba(255, 255, 255, 0.98)),
+                linear-gradient(90deg, rgba(0, 122, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(rgba(60, 60, 67, 0.05) 1px, transparent 1px);
+            background-size: auto, 56px 56px, 56px 56px;
+            border-radius: 0;
+        }
+
+        #curriculum .section-title {
+            align-items: flex-end;
+            margin-bottom: 26px;
+        }
+
+        #curriculum .section-title h2 {
+            color: var(--ink);
+            text-shadow: none;
+        }
+
+        #curriculum .section-title p {
+            max-width: 520px;
+            color: var(--muted);
+        }
+
+        .curriculum-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            color: var(--mac-blue);
+            background: rgba(0, 122, 255, 0.09);
+            border: 1px solid rgba(0, 122, 255, 0.16);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .curriculum-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .curriculum-summary-item {
+            display: grid;
+            grid-template-columns: 42px 1fr;
+            gap: 12px;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.74);
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            border-radius: 8px;
+            box-shadow: 0 16px 40px rgba(29, 29, 31, 0.07);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .curriculum-summary-item i {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--mac-blue), var(--mac-purple));
+            border-radius: 8px;
+            box-shadow: 0 12px 26px rgba(0, 122, 255, 0.22);
+        }
+
+        .curriculum-summary-item strong {
+            display: block;
+            color: var(--ink);
+            font-size: 0.98rem;
+            font-weight: 800;
+        }
+
+        .curriculum-summary-item span {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .curriculum-grid {
+            align-items: stretch;
+        }
+
+        .curriculum-panel {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(60, 60, 67, 0.14);
+            border-radius: 8px;
+            box-shadow: 0 22px 62px rgba(29, 29, 31, 0.11);
+            overflow: hidden;
+        }
+
+        .curriculum-panel:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 26px 70px rgba(29, 29, 31, 0.14);
+        }
+
+        .curriculum-panel .detail-panel-head {
+            min-height: 188px;
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background:
+                linear-gradient(135deg, rgba(3, 7, 18, 0.96), rgba(0, 122, 255, 0.72)),
+                #111827;
+        }
+
+        .curriculum-panel.research .detail-panel-head {
+            background:
+                linear-gradient(145deg, #fff0f4 0%, #ffd6e4 55%, #ffc2d8 100%);
+            border-bottom: 1px solid rgba(255, 105, 145, 0.18);
+            position: relative;
+        }
+
+        .curriculum-panel.research .detail-panel-head::before {
+            background: #ff5f57;
+            box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840;
+        }
+
+        .curriculum-panel.research .detail-panel-head h3 {
+            color: #1d1d1f;
+        }
+
+        .curriculum-panel.research .detail-panel-head p {
+            color: #6e6e73;
+        }
+
+        .curriculum-panel.research .detail-panel-icon {
+            color: #c2185b;
+            background: rgba(255, 105, 145, 0.14);
+            border: 1px solid rgba(255, 105, 145, 0.28);
+            box-shadow: none;
+        }
+
+        .curriculum-panel.research .curriculum-tags span {
+            color: #9a1f4b;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 105, 145, 0.32);
+            backdrop-filter: blur(6px);
+        }
+
+        .curriculum-panel.research .curriculum-list li::before {
+            color: #c2185b;
+            background: rgba(255, 105, 145, 0.12);
+            border: 1px solid rgba(255, 105, 145, 0.22);
+        }
+
+        .curriculum-panel.research .detail-panel-body {
+            background: #fffafc;
+        }
+
+        .curriculum-panel.research .curriculum-list li {
+            border-bottom-color: rgba(255, 105, 145, 0.1);
+        }
+
+        .curriculum-panel.research:hover {
+            box-shadow: 0 26px 70px rgba(194, 24, 91, 0.14);
+        }
+
+        .curriculum-panel.health .detail-panel-head {
+            background:
+                linear-gradient(145deg, #fff7f0 0%, #ffe5cc 55%, #ffd4aa 100%);
+            border-bottom: 1px solid rgba(255, 140, 50, 0.18);
+        }
+
+        .curriculum-panel.health .detail-panel-head::before {
+            background: #ff5f57;
+            box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840;
+        }
+
+        .curriculum-panel.health .detail-panel-head h3 {
+            color: #1d1d1f;
+        }
+
+        .curriculum-panel.health .detail-panel-head p {
+            color: #6e6e73;
+        }
+
+        .curriculum-panel.health .detail-panel-icon {
+            color: #c05000;
+            background: rgba(255, 140, 50, 0.15);
+            border: 1px solid rgba(255, 140, 50, 0.30);
+            box-shadow: none;
+        }
+
+        .curriculum-panel.health .curriculum-tags span {
+            color: #7d3200;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 140, 50, 0.34);
+            backdrop-filter: blur(6px);
+        }
+
+        .curriculum-panel.health .curriculum-list li::before {
+            color: #c05000;
+            background: rgba(255, 140, 50, 0.12);
+            border: 1px solid rgba(255, 140, 50, 0.22);
+        }
+
+        .curriculum-panel.health .detail-panel-body {
+            background: #fffcf8;
+        }
+
+        .curriculum-panel.health .curriculum-list li {
+            border-bottom-color: rgba(255, 140, 50, 0.1);
+        }
+
+        .curriculum-panel.health:hover {
+            box-shadow: 0 26px 70px rgba(192, 80, 0, 0.14);
+        }
+
+        .curriculum-panel .detail-panel-head::before {
+            position: static;
+            width: 10px;
+            height: 10px;
+            display: block;
+            margin-bottom: auto;
+            background: var(--mac-red);
+            border-radius: 50%;
+            box-shadow: 18px 0 0 var(--mac-yellow), 36px 0 0 var(--mac-green);
+        }
+
+        .curriculum-panel .detail-panel-head::after {
+            display: none;
+        }
+
+        .curriculum-panel .detail-panel-icon {
+            width: 46px;
+            height: 46px;
+            margin: 0 0 14px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 8px;
+            box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.05);
+        }
+
+        .curriculum-panel .detail-panel-head h3 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 1.25rem;
+        }
+
+        .curriculum-panel .detail-panel-head p {
+            margin: 8px 0 0;
+            color: rgba(255, 255, 255, 0.76);
+            line-height: 1.65;
+        }
+
+        .curriculum-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .curriculum-tags span {
+            padding: 5px 9px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .curriculum-panel .detail-panel-body {
+            flex: 1;
+            padding: 22px 24px 24px;
+        }
+
+        .curriculum-list {
+            gap: 0;
+        }
+
+        .curriculum-list li {
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(60, 60, 67, 0.1);
+        }
+
+        .curriculum-list li::before {
+            color: var(--mac-blue);
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.14);
+            border-radius: 8px;
+        }
+
+        .curriculum-list li span {
+            color: #3a3a3c;
+            font-size: 0.95rem;
+        }
+
+        .curriculum-support {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: center;
+            margin-top: 22px;
+            padding: 22px 26px;
+            color: #1d1d1f;
+            background: linear-gradient(135deg, #f0fff4 0%, #d4f5e0 55%, #bbedce 100%);
+            border: 1px solid rgba(52, 199, 89, 0.28);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(52, 199, 89, 0.14);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curriculum-support::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff5f57;
+            box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840;
+        }
+
+        .curriculum-support h3 {
+            margin: 0 0 4px;
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #1d1d1f;
+        }
+
+        .curriculum-support p {
+            margin: 0;
+            color: #6e6e73;
+            line-height: 1.7;
+        }
+
+        .curriculum-support .btn-main {
+            background: #34c759;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 6px 18px rgba(52, 199, 89, 0.32);
+            white-space: nowrap;
+        }
+
+        .curriculum-support .btn-main:hover {
+            background: #28a745;
+            color: #ffffff;
+            box-shadow: 0 8px 22px rgba(52, 199, 89, 0.40);
+        }
+
+        @media (max-width: 992px) {
+            .curriculum-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .curriculum-support {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #curriculum.curriculum-section {
+                padding: 52px 0;
+            }
+
+            .curriculum-panel .detail-panel-head,
+            .curriculum-panel .detail-panel-body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        /* Real systems portfolio */
+        .systems-section {
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border-top: 1px solid rgba(60, 60, 67, 0.1);
+            border-bottom: 1px solid rgba(60, 60, 67, 0.08);
+        }
+
+        .systems-section .section-title {
+            align-items: flex-end;
+            margin-bottom: 22px;
+        }
+
+        .systems-section .section-title h2 {
+            color: #1d1d1f;
+            letter-spacing: -0.025em;
+        }
+
+        .systems-section .section-title p {
+            color: #6e6e73;
+        }
+
+        .systems-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            color: #c05000;
+            background: rgba(255, 149, 0, 0.10);
+            border: 1px solid rgba(255, 149, 0, 0.22);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .systems-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .systems-summary-item {
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 149, 0, 0.20);
+            border-top: 3px solid #ff9500;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(255, 149, 0, 0.10);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .systems-summary-item strong {
+            display: block;
+            color: #c05000;
+            font-size: 1.18rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .systems-summary-item span {
+            display: block;
+            margin-top: 4px;
+            color: #6e6e73;
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .systems-section .system-list {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .systems-section .system-list li {
+            min-width: 0;
+        }
+
+        .systems-section .system-list a {
+            min-height: 112px;
+            display: grid;
+            grid-template-columns: 48px minmax(0, 1fr) 26px;
+            gap: 13px;
+            align-items: center;
+            padding: 16px;
+            color: #1d1d1f;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(255, 149, 0, 0.18);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(255, 149, 0, 0.08);
+            line-height: 1.45;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+        }
+
+        .systems-section .system-list a::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 3px;
+            background: linear-gradient(90deg, #ff9500, #ff6b00, #ffb347);
+        }
+
+        .systems-section .system-list a::after {
+            content: "\f061";
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #c05000;
+            background: rgba(255, 149, 0, 0.12);
+            border-radius: 50%;
+            font-family: "Font Awesome 6 Free";
+            font-size: 0.76rem;
+            font-weight: 900;
+        }
+
+        .systems-section .system-list a:hover {
+            color: #1d1d1f;
+            background: rgba(255, 255, 255, 0.97);
+            border-color: rgba(255, 149, 0, 0.42);
+            box-shadow: 0 18px 48px rgba(255, 149, 0, 0.18);
+            transform: translateY(-4px);
+        }
+
+        .systems-section .system-list i {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: #ffffff;
+            background: linear-gradient(135deg, #007aff, #34aadc);
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(0, 122, 255, 0.28);
+            font-size: 1.08rem;
+        }
+
+        .systems-section .system-list span {
+            display: block;
+            min-width: 0;
+            color: #1d1d1f;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+            letter-spacing: -0.01em;
+        }
+
+        .systems-section .system-list span::after {
+            content: "เปิดดูระบบจริง";
+            display: block;
+            margin-top: 5px;
+            color: #c05000;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .systems-section .system-list li:nth-child(6n+1) i {
+            background: linear-gradient(135deg, #007aff, #34aadc);
+            box-shadow: 0 10px 24px rgba(0, 122, 255, 0.26);
+        }
+        .systems-section .system-list li:nth-child(6n+2) i {
+            background: linear-gradient(135deg, #34c759, #30d158);
+            box-shadow: 0 10px 24px rgba(52, 199, 89, 0.26);
+        }
+        .systems-section .system-list li:nth-child(6n+3) i {
+            background: linear-gradient(135deg, #ff9500, #ffcc00);
+            box-shadow: 0 10px 24px rgba(255, 149, 0, 0.26);
+        }
+        .systems-section .system-list li:nth-child(6n+4) i {
+            background: linear-gradient(135deg, #ff3b30, #ff6b6b);
+            box-shadow: 0 10px 24px rgba(255, 59, 48, 0.26);
+        }
+        .systems-section .system-list li:nth-child(6n+5) i {
+            background: linear-gradient(135deg, #af52de, #da8fff);
+            box-shadow: 0 10px 24px rgba(175, 82, 222, 0.26);
+        }
+        .systems-section .system-list li:nth-child(6n+6) i {
+            background: linear-gradient(135deg, #ff2d55, #ff6b9d);
+            box-shadow: 0 10px 24px rgba(255, 45, 85, 0.26);
+        }
+
+        @media (max-width: 992px) {
+            .systems-summary,
+            .systems-section .system-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .systems-section .section-title {
+                align-items: flex-start;
+            }
+
+            .systems-section .system-list a {
+                grid-template-columns: 46px minmax(0, 1fr) 24px;
+                min-height: 98px;
+                padding: 14px;
+            }
+
+            .systems-section .system-list i {
+                width: 46px;
+                height: 46px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <div class="container-narrow nav-row">
+                <a href="#top" class="brand-mark" aria-label="AI Workshop">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>AI Workshop</span>
+                </a>
+                <nav class="nav-links" aria-label="เมนูหลัก">
+                    <a href="#courses">หลักสูตร</a>
+                    <a href="#workflow">ขั้นตอนสมัคร</a>
+                    <a href="#curriculum">เนื้อหา</a>
+                    <a href="#registerModal" data-bs-toggle="modal">ลงทะเบียน</a>
+                    <a href="https://gemini.google.com/share/d55c3b7fca44" class="nav-pill nav-pill-ai" target="_blank" rel="noopener">
+                        <i class="fas fa-comments"></i> พูดคุยสอบถามรายละเอียด
+                    </a>
+                    <a href="ai_workshop_dashboard.html" class="nav-pill nav-pill-console">
+                        <i class="fas fa-desktop"></i> Dashboard
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main id="top">
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero-starfield" aria-hidden="true"></div>
+                <div class="container-narrow hero-inner">
+                    <div class="hero-kicker">
+                        <i class="fas fa-laptop-code"></i>
+                        AI Studio Online
+                    </div>
+                    <h1 id="hero-title">เรียน AI ใช้งานจริง <span class="hero-price">เริ่ม 999.-</span></h1>
+                    <p class="hero-lead">
+                        <span class="hero-lead-line">หลักสูตรเรียน AI ราคา 999.-</span>
+                        <span class="hero-lead-line">เรียน AI ในงานวิจัย 1,999.-</span>
+                        <span class="hero-lead-line">สมัครครั้งเดียวเรียนได้ตลอดชีพ มีคลิปวิดีโอให้เลือกเรียนหลากหลาย</span>
+                        <span class="hero-lead-line">พร้อม Zoom สอนต่อเนื่องเมื่อมีการอัปเดต</span>
+                    </p>
+                    <div class="mission-telemetry" aria-label="ข้อมูลภารกิจ">
+                        <a href="#courses" class="telemetry-link"><small>AI Course</small><strong>999.-</strong></a>
+                        <a href="#courses" class="telemetry-link"><small>AI Research</small><strong>1,999.-</strong></a>
+                        <span><small>Lifetime</small><strong>สมัครครั้งเดียวเรียนตลอดชีพ</strong></span>
+                    </div>
+                    <div class="hero-actions">
+                        <a class="btn-main" href="#courses">
+                            <i class="fas fa-rocket"></i>
+                            เลือกหลักสูตร
+                        </a>
+                        <button type="button" class="btn-ghost" onclick="openModal('AI การแพทย์')">
+                            <i class="fas fa-file-signature"></i>
+                            ลงทะเบียนทันที
+                        </button>
+                    </div>
+                    <ul class="hero-facts" aria-label="ข้อมูลสำคัญ">
+                        <li><i class="far fa-clock"></i> เรียนได้ตลอดชีพ</li>
+                        <li><i class="fas fa-video"></i> คลิปวิดีโอหลากหลาย</li>
+                        <li><i class="fas fa-chalkboard-user"></i> Zoom สอนเมื่อมีอัปเดต</li>
+                        <li><i class="fab fa-line"></i> แจ้งรายละเอียดทาง Line</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section-tight">
+                <div class="container-narrow">
+                    <div class="instructor-strip">
+                        <img src="assets/speaker-jaranyu.jpg" alt="วิทยากร นายจรัญญู ทองเอนก" class="speaker-img">
+                        <div>
+                            <h2>วิทยากร: นายจรัญญู ทองเอนก</h2>
+                            <p>ถ่ายทอดจากประสบการณ์พัฒนาระบบ AI, Dashboard, WebApp และงานวิเคราะห์ข้อมูลสุขภาพที่ใช้งานจริงในพื้นที่</p>
+                        </div>
+                        <div class="line-pill">
+                            <i class="fab fa-line"></i>
+                            Line ID: 0821709518
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="courses">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>เลือกหลักสูตรที่ตรงกับงาน</h2>
+                        </div>
+                        <p>ทั้งสองหลักสูตรเน้นทำงานได้จริง เหมาะกับบุคลากรสาธารณสุข ผู้ทำโครงการ ผู้ดูแลข้อมูล และผู้ที่อยากนำ AI ไปใช้กับงานประจำ</p>
+                    </div>
+
+                    <div class="course-grid">
+                        <article class="course-card">
+                            <div class="course-head">
+                                <div class="course-label">
+                                    <i class="fas fa-user-md"></i>
+                                    หลักสูตรสาธารณสุข
+                                </div>
+                                <h3>AI สำหรับการแพทย์<br>และสาธารณสุข</h3>
+                                <div class="price-row">
+                                    <div class="course-price">999 ฿</div>
+                                    <div class="price-note">ลงทะเบียนครั้งเดียว เรียนได้ตลอดชีพ</div>
+                                </div>
+                            </div>
+                            <div class="course-body">
+                                <div class="tag-row">
+                                    <span>Prompt</span>
+                                    <span>Dashboard</span>
+                                    <span>Google Sheet</span>
+                                    <span>WebApp</span>
+                                    <span>Canva AI</span>
+                                </div>
+                                <ul class="course-list course-preview">
+                                    <li><i class="fas fa-check-circle"></i><span>ใช้ AI คิดโครงการ เขียนโครงร่าง และเตรียมเอกสารงานสุขภาพ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>วิเคราะห์ข้อมูลทางการแพทย์ เช่น Lab, X-ray และข้อมูลบริการ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>สร้าง Dashboard และระบบ Input Form เชื่อม Google Sheets แบบใช้งานจริง</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>ต่อยอดเป็น WebApp ลงทะเบียน ประเมินผล รายงาน และจัดเก็บไฟล์อัตโนมัติ</span></li>
+                                </ul>
+                                <details class="course-expand">
+                                    <summary>
+                                        <span>ดูเนื้อหาหลักสูตรทั้งหมด</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </summary>
+                                    <div class="course-full">
+                                        <section>
+                                            <h4>เนื้อหาหลักของคอร์ส (ทำงานได้จริง)</h4>
+                                            <ul class="outline-list">
+                                                <li>Introduction ประวัติ + แนวคิดการใช้ AI + การสร้าง AI แบบเข้าใจง่าย</li>
+                                                <li>การตั้งค่า + เครื่องมือ AI ที่ต้องมีสำหรับการทำงานจริง</li>
+                                                <li>การใช้ AI เขียน Prompt / การใช้ AI ช่วยคิดไอเดียในการทำงาน</li>
+                                                <li>หลักการใช้ AI วิเคราะห์ข้อมูลทางการแพทย์ เช่น Lab, X-ray</li>
+                                                <li>ใช้ AI คิดชื่อโครงการ + เขียนโครงการแบบเป็นระบบ (พร้อมโครงร่าง)</li>
+                                                <li>ใช้ AI ทำระบบต่าง ๆ เช่น รายงานอุบัติเหตุ เยี่ยมบ้าน ลงทะเบียน + บันทึกไฟล์/รูปภาพ/สลิป อัตโนมัติ</li>
+                                                <li>แนวคิด และหลักการสร้าง Dashboard และระบบต่าง ๆ</li>
+                                                <li>ใช้ AI สร้างฐานข้อมูลใน Google Sheet และเขียน AppScript เพื่อทำ Dashboard และระบบต่าง ๆ</li>
+                                                <li>ใช้ AI สร้าง Dashboard แบบ Hybrid จากข้อมูล Excel/Google Sheets พร้อม Insight เพื่อรายงานผลให้ผู้บริหารได้ทันที</li>
+                                                <li>ใช้ AI สร้างระบบ Input Form ที่เชื่อมต่อฐานข้อมูลโดยอัตโนมัติ รองรับการเพิ่ม/แก้ไข/ลบข้อมูล</li>
+                                                <li>ใช้ AI ออกแบบระบบ Log in / Log out สำหรับการจัดสิทธิ์ผู้ใช้งานในระดับ WebApp จริง</li>
+                                                <li>ใช้ AI พัฒนา Application สำหรับแบบประเมิน Paperless เช่น ความรู้ ความพึงพอใจ และลงทะเบียนกิจกรรม</li>
+                                                <li>ใช้ AI สร้าง WebApp/Dashboard ที่ดึงข้อมูลจากฐานข้อมูลแบบ Realtime เพื่อการติดตามผลโครงการและงานสุขภาพ</li>
+                                                <li>ใช้ AI สร้างระบบปักหมุดบน Google Map สำหรับงานสาธารณสุข/พื้นที่เสี่ยง</li>
+                                                <li>ใช้ AI ถอดเสียง/YouTube/Web → สรุปเป็น MindMap + Infographic</li>
+                                                <li>ใช้ Canva AI ทำงานนำเสนอ งานวิจัย วิดีโอ โปสเตอร์ และเกียรติบัตรแบบมืออาชีพ</li>
+                                                <li>Line OA พูดคุย/วิเคราะห์ผลแลป/วิเคราะห์ X-ray/วิเคราะห์บาดแผล</li>
+                                                <li>การให้ระบบที่บันทึกข้อมูลแล้วส่งข้อความมาเตือนใน Line</li>
+                                                <li>การใช้ Python วิเคราะห์ข้อมูลใน Excel ในรูปแบบต่าง ๆ</li>
+                                                <li>การเขียน WebApp เพื่อวิเคราะห์ข้อมูลทางสถิติ</li>
+                                                <li>เขียน Prompt เพื่อทำ Slide ใน NotebookLM และ Poster และนำ Template จาก Canva มาเป็นตัวอย่างเพื่อสร้าง</li>
+                                                <li>สร้างระบบการติดตามหญิงตั้งครรภ์ใช้สารเสพติดโดย อสม.</li>
+                                                <li>การทำ Video Animation ง่าย ๆ แบบสมจริง</li>
+                                                <li>การสร้างเพลงเพราะ ๆ ใน Gemini</li>
+                                                <li>การใช้ Claude Code ใน Visual Studio Code สร้าง Project</li>
+                                                <li>การใช้ API ของ AI สรุปงานประจำ หรือสรุปงานจาก Dashboard</li>
+                                                <li>การทำระบบคัดกรอง Paperless คัดกรองและ Dashboard ยกตัวอย่าง OVCCA</li>
+                                                <li>การสมัคร ChatGPT ที่ใช้ Codex ได้โดยไม่ต้องจ่ายเงิน</li>
+                                                <li>การติดตั้ง ChatGPT Codex</li>
+                                                <li>การนำข้อมูลที่มีอยู่ และกรณีที่ไม่มีข้อมูลแล้วใช้ AI สร้าง Content ให้แล้วใช้ Codex ในการทำสไลด์ทีเดียวหลาย ๆ สไลด์</li>
+                                                <li>สร้าง Infographic แบบ One Page ใน GPT</li>
+                                            </ul>
+                                        </section>
+                                        <section>
+                                            <h4>ระบบจริงที่พัฒนาด้วย AI และใช้งานจริงในพื้นที่</h4>
+                                            <ul class="system-mini-list">
+                                                <li><strong>MedHerb Holistic AI ระบบอัจฉริยะ AI ช่วยประเมินโรคเบื้องต้น:</strong> selaphum101.moph.go.th/ai_diag/index.html</li>
+                                                <li><strong>ระบบบันทึกสุขภาพเด็กปฐมวัย:</strong> thonganek.github.io/child_record/</li>
+                                                <li><strong>ระบบประเมินความรู้ก่อน-หลัง ประเมินความพึงพอใจ โดยให้ AI สรุปให้:</strong> selaphum101.moph.go.th/ai_public_health/</li>
+                                                <li><strong>ทำนายอนาคตสุขภาพของคุณด้วยความแม่นยำระดับพหุมิติ:</strong> thonganek.github.io/AI-OncoPredict/</li>
+                                                <li><strong>Dashboard บริการผู้ป่วย:</strong> thonganek.github.io/dashboard_patient/</li>
+                                                <li><strong>ระบบลงทะเบียนและคัดกรองกลุ่มเสี่ยงพยาธิใบไม้ตับ (OVCCA) อำเภอเสลภูมิ จังหวัดร้อยเอ็ด:</strong> selaphum101.moph.go.th/ovcca.html</li>
+                                                <li><strong>แบบประเมิน NCDs Remission:</strong> thonganek.github.io/survey_dm_remission/</li>
+                                                <li><strong>แบบประเมินความพึงพอใจ:</strong> thonganek.github.io/satisfaction/</li>
+                                                <li><strong>ระบบปัญญาประดิษฐ์ (AI) ในการเฝ้าระวัง รายงาน สอบสวนโรคติดต่อและอุบัติเหตุจราจร:</strong> epid101.moph.go.th/index.php</li>
+                                                <li><strong>AI Smart Kids DSPM ระบบคัดกรองพัฒนาการเด็กอัจฉริยะด้วย AI:</strong> selaphum101.moph.go.th/dspm/index.html</li>
+                                                <li><strong>ประเมินความเสี่ยงโรค NCD ด้วย AI:</strong> thonganek.github.io/AI-NCD-Risk-Assessment/</li>
+                                                <li><strong>ADHD Screening System คัดกรองความเสี่ยงสมาธิสั้นในเด็ก:</strong> thonganek.github.io/ADHDScreening/</li>
+                                                <li><strong>ระบบปักหมุด คัดกรองสุขภาพต่าง ๆ รายงานข้อมูลสถิติการสำรวจสุขภาพ:</strong> thonganek.github.io/Community_Map/</li>
+                                                <li><strong>ระบบเบิกจ่ายยาและ Dashboard แสดงข้อมูลยาและเวชภัณฑ์:</strong> thonganek.github.io/drug_stock/</li>
+                                                <li><strong>ระบบรายงานข้อมูลอาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.):</strong> selaphum101.moph.go.th/healthVolunteer/osm_report.php</li>
+                                                <li><strong>การสร้าง AI และแบบฝึกต่าง ๆ:</strong> thonganek.github.io/ai-training</li>
+                                                <li><strong>ระบบรายงานและสอบสวนอุบัติเหตุออนไลน์:</strong> selaphum101.moph.go.th/RTI_Dashboard.html</li>
+                                                <li><strong>ระบบ Dashboard วิเคราะห์ข้อมูลสุขภาพ:</strong> thonganek.github.io/dashboard_test</li>
+                                                <li><strong>ระบบ Dashboard วิเคราะห์ข้อมูล:</strong> thonganek.github.io/dashboard_test2</li>
+                                                <li><strong>ระบบแจ้งจุดเสี่ยงบนท้องถนนโดยประชาชน:</strong> thonganek.github.io/risk_point</li>
+                                                <li><strong>ระบบนัดหมายผู้ป่วย Echo:</strong> thonganek.github.io/echo</li>
+                                                <li><strong>ระบบลงทะเบียนประชุม + Pre/Post Test + ประเมินผล:</strong> thonganek.github.io/registration_ai</li>
+                                                <li><strong>ระบบวิเคราะห์ข้อมูลทางสถิติออนไลน์:</strong> eesystatisticanalysis.onrender.com/</li>
+                                                <li><strong>ระบบส่งการบ้าน/ส่งรายงานออนไลน์:</strong> thonganek.github.io/homework</li>
+                                                <li><strong>ระบบวิเคราะห์ข้อมูลอุบัติเหตุออนไลน์ (Realtime Analysis):</strong> selaphum101.moph.go.th/RTIAnalysis.html</li>
+                                                <li><strong>ระบบลงทะเบียนเรียน + จัดการผู้เข้าเรียน:</strong> thonganek.github.io/ai-workshop</li>
+                                                <li><strong>Patient Research Analytics:</strong> thonganek.github.io/dashboard_PT/</li>
+                                                <li><strong>EpiBalance Community AI:</strong> thonganek.github.io/epi/</li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </details>
+                                <button id="btn-med" type="button" class="btn-modern mt-4" onclick="openModal('AI การแพทย์')">
+                                    <i class="fas fa-check-circle"></i>
+                                    ลงทะเบียนหลักสูตรนี้
+                                </button>
+                            </div>
+                        </article>
+
+                        <article class="course-card research">
+                            <div class="course-head">
+                                <div class="course-label">
+                                    <i class="fas fa-microscope"></i>
+                                    หลักสูตรวิจัย
+                                </div>
+                                <h3>การใช้ AI ในการทำวิจัย</h3>
+                                <div class="price-row">
+                                    <div class="course-price">1,999 ฿</div>
+                                    <div class="price-note">รุ่นที่ 1 เรียนได้ตลอดชีพ</div>
+                                </div>
+                            </div>
+                            <div class="course-body">
+                                <div class="tag-row">
+                                    <span>Research Gap</span>
+                                    <span>R&D</span>
+                                    <span>RCT</span>
+                                    <span>Quasi-Exp</span>
+                                    <span>Reference</span>
+                                </div>
+                                <ul class="course-list course-preview">
+                                    <li><i class="fas fa-check-circle"></i><span>ใช้ AI หา Research Gap ตั้งชื่อเรื่อง วัตถุประสงค์ และกรอบแนวคิด</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>เขียนบทที่ 1-5 พร้อมแนวทางทำแบบสอบถามและคำนวณขนาดตัวอย่าง</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>ค้นทฤษฎี งานวิจัยที่เกี่ยวข้อง และจัดการ Reference อย่างเป็นระบบ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>เตรียมบทความเพื่อตีพิมพ์ ตรวจ AI Content และ Plagiarism</span></li>
+                                </ul>
+                                <details class="course-expand">
+                                    <summary>
+                                        <span>ดูรายละเอียดรายครั้งทั้งหมด</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </summary>
+                                    <div class="course-full">
+                                        <section>
+                                            <h4>เนื้อหาหลักสูตรวิจัย</h4>
+                                            <ul class="outline-list">
+                                                <li>Introduction ประวัติความเป็นมา AI + การสร้าง AI</li>
+                                                <li>คุณสมบัติ + การตั้งค่า AI เครื่องมือต่าง ๆ</li>
+                                                <li>แนวคิดในการใช้ AI ช่วยในงานวิจัย</li>
+                                                <li>Research Methodology ประเภท/รูปแบบงานวิจัย/ขั้นตอนในการทำวิจัย</li>
+                                                <li>บันได 6 ขั้น ใช้ AI สร้างงานวิจัย: หา Research Gap/ชื่อเรื่อง/วัตถุประสงค์/กรอบแนวคิด/ขั้นตอนการดำเนินงาน</li>
+                                                <li>การเขียนบทที่ 1 ที่มาและความสำคัญของปัญหา วัตถุประสงค์งานวิจัยแต่ละรูปแบบ การเขียนขอบเขตงานวิจัย นิยามศัพท์ ประโยชน์ที่คาดว่าจะได้รับ</li>
+                                                <li>การเขียนบทที่ 2 การใช้ AI หาทฤษฎี งานวิจัยที่เกี่ยวข้อง</li>
+                                                <li>การเขียนบทที่ 3 การใช้ AI ช่วยคิดไอเดียขั้นตอนการดำเนินงาน</li>
+                                                <li>การใช้โปรแกรมวิเคราะห์ทางสถิติ Easy Statistics</li>
+                                                <li>ใช้ AI ช่วยในการคำนวณขนาดตัวอย่าง</li>
+                                                <li>ใช้ AI ช่วยทำแบบสอบถาม</li>
+                                                <li>สถิติเบื้องต้นในงานวิจัย</li>
+                                                <li>ใช้ AI ในการสร้าง Template บทที่ 4</li>
+                                                <li>การอภิปรายผลใน บทที่ 5</li>
+                                                <li>ใช้ AI ช่วยเขียน Reference</li>
+                                                <li>การใช้ AI detector ตรวจสอบ AI Content และ Plagiarism</li>
+                                                <li>การเขียนบทความเพื่อตีพิมพ์</li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </details>
+                                <button id="btn-res" type="button" class="btn-modern mt-4" onclick="openModal('AI งานวิจัย')">
+                                    <i class="fas fa-check-circle"></i>
+                                    ลงทะเบียนหลักสูตรนี้
+                                </button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section tools-band" id="tools">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>AI Tools ที่ใช้ในการเรียนรู้</h2>
+                        </div>
+                        <p>รวมเครื่องมือสำหรับคิด วิเคราะห์ สรุปข้อมูล ทำภาพ งานนำเสนอ งานวิจัย และพัฒนาเว็บแอป</p>
+                    </div>
+                    <ul class="tools-list">
+                        <li>Claude</li>
+                        <li>ChatGPT</li>
+                        <li>Gemini</li>
+                        <li>Grok</li>
+                        <li>Manus</li>
+                        <li>NotebookLM</li>
+                        <li>Canva</li>
+                        <li>Gamma</li>
+                        <li>Napkin</li>
+                        <li>Felo</li>
+                        <li>Perplexity</li>
+                        <li>SciSpace</li>
+                        <li>Copilot</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="workflow">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>ขั้นตอนสมัคร</h2>
+                        </div>
+                        <p>กรอกข้อมูล เลือกหลักสูตร แนบสลิป แล้วทัก Line เพื่อเข้ากลุ่มเรียนและรับรายละเอียดเตรียมตัว</p>
+                    </div>
+                    <div class="workflow-steps">
+                        <div class="wf-step">
+                            <div class="wf-circle">
+                                <i class="fas fa-magnifying-glass"></i>
+                                <span class="wf-badge">1</span>
+                            </div>
+                            <h3>เลือกหลักสูตร</h3>
+                            <p>เลือกคอร์สที่ตรงกับงานหรือเป้าหมายการเรียนรู้ของคุณ</p>
+                        </div>
+                        <div class="wf-step">
+                            <div class="wf-circle">
+                                <i class="fas fa-building-columns"></i>
+                                <span class="wf-badge">2</span>
+                            </div>
+                            <h3>โอนค่าลงทะเบียน</h3>
+                            <p>ชำระผ่านบัญชีธนาคารกรุงไทย (KTB) ตามข้อมูลในฟอร์ม</p>
+                        </div>
+                        <div class="wf-step">
+                            <div class="wf-circle">
+                                <i class="fas fa-file-arrow-up"></i>
+                                <span class="wf-badge">3</span>
+                            </div>
+                            <h3>กรอกฟอร์ม + แนบสลิป</h3>
+                            <p>กรอกข้อมูลและอัปโหลดสลิปให้ทีมงานตรวจสอบ</p>
+                        </div>
+                        <div class="wf-step">
+                            <div class="wf-circle">
+                                <i class="fab fa-line"></i>
+                                <span class="wf-badge">4</span>
+                            </div>
+                            <h3>ทัก Line เข้ากลุ่ม</h3>
+                            <p>รับการยืนยัน เข้ากลุ่มเรียน และรับลิงก์วิดีโอทันที</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section curriculum-section" id="curriculum">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <div class="curriculum-kicker">
+                                <i class="fas fa-layer-group"></i>
+                                Module Library
+                            </div>
+                            <h2>เนื้อหาเรียนแบบเป็นหมวด</h2>
+                        </div>
+                        <p>จัดบทเรียนเป็นโมดูล เลือกเรียนตามงานที่ต้องใช้จริง พร้อมต่อยอดจากวิดีโอและ Zoom อัปเดต</p>
+                    </div>
+
+                    <div class="curriculum-summary" aria-label="รูปแบบการเรียน">
+                        <div class="curriculum-summary-item">
+                            <i class="fas fa-video"></i>
+                            <div>
+                                <strong>คลิปวิดีโอหลายหัวข้อ</strong>
+                                <span>เลือกเรียนซ้ำได้ตามจังหวะของตัวเอง</span>
+                            </div>
+                        </div>
+                        <div class="curriculum-summary-item">
+                            <i class="fas fa-infinity"></i>
+                            <div>
+                                <strong>เรียนได้ตลอดชีพ</strong>
+                                <span>สมัครครั้งเดียว กลับมาเรียนทบทวนได้เสมอ</span>
+                            </div>
+                        </div>
+                        <div class="curriculum-summary-item">
+                            <i class="fas fa-chalkboard-user"></i>
+                            <div>
+                                <strong>Zoom เมื่อมีอัปเดต</strong>
+                                <span>มีสอนเสริมเมื่อเครื่องมือหรือเนื้อหาเปลี่ยน</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-grid curriculum-grid">
+
+                        <article class="detail-panel curriculum-panel health">
+                            <div class="detail-panel-head">
+                                <div class="detail-panel-icon">
+                                    <i class="fas fa-notes-medical"></i>
+                                </div>
+                                <h3>สาธารณสุขและระบบงาน</h3>
+                                <p>เหมาะกับงานบริการ งานโครงการ Dashboard และ WebApp ที่ใช้ข้อมูลจริงในพื้นที่</p>
+                                <div class="curriculum-tags">
+                                    <span>Dashboard</span>
+                                    <span>WebApp</span>
+                                    <span>Google Sheets</span>
+                                </div>
+                            </div>
+                            <div class="detail-panel-body">
+                                <ol class="curriculum-list">
+                                    <li><span>พื้นฐาน AI, การตั้งค่าเครื่องมือ และการเขียน Prompt สำหรับงานจริง</span></li>
+                                    <li><span>ใช้ AI ช่วยคิดไอเดีย เขียนโครงการ และออกแบบระบบรายงาน</span></li>
+                                    <li><span>สร้างฐานข้อมูลด้วย Google Sheets และ AppScript</span></li>
+                                    <li><span>ทำ Dashboard, Hybrid Dashboard และ WebApp ดึงข้อมูล Realtime</span></li>
+                                    <li><span>สร้างระบบ Log in / Log out, แบบประเมิน Paperless และ Google Map</span></li>
+                                </ol>
+                            </div>
+                        </article>
+
+                        <article class="detail-panel curriculum-panel research">
+                            <div class="detail-panel-head">
+                                <div class="detail-panel-icon">
+                                    <i class="fas fa-microscope"></i>
+                                </div>
+                                <h3>งานวิจัยและบทความ</h3>
+                                <p>เหมาะกับการตั้งหัวข้อ ทำโครงร่าง วิเคราะห์งานวิจัย และเตรียมบทความเพื่อตีพิมพ์</p>
+                                <div class="curriculum-tags">
+                                    <span>Research Gap</span>
+                                    <span>Reference</span>
+                                    <span>Publication</span>
+                                </div>
+                            </div>
+                            <div class="detail-panel-body">
+                                <ol class="curriculum-list">
+                                    <li><span>แนวคิดการใช้ AI ช่วยงานวิจัย และ Research Methodology</span></li>
+                                    <li><span>บันได 6 ขั้น: หา Research Gap ชื่อเรื่อง วัตถุประสงค์ กรอบแนวคิด</span></li>
+                                    <li><span>เขียนบทที่ 1–3, วางขั้นตอนดำเนินงาน และเตรียมแบบสอบถาม</span></li>
+                                    <li><span>สร้าง Template บทที่ 4–5, เขียน Reference และตรวจ AI Content</span></li>
+                                    <li><span>เตรียมบทความตีพิมพ์พร้อมแนวทางตรวจ Plagiarism</span></li>
+                                </ol>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="curriculum-support">
+                        <div>
+                            <h3>เรียนเป็นระบบ แล้วกลับมาทบทวนได้ตลอด</h3>
+                            <p>เหมาะกับคนที่อยากเริ่มจากพื้นฐาน แล้วค่อยต่อยอดเป็นระบบจริง งานวิจัย Dashboard และเครื่องมือ AI ประจำงาน</p>
+                        </div>
+                        <a class="btn-main" href="#courses">
+                            <i class="fas fa-play"></i>
+                            ดูหลักสูตร
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section systems-section" id="systems">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <div class="systems-kicker">
+                                <i class="fas fa-window-restore"></i>
+                                Real Systems Portfolio
+                            </div>
+                            <h2>ตัวอย่างระบบจริง</h2>
+                        </div>
+                        <p>ผลงาน WebApp, Dashboard และระบบ AI ที่ใช้เป็นกรณีศึกษาให้เห็นภาพการประยุกต์ใช้งานจริง</p>
+                    </div>
+                    <div class="systems-summary" aria-label="สรุประบบตัวอย่าง">
+                        <div class="systems-summary-item">
+                            <strong>28 ระบบ</strong>
+                            <span>ครอบคลุมงานสุขภาพ งานวิจัย Dashboard และระบบลงทะเบียน</span>
+                        </div>
+                        <div class="systems-summary-item">
+                            <strong>AI + WebApp</strong>
+                            <span>ตัวอย่างการต่อยอด Prompt, ข้อมูล และระบบใช้งานจริง</span>
+                        </div>
+                        <div class="systems-summary-item">
+                            <strong>Use Case จริง</strong>
+                            <span>เรียนรู้จากระบบที่เชื่อมโยงกับปัญหาหน้างานและบริการสุขภาพ</span>
+                        </div>
+                    </div>
+                    <ul class="system-list">
+                        <li><a href="https://selaphum101.moph.go.th/ai_diag/index.html" target="_blank" rel="noopener"><i class="fas fa-stethoscope"></i><span>MedHerb Holistic AI ระบบอัจฉริยะ AI ช่วยประเมินโรคเบื้องต้น</span></a></li>
+                        <li><a href="https://thonganek.github.io/child_record/" target="_blank" rel="noopener"><i class="fas fa-baby"></i><span>ระบบบันทึกสุขภาพเด็กปฐมวัย</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/ai_public_health/" target="_blank" rel="noopener"><i class="fas fa-clipboard-question"></i><span>ระบบประเมินความรู้ก่อน-หลัง ประเมินความพึงพอใจ โดยให้ AI สรุปให้</span></a></li>
+                        <li><a href="https://thonganek.github.io/AI-OncoPredict/" target="_blank" rel="noopener"><i class="fas fa-dna"></i><span>ทำนายอนาคตสุขภาพของคุณด้วยความแม่นยำระดับพหุมิติ</span></a></li>
+                        <li><a href="https://thonganek.github.io/dashboard_patient/" target="_blank" rel="noopener"><i class="fas fa-chart-line"></i><span>Dashboard บริการผู้ป่วย</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/ovcca.html" target="_blank" rel="noopener"><i class="fas fa-filter-circle-dollar"></i><span>ระบบลงทะเบียนและคัดกรองกลุ่มเสี่ยงพยาธิใบไม้ตับ (OVCCA) อำเภอเสลภูมิ จังหวัดร้อยเอ็ด</span></a></li>
+                        <li><a href="https://thonganek.github.io/survey_dm_remission/" target="_blank" rel="noopener"><i class="fas fa-heart-pulse"></i><span>แบบประเมิน NCDs Remission</span></a></li>
+                        <li><a href="https://thonganek.github.io/satisfaction/" target="_blank" rel="noopener"><i class="fas fa-face-smile"></i><span>แบบประเมินความพึงพอใจ</span></a></li>
+                        <li><a href="https://epid101.moph.go.th/index.php" target="_blank" rel="noopener"><i class="fas fa-shield-virus"></i><span>ระบบปัญญาประดิษฐ์ (AI) ในการเฝ้าระวัง รายงาน สอบสวนโรคติดต่อและอุบัติเหตุจราจร</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/dspm/index.html" target="_blank" rel="noopener"><i class="fas fa-child-reaching"></i><span>AI Smart Kids DSPM ระบบคัดกรองพัฒนาการเด็กอัจฉริยะด้วย AI</span></a></li>
+                        <li><a href="https://thonganek.github.io/AI-NCD-Risk-Assessment/" target="_blank" rel="noopener"><i class="fas fa-heart-circle-bolt"></i><span>ประเมินความเสี่ยงโรค NCD ด้วย AI</span></a></li>
+                        <li><a href="https://thonganek.github.io/ADHDScreening/" target="_blank" rel="noopener"><i class="fas fa-brain"></i><span>ADHD Screening System คัดกรองความเสี่ยงสมาธิสั้นในเด็ก</span></a></li>
+                        <li><a href="https://thonganek.github.io/Community_Map/" target="_blank" rel="noopener"><i class="fas fa-map-location-dot"></i><span>ระบบปักหมุด คัดกรองสุขภาพต่าง ๆ รายงานข้อมูลสถิติการสำรวจสุขภาพ</span></a></li>
+                        <li><a href="https://thonganek.github.io/drug_stock/" target="_blank" rel="noopener"><i class="fas fa-pills"></i><span>ระบบเบิกจ่ายยาและ Dashboard แสดงข้อมูลยาและเวชภัณฑ์</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/healthVolunteer/osm_report.php" target="_blank" rel="noopener"><i class="fas fa-people-group"></i><span>ระบบรายงานข้อมูลอาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.)</span></a></li>
+                        <li><a href="https://thonganek.github.io/ai-training" target="_blank" rel="noopener"><i class="fas fa-robot"></i><span>การสร้าง AI และแบบฝึกต่าง ๆ</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/RTI_Dashboard.html" target="_blank" rel="noopener"><i class="fas fa-car-burst"></i><span>ระบบรายงานและสอบสวนอุบัติเหตุออนไลน์</span></a></li>
+                        <li><a href="https://thonganek.github.io/dashboard_test" target="_blank" rel="noopener"><i class="fas fa-chart-pie"></i><span>ระบบ Dashboard วิเคราะห์ข้อมูลสุขภาพ</span></a></li>
+                        <li><a href="https://thonganek.github.io/dashboard_test2" target="_blank" rel="noopener"><i class="fas fa-gauge-high"></i><span>ระบบ Dashboard วิเคราะห์ข้อมูล</span></a></li>
+                        <li><a href="https://thonganek.github.io/risk_point" target="_blank" rel="noopener"><i class="fas fa-location-crosshairs"></i><span>ระบบแจ้งจุดเสี่ยงบนท้องถนนโดยประชาชน</span></a></li>
+                        <li><a href="https://thonganek.github.io/echo" target="_blank" rel="noopener"><i class="fas fa-calendar-check"></i><span>ระบบนัดหมายผู้ป่วย Echo</span></a></li>
+                        <li><a href="https://thonganek.github.io/registration_ai" target="_blank" rel="noopener"><i class="fas fa-id-card-clip"></i><span>ระบบลงทะเบียนประชุม + Pre/Post Test + ประเมินผล</span></a></li>
+                        <li><a href="https://eesystatisticanalysis.onrender.com/" target="_blank" rel="noopener"><i class="fas fa-square-poll-vertical"></i><span>ระบบวิเคราะห์ข้อมูลทางสถิติออนไลน์</span></a></li>
+                        <li><a href="https://thonganek.github.io/homework" target="_blank" rel="noopener"><i class="fas fa-file-pen"></i><span>ระบบส่งการบ้าน/ส่งรายงานออนไลน์</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/RTIAnalysis.html" target="_blank" rel="noopener"><i class="fas fa-timeline"></i><span>ระบบวิเคราะห์ข้อมูลอุบัติเหตุออนไลน์ (Realtime Analysis)</span></a></li>
+                        <li><a href="https://thonganek.github.io/ai-workshop" target="_blank" rel="noopener"><i class="fas fa-user-check"></i><span>ระบบลงทะเบียนเรียน + จัดการผู้เข้าเรียน</span></a></li>
+                        <li><a href="https://thonganek.github.io/dashboard_PT/" target="_blank" rel="noopener"><i class="fas fa-flask-vial"></i><span>Patient Research Analytics</span></a></li>
+                        <li><a href="https://thonganek.github.io/epi/" target="_blank" rel="noopener"><i class="fas fa-scale-balanced"></i><span>EpiBalance Community AI</span></a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section cta-band">
+                <div class="container-narrow cta-row">
+                    <div>
+                        <h2>พร้อมเริ่มเรียนแล้วใช่ไหมครับ</h2>
+                        <p>เลือกหลักสูตร กรอกข้อมูล และแนบสลิปการโอนเงินในฟอร์มเดียว</p>
+                    </div>
+                    <button type="button" class="btn-main" onclick="openModal('AI การแพทย์')">
+                        <i class="fas fa-paper-plane"></i>
+                        เปิดฟอร์มลงทะเบียน
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container-narrow">
+                AI Workshop Registration • Line ID: 0821709518
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-file-signature me-2"></i>แบบฟอร์มลงทะเบียน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="submit-to-google-sheet">
+                        <div class="mb-3">
+                            <label class="form-label" for="courseSelect">หลักสูตรที่เลือก <span class="text-danger">*</span></label>
+                            <select class="form-select" id="courseSelect" name="หลักสูตรที่เลือก" required>
+                                <option value="" disabled selected>กรุณาเลือกหลักสูตร...</option>
+                                <option value="AI การแพทย์ (999฿)">AI สำหรับการแพทย์และสาธารณสุข (999฿)</option>
+                                <option value="AI งานวิจัย (1,999฿)">การใช้ AI ในการทำวิจัย (1,999฿)</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="fullName">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="fullName" name="ชื่อ-สกุล" autocomplete="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="phone">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone" name="เบอร์โทร" autocomplete="tel" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="email">อีเมล <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="Email" autocomplete="email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="lineId">Line ID <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fab fa-line fa-lg"></i></span>
+                                    <input type="text" class="form-control" id="lineId" name="Line ID" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="organization">หน่วยงาน</label>
+                            <input type="text" class="form-control" id="organization" name="หน่วยงาน">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="expectation">ความคาดหวัง</label>
+                            <textarea class="form-control" id="expectation" name="ความคาดหวัง" rows="3"></textarea>
+                        </div>
+
+                        <div class="payment-box mb-4">
+                            <strong><i class="fas fa-building-columns me-1"></i>บัญชีธนาคารกรุงไทย (KTB)</strong><br>
+                            เลขที่บัญชี: <strong>4291284322</strong><br>
+                            ชื่อบัญชี: <strong>นายจรัญญู ทองเอนก</strong>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label" for="fileUpload">แนบสลิปการโอนเงิน <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="fileUpload" accept="image/*" required>
+                        </div>
+
+                        <button type="submit" class="btn-modern w-100" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            ยืนยันการลงทะเบียน
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby_zag46Ly-FIW5ujpf6oVy-KK98diwJmX7FOHqNy4tgN8JopU83C9OanQT5tUiZFM5PA/exec';
+        const COURSE_LIMITS = {
+            medical: 10000,
+            research: 50000
+        };
+
+        let registerModal;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalElement = document.getElementById('registerModal');
+            registerModal = new bootstrap.Modal(modalElement);
+            fetchCounts();
+            bindRegistrationForm();
+            if (window.location.hash === '#registerModal') {
+                openModal('');
+            }
+        });
+
+        function openModal(courseName) {
+            const select = document.getElementById('courseSelect');
+            for (let i = 0; i < select.options.length; i++) {
+                const option = select.options[i];
+                if (option.text.includes(courseName) || option.value.includes(courseName)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            if (!registerModal) {
+                registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            }
+            registerModal.show();
+        }
+
+        window.openModal = openModal;
+
+        function fetchCounts() {
+            if (!scriptURL || scriptURL === 'YOUR_WEB_APP_URL_HERE') {
+                setCountText('count-med', '?');
+                setCountText('count-res', '?');
+                return;
+            }
+
+            fetch(scriptURL + '?action=getCounts')
+                .then(response => response.json())
+                .then(updateCounts)
+                .catch(error => {
+                    console.error('Error fetching counts:', error);
+                    setCountText('count-med', '?');
+                    setCountText('count-res', '?');
+                });
+        }
+
+        function updateCounts(counts) {
+            const medical = Number(counts.medical) || 0;
+            const research = Number(counts.research) || 0;
+
+            setCountText('count-med', medical.toLocaleString('th-TH'));
+            setCountText('count-res', research.toLocaleString('th-TH'));
+
+            if (medical >= COURSE_LIMITS.medical) {
+                disableBtn('btn-med', 'badge-med');
+            }
+            if (research >= COURSE_LIMITS.research) {
+                disableBtn('btn-res', 'badge-res');
+            }
+        }
+
+        function setCountText(id, text) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            element.classList.add('loaded');
+            element.textContent = text;
+        }
+
+        function disableBtn(btnId, badgeId) {
+            const badge = document.getElementById(badgeId);
+            const btn = document.getElementById(btnId);
+            if (badge) badge.classList.add('seat-full');
+            if (!btn) return;
+            btn.innerHTML = '<i class="fas fa-times-circle"></i> เต็มแล้ว';
+            btn.classList.add('btn-disabled');
+            btn.disabled = true;
+            btn.onclick = null;
+        }
+
+        function bindRegistrationForm() {
+            const form = document.forms['submit-to-google-sheet'];
+            const btn = document.getElementById('submitBtn');
+            const fileInput = document.getElementById('fileUpload');
+
+            form.addEventListener('submit', async event => {
+                event.preventDefault();
+
+                const file = fileInput.files[0];
+                if (!file) {
+                    showAlert('กรุณาแนบสลิป', 'โปรดแนบรูปสลิปการโอนเงินก่อนยืนยันการลงทะเบียน', 'warning');
+                    return;
+                }
+
+                setSubmitState(btn, true);
+
+                try {
+                    const filePayload = await readFileAsBase64(file);
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+
+                    data.fileData = filePayload;
+                    data.fileName = file.name;
+                    data.fileMimeType = file.type || 'image/jpeg';
+
+                    const response = await fetch(scriptURL, {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (result.result !== 'success') {
+                        throw new Error(result.error || 'ไม่สามารถบันทึกข้อมูลได้');
+                    }
+
+                    if (registerModal) registerModal.hide();
+                    await Swal.fire({
+                        title: 'ลงทะเบียนสำเร็จ',
+                        text: 'บันทึกข้อมูลเรียบร้อยแล้ว กรุณาทัก Line เพื่อรับรายละเอียดการเข้าเรียน\nLine ID: 0821709518',
+                        icon: 'success',
+                        confirmButtonColor: '#007aff'
+                    });
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Submission Error:', error);
+                    showAlert('เกิดข้อผิดพลาด', error.message || 'ไม่สามารถติดต่อ Server ได้', 'error');
+                    setSubmitState(btn, false);
+                }
+            });
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const result = String(event.target.result || '');
+                    resolve(result.split(',')[1] || '');
+                };
+                reader.onerror = () => reject(new Error('ไม่สามารถอ่านไฟล์สลิปได้'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function setSubmitState(button, isLoading) {
+            button.disabled = isLoading;
+            button.innerHTML = isLoading
+                ? '<i class="fas fa-spinner fa-spin"></i> กำลังส่งข้อมูล...'
+                : '<i class="fas fa-paper-plane"></i> ยืนยันการลงทะเบียน';
+        }
+
+        function showAlert(title, text, icon) {
+            Swal.fire({
+                title,
+                text,
+                icon,
+                confirmButtonColor: '#007aff'
+            });
+        }
+
+    </script>
+    <script>
+        (function(){
+            var f=document.querySelector('.hero-starfield');
+            if(!f)return;
+            var g=['#27d7ff','#ffffff','#f7b538','#e11d2e','#9be8ff'];
+            for(var i=0;i<110;i++){
+                var s=document.createElement('span');
+                var sz=0.6+Math.random()*3.5;
+                var isDim=Math.random()>.55;
+                s.className='s'+(isDim?' dim':'');
+                s.style.cssText=
+                    'width:'+sz+'px;'+
+                    'height:'+sz+'px;'+
+                    'left:'+(Math.random()*100)+'%;'+
+                    'top:'+(Math.random()*100)+'%;'+
+                    'background:'+g[0|Math.random()*g.length]+';'+
+                    'box-shadow:0 0 '+(sz*2)+'px '+g[0|Math.random()*g.length]+',0 0 '+(sz*5)+'px rgba(39,215,255,0.42);'+
+                    'animation-duration:'+(1+Math.random()*4)+'s;'+
+                    'animation-delay:'+(Math.random()*6)+'s;';
+                f.appendChild(s);
+            }
+        })();
+    </script>
+
+    <!-- Floating TOC -->
+    <nav class="toc-nav" id="tocNav" aria-label="สารบัญ">
+        <div class="toc-panel">
+            <div class="toc-header">
+                <i class="fas fa-list-ul"></i> สารบัญ
+            </div>
+            <ul class="toc-list">
+                <li><a href="#top"        class="toc-link" data-id="top">        <i class="fas fa-house"></i>                หน้าแรก</a></li>
+                <li><a href="#courses"    class="toc-link" data-id="courses">    <i class="fas fa-graduation-cap"></i>       หลักสูตร</a></li>
+                <li><a href="#tools"      class="toc-link" data-id="tools">      <i class="fas fa-wand-magic-sparkles"></i>  AI Tools</a></li>
+                <li><a href="#workflow"   class="toc-link" data-id="workflow">   <i class="fas fa-list-check"></i>           ขั้นตอนสมัคร</a></li>
+                <li><a href="#curriculum" class="toc-link" data-id="curriculum"> <i class="fas fa-book-open"></i>            เนื้อหา</a></li>
+                <li><a href="#systems"    class="toc-link" data-id="systems">    <i class="fas fa-laptop-code"></i>          ระบบจริง</a></li>
+            </ul>
+            <div class="toc-divider"></div>
+            <a href="#registerModal" class="toc-btn-reg" data-bs-toggle="modal">
+                <i class="fas fa-file-signature"></i> ลงทะเบียน
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        (function () {
+            var tocNav   = document.getElementById('tocNav');
+            var links    = document.querySelectorAll('.toc-link');
+            var sections = ['top','courses','tools','workflow','curriculum','systems'];
+
+            function getTop(id) {
+                var el = document.getElementById(id);
+                return el ? el.getBoundingClientRect().top + window.scrollY : 0;
+            }
+
+            function update() {
+                var sy = window.scrollY + 140;
+                tocNav.classList.toggle('toc-visible', window.scrollY > 320);
+
+                var active = sections[0];
+                sections.forEach(function(id){ if (sy >= getTop(id)) active = id; });
+
+                links.forEach(function(a){
+                    a.classList.toggle('toc-active', a.dataset.id === active);
+                });
+            }
+
+            window.addEventListener('scroll', update, { passive: true });
+            update();
+        })();
+    </script>
+</body>
+</html>
