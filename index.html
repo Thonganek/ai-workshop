@@ -2961,6 +2961,201 @@
                 height: 46px;
             }
         }
+
+        /* ===== Mobile Override — ปรับให้พอดีทุกหน้าจอโทรศัพท์ ===== */
+        @media (max-width: 768px) {
+
+            /* --- Navigation --- */
+            .nav-row {
+                gap: 10px;
+            }
+            .nav-links {
+                flex-wrap: wrap !important;
+                overflow-x: visible !important;
+                gap: 7px !important;
+                font-size: 0.84rem;
+            }
+            .nav-links a[href="#courses"],
+            .nav-links a[href="#workflow"],
+            .nav-links a[href="#curriculum"],
+            .nav-links a[href="#registerModal"] {
+                padding: 4px 10px !important;
+                font-size: 0.8rem;
+            }
+            .nav-pill {
+                padding: 5px 11px !important;
+                font-size: 0.8rem !important;
+                border-radius: 8px !important;
+            }
+
+            /* --- Hero --- */
+            .hero-inner {
+                padding: 32px 16px 32px !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+            }
+            .hero h1 {
+                font-size: 1.85rem !important;
+                line-height: 1.2 !important;
+            }
+            .hero-price {
+                display: block !important;
+                font-size: 1.7rem;
+            }
+            .hero-lead {
+                font-size: 0.95rem !important;
+                line-height: 1.75 !important;
+            }
+            .hero-kicker {
+                font-size: 0.8rem;
+                padding: 6px 10px !important;
+            }
+            .mission-telemetry {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 8px !important;
+                margin-top: 18px !important;
+            }
+            .mission-telemetry span,
+            .mission-telemetry .telemetry-link {
+                padding: 8px 10px !important;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 10px !important;
+            }
+            .hero-facts {
+                gap: 7px !important;
+            }
+            .hero-facts li {
+                font-size: 0.82rem;
+                padding: 7px 10px !important;
+            }
+
+            /* --- Instructor --- */
+            .instructor-strip {
+                grid-template-columns: 1fr !important;
+                gap: 14px;
+                text-align: center;
+            }
+            .speaker-img {
+                width: 100% !important;
+                height: 160px !important;
+            }
+            .line-pill {
+                justify-content: center;
+            }
+
+            /* --- Section titles --- */
+            .section-title h2 {
+                font-size: 1.55rem !important;
+            }
+            .section-title {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            /* --- Course cards --- */
+            .course-grid {
+                grid-template-columns: 1fr !important;
+                gap: 18px;
+            }
+            .course-head h3 {
+                font-size: 1.3rem !important;
+                word-break: normal !important;
+                overflow-wrap: anywhere;
+            }
+            .course-price {
+                font-size: 1.8rem !important;
+            }
+            .course-card .btn-modern {
+                font-size: 0.9rem;
+                padding: 12px 16px;
+            }
+
+            /* --- Workflow --- */
+            .workflow-steps {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px;
+            }
+            .wf-step {
+                padding: 20px 14px 18px;
+            }
+            .wf-circle {
+                width: 54px;
+                height: 54px;
+            }
+            .wf-step h3 { font-size: 0.9rem; }
+            .wf-step p  { font-size: 0.82rem; }
+
+            /* --- Curriculum --- */
+            .details-grid, .curriculum-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px;
+            }
+            .curriculum-summary {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+            .curriculum-support {
+                grid-template-columns: 1fr !important;
+                gap: 14px;
+                text-align: center;
+                padding: 18px 16px !important;
+            }
+            #curriculum.curriculum-section {
+                padding: 40px 0 !important;
+            }
+
+            /* --- Systems --- */
+            .systems-summary {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px;
+            }
+            .systems-section .system-list {
+                grid-template-columns: 1fr !important;
+            }
+            .systems-section .system-list a {
+                min-height: 82px !important;
+                padding: 12px !important;
+                grid-template-columns: 40px minmax(0, 1fr) 22px !important;
+            }
+            .systems-section .system-list i {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 0.95rem;
+            }
+
+            /* --- CTA band --- */
+            .cta-row {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            .cta-row h2 { font-size: 1.4rem; }
+            .cta-row .btn-main { width: 100%; justify-content: center; }
+
+            /* --- Modal form --- */
+            .modal-body { padding: 16px !important; }
+            .modal-dialog { margin: 8px !important; }
+
+            /* --- Footer --- */
+            .site-footer { font-size: 0.85rem; padding: 18px 0; }
+        }
+
+        @media (max-width: 400px) {
+            .nav-links a[href="#courses"],
+            .nav-links a[href="#workflow"],
+            .nav-links a[href="#curriculum"],
+            .nav-links a[href="#registerModal"] {
+                font-size: 0.74rem !important;
+                padding: 3px 8px !important;
+            }
+            .nav-pill { font-size: 0.74rem !important; padding: 4px 9px !important; }
+            .hero h1 { font-size: 1.6rem !important; }
+            .mission-telemetry { grid-template-columns: 1fr !important; }
+            .workflow-steps { grid-template-columns: 1fr !important; }
+            .systems-summary { grid-template-columns: 1fr !important; }
+        }
     </style>
 </head>
 <body>
