@@ -3,1195 +3,1586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงทะเบียนอบรม AI Workshop - Modern Edition</title>
+    <meta name="theme-color" content="#0f5132">
+    <title>ลงทะเบียนอบรม AI Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-<style>
-
-:root {
-    --primary-green: #f97316;      /* เปลี่ยนเป็นส้ม */
-    --dark-green: #ea580c;         /* เปลี่ยนเป็นส้มเข้ม */
-    --light-green: #fb923c;        /* เปลี่ยนเป็นส้มอ่อน */
-    --accent-green: #fdba74;       /* เปลี่ยนเป็นส้มสะท้อนแสง */
-    --bg-light: #fff7ed;           /* เปลี่ยนเป็นพื้นส้มอ่อน */
-    --bg-white: #ffffff;
-    --text-dark: #7c2d12;          /* เปลี่ยนเป็นข้อความสีส้มเข้ม */
-    --text-gray: #374151;
-    --border-green: #fed7aa;       /* เปลี่ยนเป็นขอบส้มอ่อน */
-    --success-light: #ffedd5;      /* เปลี่ยนเป็นพื้นส้มอ่อนมาก */
-}
-
+    <style>
+        :root {
+            --forest: #0f5132;
+            --leaf: #16a34a;
+            --leaf-dark: #15803d;
+            --leaf-soft: #dcfce7;
+            --mint: #f0fdf4;
+            --sage: #edf7ef;
+            --sky: #e0f2fe;
+            --gold: #f59e0b;
+            --earth: #8a5a44;
+            --ink: #17352b;
+            --muted: #5b6f66;
+            --line: #d8e6dc;
+            --surface: #ffffff;
+            --danger: #dc2626;
+            --shadow: 0 18px 45px rgba(15, 81, 50, 0.13);
+        }
 
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            position: relative;
+            margin: 0;
+            font-family: 'Sarabun', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--mint) 0%, #ffffff 52%, var(--sage) 100%);
+            letter-spacing: 0;
+            overflow-wrap: break-word;
         }
 
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+        a {
+            color: inherit;
         }
 
-        /* Floating particles */
-        .particle {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-green);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.7;
-            animation: float 15s infinite;
-            z-index: 0;
-            box-shadow: 0 0 10px var(--primary-green);
+        img {
+            max-width: 100%;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #767804 100%);
-            padding: 5rem 2rem;
-            text-align: center;
-            border-radius: 0 0 50px 50px;
-            margin-bottom: 4rem;
-            position: relative;
+        .page-shell {
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
         }
 
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
+        .container-narrow {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(216, 230, 220, 0.85);
+            backdrop-filter: blur(14px);
         }
 
-        .hero-section h1 {
-            font-size: 3.5rem;
+        .nav-row {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--forest);
+            font-size: 1.08rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
-            color: white;
+            text-decoration: none;
+            white-space: nowrap;
         }
 
-        .hero-section p {
+        .brand-mark i {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            background: var(--leaf);
+            border-radius: 8px;
         }
 
-        .hero-badge {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 2rem;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            animation: slideDown 0.8s ease-out;
-            color: white;
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 0.96rem;
+            color: var(--muted);
+        }
+
+        .nav-links a {
+            text-decoration: none;
             font-weight: 600;
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .nav-links a:hover {
+            color: var(--leaf-dark);
         }
 
-        .ai-tools-marquee {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 1rem;
-            border-radius: 20px;
-            margin-top: 2rem;
-            overflow: hidden;
+        .hero {
             position: relative;
-            z-index: 2;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            background:
+                linear-gradient(90deg, rgba(9, 55, 36, 0.94) 0%, rgba(15, 81, 50, 0.83) 48%, rgba(21, 128, 61, 0.62) 100%),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=82") center/cover no-repeat;
         }
 
-        .ai-tools-marquee p {
-            animation: marquee 30s linear infinite;
-            white-space: nowrap;
-            margin: 0;
-            font-size: 1.1rem;
-            color: white;
-            font-weight: 500;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Speaker Section */
-        .speaker-card {
-            background: white;
-            border: 3px solid var(--border-green);
-            border-radius: 30px;
-            padding: 3rem;
-            box-shadow: 0 15px 45px rgba(16, 185, 129, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .speaker-card::before {
-            content: '';
+        .hero::after {
+            content: "";
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                transparent,
-                rgba(16, 185, 129, 0.05),
-                transparent 30%
-            );
-            animation: rotate 4s linear infinite;
+            inset: auto 0 0;
+            height: 46%;
+            background: linear-gradient(180deg, rgba(15, 81, 50, 0) 0%, rgba(240, 253, 244, 0.92) 100%);
+            pointer-events: none;
         }
 
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .speaker-content {
+        .hero-inner {
             position: relative;
             z-index: 1;
+            padding: 54px 0 64px;
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            padding: 8px 12px;
+            color: #eafff0;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin: 0;
+            font-size: 3.45rem;
+            line-height: 1.12;
+            font-weight: 800;
+        }
+
+        .hero-lead {
+            max-width: 760px;
+            margin: 18px 0 0;
+            color: #ecfff2;
+            font-size: 1.22rem;
+            line-height: 1.85;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn-main,
+        .btn-ghost,
+        .btn-modern {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .btn-main,
+        .btn-modern {
+            color: #ffffff;
+            background: var(--leaf);
+            box-shadow: 0 12px 28px rgba(22, 163, 74, 0.28);
+        }
+
+        .btn-main:hover,
+        .btn-modern:hover {
+            color: #ffffff;
+            background: var(--leaf-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 32px rgba(21, 128, 61, 0.25);
+        }
+
+        .btn-ghost {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.36);
+        }
+
+        .btn-ghost:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hero-facts li {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            color: #f4fff7;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 64px 0;
+        }
+
+        .section-tight {
+            padding: 42px 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 26px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            color: var(--forest);
+            font-size: 2rem;
+            line-height: 1.28;
+            font-weight: 800;
+        }
+
+        .section-title p {
+            max-width: 560px;
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .instructor-strip {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 22px;
+            align-items: center;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
         }
 
         .speaker-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid var(--primary-green);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-            transition: transform 0.3s ease;
+            width: 86px;
+            height: 86px;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+            background: var(--leaf-soft);
+            box-shadow: 0 10px 24px rgba(15, 81, 50, 0.16);
         }
 
-        .speaker-img:hover {
-            transform: scale(1.1) rotate(5deg);
+        .instructor-strip h2 {
+            margin: 0 0 5px;
+            color: var(--forest);
+            font-size: 1.32rem;
+            font-weight: 800;
         }
 
-        .speaker-content h4 {
-            color: var(--primary-green);
+        .instructor-strip p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
-        .speaker-content h5 {
-            color: var(--text-dark);
+        .line-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 9px 12px;
+            color: #08743d;
+            background: #e7fbe9;
+            border: 1px solid #bceac4;
+            border-radius: 8px;
+            font-weight: 800;
+            white-space: nowrap;
         }
 
-        .speaker-content p {
-            color: var(--text-gray);
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            align-items: stretch;
+            min-width: 0;
         }
 
-        /* Course Cards */
         .course-card {
-            background: white;
-            border: 3px solid var(--border-green);
-            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            min-width: 0;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-top: 5px solid var(--leaf);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15);
-            height: 100%;
-            position: relative;
         }
 
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
-            transition: left 0.5s;
+        .course-card.research {
+            border-top-color: var(--forest);
         }
 
-        .course-card:hover::before {
-            left: 100%;
+        .course-head {
+            padding: 26px 26px 22px;
+            min-width: 0;
+            background: linear-gradient(180deg, #ffffff 0%, #f7fff8 100%);
+            border-bottom: 1px solid var(--line);
         }
 
-        .course-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--primary-green);
-            box-shadow: 0 25px 60px rgba(16, 185, 129, 0.3);
+        .course-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            color: var(--leaf-dark);
+            font-weight: 800;
         }
 
-        .course-header {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            padding: 2.5rem 2rem;
-            text-align: center;
-            position: relative;
+        .course-label i {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: var(--leaf);
+            border-radius: 8px;
         }
 
-        .course-header h4 {
-            color: white;
+        .course-card.research .course-label i {
+            background: var(--forest);
         }
 
-        .course-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: bounce 2s ease-in-out infinite;
-            color: white;
+        .course-head h3 {
+            margin: 0;
+            color: var(--forest);
+            font-size: 1.5rem;
+            line-height: 1.35;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .price-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 10px;
+            margin-top: 18px;
         }
 
         .course-price {
-            font-size: 3rem;
+            color: var(--forest);
+            font-size: 2.25rem;
+            line-height: 1;
             font-weight: 800;
-            color: white;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin: 1rem 0;
         }
 
-        .price-detail {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            display: inline-block;
-            margin: 0.3rem;
-            color: white;
-            font-weight: 500;
+        .price-note {
+            color: var(--muted);
+            font-weight: 700;
         }
 
-        /* Seat Counter */
         .seat-counter {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border: 3px solid var(--primary-green);
-            color: var(--dark-green);
-            padding: 1rem 2rem;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-top: 1.5rem;
-            display: inline-block;
-            animation: glow 2s ease-in-out infinite;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+            padding: 9px 12px;
+            color: var(--forest);
+            background: var(--leaf-soft);
+            border: 1px solid #bceac4;
+            border-radius: 8px;
+            font-weight: 800;
         }
 
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
-            50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.6); }
+        .seat-counter.seat-full {
+            color: var(--danger);
+            background: #fee2e2;
+            border-color: #fecaca;
         }
 
-        .seat-full {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border-color: #ef4444;
-            color: #dc2626;
-            animation: none;
+        .loading-spinner {
+            display: inline-flex;
+            align-items: center;
+            min-width: 24px;
         }
 
-        /* Course Body */
+        .loading-spinner::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(15, 81, 50, 0.18);
+            border-top-color: var(--leaf);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-spinner.loaded::after {
+            display: none;
+        }
+
         .course-body {
-            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 26px 26px;
+            min-width: 0;
         }
 
-        .ai-tools-box {
-            background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
-            border-left: 5px solid var(--primary-green);
-            padding: 1.2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            color: var(--text-dark);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.1);
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
         }
 
-        .workshop-label {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 15px;
-            font-weight: bold;
-            display: inline-block;
-            margin: 1.5rem 0 1rem;
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        .tag-row span {
+            padding: 6px 10px;
+            color: var(--forest);
+            background: #f2fbf4;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-size: 0.93rem;
+            font-weight: 700;
         }
 
         .course-list {
-            list-style: none;
+            display: grid;
+            gap: 12px;
+            margin: 0;
             padding: 0;
-            text-align: left;
+            list-style: none;
         }
 
         .course-list li {
-            padding: 0.8rem 0 0.8rem 2.5rem;
+            display: grid;
+            grid-template-columns: 22px 1fr;
+            gap: 10px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .course-list span,
+        .section-title p,
+        .outline-list li,
+        .system-mini-list li {
+            overflow-wrap: anywhere;
+        }
+
+        .course-list i {
+            margin-top: 4px;
+            color: var(--leaf);
+        }
+
+        .course-preview {
+            margin-bottom: 16px;
+        }
+
+        .course-expand {
+            margin: 18px 0 22px;
+            overflow: hidden;
+            background: #fbfffc;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+
+        .course-expand summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 14px;
+            color: var(--forest);
+            background: var(--leaf-soft);
+            cursor: pointer;
+            font-weight: 800;
+            list-style: none;
+        }
+
+        .course-expand summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .course-expand summary i {
+            transition: transform 0.18s ease;
+        }
+
+        .course-expand[open] summary i {
+            transform: rotate(180deg);
+        }
+
+        .course-full {
+            display: grid;
+            gap: 18px;
+            padding: 16px;
+        }
+
+        .course-full h4 {
+            margin: 0 0 10px;
+            color: var(--forest);
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .outline-list {
+            display: grid;
+            gap: 9px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .outline-list li {
             position: relative;
-            line-height: 1.8;
-            border-bottom: 1px solid var(--border-green);
-            transition: all 0.3s ease;
-            color: var(--text-gray);
+            padding-left: 24px;
+            color: var(--muted);
+            line-height: 1.65;
         }
 
-        .course-list li:hover {
-            padding-left: 3rem;
-            color: var(--primary-green);
-            background: var(--success-light);
-        }
-
-        .course-list li::before {
-            content: '\f058';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+        .outline-list li::before {
+            content: "\f058";
             position: absolute;
+            top: 2px;
             left: 0;
-            color: var(--primary-green);
-            font-size: 1.2rem;
+            color: var(--leaf);
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
         }
 
-        .course-list li[style*="color: #c00"] {
-            color: #ef4444 !important;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            padding-top: 1.5rem;
-            background: #fef2f2;
+        .outline-list .outline-heading {
+            margin-top: 8px;
+            padding: 8px 10px;
+            color: var(--forest);
+            background: #eefaf0;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-weight: 800;
         }
 
-        .course-list li[style*="color: #c00"]::before {
-            content: '\f0a4';
-            color: #ef4444;
+        .outline-list .outline-heading::before {
+            content: "";
         }
 
-        /* Buttons */
-        .btn-modern {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border: none;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            position: relative;
+        .system-mini-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .system-mini-list li {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .system-mini-list strong {
+            color: var(--forest);
+        }
+
+        .course-card .btn-modern {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .tools-band {
+            background: #ffffff;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .tools-list li {
+            padding: 8px 11px;
+            color: var(--forest);
+            background: var(--mint);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--line);
         }
 
-        .btn-modern::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+        .process-item {
+            padding: 22px;
+            background: #ffffff;
         }
 
-        .btn-modern:hover::before {
-            width: 300px;
-            height: 300px;
+        .process-item i {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            color: #ffffff;
+            background: var(--leaf);
+            border-radius: 8px;
         }
 
-        .btn-modern:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        .process-item h3 {
+            margin: 0 0 8px;
+            color: var(--forest);
+            font-size: 1.05rem;
+            font-weight: 800;
         }
 
-        .btn-modern:active {
-            transform: translateY(0);
+        .process-item p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
-        .btn-disabled {
-            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
-            cursor: not-allowed;
-            opacity: 0.6;
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
         }
 
-        /* Modal */
+        .detail-panel {
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 12px 34px rgba(15, 81, 50, 0.08);
+        }
+
+        .detail-panel h3 {
+            margin: 0 0 16px;
+            color: var(--forest);
+            font-size: 1.22rem;
+            font-weight: 800;
+        }
+
+        .detail-panel ul {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding-left: 1.1rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .system-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 18px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .system-list a {
+            display: grid;
+            grid-template-columns: 24px 1fr;
+            gap: 9px;
+            padding: 10px 0;
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+            line-height: 1.55;
+        }
+
+        .system-list a:hover {
+            color: var(--leaf-dark);
+        }
+
+        .system-list i {
+            color: var(--leaf);
+            margin-top: 4px;
+        }
+
+        .cta-band {
+            color: #ffffff;
+            background: linear-gradient(90deg, var(--forest), var(--leaf-dark));
+        }
+
+        .cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .cta-row h2 {
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .cta-row p {
+            margin: 0;
+            color: #eafff0;
+            line-height: 1.75;
+        }
+
+        .cta-row .btn-main {
+            color: var(--forest);
+            background: #ffffff;
+            box-shadow: none;
+            white-space: nowrap;
+        }
+
+        .cta-row .btn-main:hover {
+            color: var(--forest);
+            background: #f1fff4;
+        }
+
         .modal-content {
-            background: white;
-            border: 3px solid var(--border-green);
-            border-radius: 30px;
+            border: 0;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 28px 70px rgba(15, 81, 50, 0.24);
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border: none;
-            padding: 2rem;
+            color: #ffffff;
+            background: var(--forest);
+            border: 0;
+            padding: 22px 24px;
         }
 
-        .modal-header h5 {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
+        .modal-title {
+            font-weight: 800;
         }
 
         .modal-header .btn-close {
-            filter: brightness(0) invert(1);
+            filter: invert(1);
+            opacity: 0.9;
         }
 
         .modal-body {
-            padding: 2.5rem;
-            background: #f9fafb;
+            padding: 26px;
+            background: #fbfffc;
         }
 
         .form-label {
-            color: var(--text-dark);
-            font-weight: 600;
-            margin-bottom: 0.8rem;
+            color: var(--forest);
+            font-weight: 800;
         }
 
-        .form-control, .form-select {
-            background: white;
-            border: 2px solid var(--border-green);
-            color: var(--text-dark);
-            padding: 0.9rem 1.2rem;
-            border-radius: 15px;
-            transition: all 0.3s ease;
+        .form-control,
+        .form-select {
+            min-height: 46px;
+            color: var(--ink);
+            border: 1px solid #cfe1d4;
+            border-radius: 8px;
+            box-shadow: none;
         }
 
-        .form-control:focus, .form-select:focus {
-            background: white;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-            color: var(--text-dark);
-        }
-
-        .form-select option {
-            background: white;
-            color: var(--text-dark);
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--leaf);
+            box-shadow: 0 0 0 0.2rem rgba(22, 163, 74, 0.12);
         }
 
         .input-group-text {
+            color: #ffffff;
             background: #06c755;
-            border: none;
-            color: white;
-            border-radius: 15px 0 0 15px;
+            border-color: #06c755;
+            border-radius: 8px 0 0 8px;
         }
 
-        .alert-success {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border: 2px solid var(--primary-green);
-            border-radius: 20px;
-            color: var(--text-dark);
+        .payment-box {
+            padding: 16px;
+            color: var(--forest);
+            background: var(--leaf-soft);
+            border: 1px solid #bceac4;
+            border-radius: 8px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-section h1 { font-size: 2rem; }
-            .course-price { font-size: 2rem; }
-            .course-icon { font-size: 3rem; }
+        .btn-modern:disabled,
+        .btn-disabled {
+            cursor: not-allowed;
+            color: #ffffff;
+            background: #94a3b8;
+            box-shadow: none;
+            transform: none;
+            opacity: 0.8;
+        }
+
+        .site-footer {
+            padding: 26px 0;
+            color: var(--muted);
+            background: #ffffff;
+            border-top: 1px solid var(--line);
+            text-align: center;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.65rem;
+            }
+
+            .course-grid,
+            .details-grid,
+            .system-list {
+                grid-template-columns: 1fr;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .section-title,
+            .cta-row {
+                align-items: start;
+                flex-direction: column;
+            }
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 768px) {
+            .container-narrow {
+                width: min(100% - 24px, 1120px);
+            }
+
+            .nav-row {
+                min-height: auto;
+                padding: 12px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                gap: 12px;
+                overflow-x: auto;
+                padding-bottom: 4px;
+            }
+
+            .hero-inner {
+                padding: 38px 0 48px;
+            }
+
+            .hero h1 {
+                font-size: 2.12rem;
+            }
+
+            .hero-lead {
+                font-size: 1.04rem;
+            }
+
+            .hero-actions,
+            .hero-actions .btn-main,
+            .hero-actions .btn-ghost {
+                width: 100%;
+            }
+
+            .section {
+                padding: 46px 0;
+            }
+
+            .instructor-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .speaker-img {
+                width: 76px;
+                height: 76px;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-head,
+            .course-body,
+            .detail-panel,
+            .modal-body {
+                padding: 20px;
+            }
+
+            .course-price {
+                font-size: 1.9rem;
+            }
+
+            .course-head h3 {
+                word-break: break-all;
+            }
         }
-        /* AI Title Wrapper */
-.ai-title-wrapper {
-    position: relative;
-    margin: 2rem 0;
-}
-
-/* AI Gradient Text */
-.ai-gradient-text {
-    background: linear-gradient(45deg, #fff, #ffd700, #fff, #00ffff, #fff);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 3s ease infinite;
-    position: relative;
-    display: inline-block;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-/* AI Icon Animated */
-.ai-icon-animated {
-    display: inline-block;
-    animation: float-rotate 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-}
-
-.ai-icon-animated:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.ai-icon-animated:nth-child(3) {
-    animation-delay: 1.5s;
-}
-
-@keyframes float-rotate {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg) scale(1);
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-    }
-    25% { 
-        transform: translateY(-10px) rotate(5deg) scale(1.1);
-        filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.9));
-    }
-    50% { 
-        transform: translateY(0) rotate(0deg) scale(1);
-        filter: drop-shadow(0 0 40px rgba(255, 215, 0, 1));
-    }
-    75% { 
-        transform: translateY(-10px) rotate(-5deg) scale(1.1);
-        filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9));
-    }
-}
-
-/* AI Subtitle Animated */
-.ai-subtitle-animated {
-    position: relative;
-    height: 40px;
-    margin: 1rem 0;
-}
-
-.typing-text {
-    color: #ffd700;
-    font-size: 1.5rem;
-    font-weight: 700;
-    display: inline-block;
-    border-right: 3px solid #ffd700;
-    padding-right: 5px;
-    animation: typing 3s steps(20) infinite, blink 0.7s infinite;
-    white-space: nowrap;
-    overflow: hidden;
-    text-shadow: 
-        0 0 10px rgba(255, 215, 0, 0.8),
-        0 0 20px rgba(255, 215, 0, 0.6),
-        0 0 30px rgba(255, 215, 0, 0.4);
-}
-
-@keyframes typing {
-    0%, 100% { width: 0; }
-    50% { width: 100%; }
-}
-
-@keyframes blink {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: #ffd700; }
-}
-
-/* Hero Description with Glow */
-.hero-description {
-    text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.5),
-        0 0 20px rgba(255, 215, 0, 0.3);
-    animation: glow-pulse 2s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-    0%, 100% { 
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.5),
-            0 0 20px rgba(255, 215, 0, 0.3);
-    }
-    50% { 
-        text-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.8),
-            0 0 30px rgba(255, 215, 0, 0.6),
-            0 0 40px rgba(0, 255, 255, 0.4);
-    }
-}
-
-/* AI Orbs - Floating Energy Spheres */
-.ai-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.6;
-    animation: orbit 15s infinite;
-    pointer-events: none;
-}
-
-.ai-orb-1 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.8), transparent);
-    top: 10%;
-    left: 10%;
-    animation-duration: 20s;
-}
-
-.ai-orb-2 {
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.6), transparent);
-    top: 60%;
-    right: 15%;
-    animation-duration: 25s;
-    animation-direction: reverse;
-}
-
-.ai-orb-3 {
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(255, 105, 180, 0.5), transparent);
-    bottom: 20%;
-    left: 50%;
-    animation-duration: 18s;
-}
-
-@keyframes orbit {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.6;
-    }
-    25% {
-        transform: translate(50px, -30px) scale(1.2);
-        opacity: 0.8;
-    }
-    50% {
-        transform: translate(0, -50px) scale(0.9);
-        opacity: 0.5;
-    }
-    75% {
-        transform: translate(-50px, -30px) scale(1.1);
-        opacity: 0.7;
-    }
-}
-
-/* Enhanced AI Tools Marquee */
-.ai-tools-marquee {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    border-radius: 20px;
-    margin-top: 2rem;
-    overflow: hidden;
-    position: relative;
-    z-index: 2;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 
-        0 0 20px rgba(255, 215, 0, 0.3),
-        inset 0 0 20px rgba(255, 215, 0, 0.1);
-}
-
-.ai-tools-marquee::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-    animation: shine 3s infinite;
-}
-
-@keyframes shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .ai-gradient-text {
-        font-size: 2rem;
-    }
-    
-    .typing-text {
-        font-size: 1.2rem;
-    }
-    
-    .ai-orb {
-        display: none;
-    }
-}
     </style>
 </head>
 <body>
-    <!-- Floating Particles -->
-    <div id="particles"></div>
-
-<!-- Hero Section -->
-<div class="hero-section" data-aos="fade-down">
-    <div class="container">
-        <div class="hero-badge">
-            <i class="fas fa-bullhorn"></i> เปิดรับสมัคร Online / นอกเวลาราชการ
-        </div>
-        
-        <!-- AI Text Animation -->
-        <div class="ai-title-wrapper">
-            <h1 class="fw-bold ai-gradient-text">
-                <span class="ai-icon-animated"><i class="fas fa-brain"></i></span>
-                AI Workshop Registration
-                <span class="ai-icon-animated"><i class="fas fa-robot"></i></span>
-            </h1>
-            <h1 class="fw-bold ai-gradient-text">
-                <span class="ai-icon-animated"><i class="fas fa-brain"></i></span>
-                สอนจากตัวอย่างที่เคยทำจริง
-                <span class="ai-icon-animated"><i class="fas fa-robot"></i></span>
-            </h1>
-            <div class="ai-subtitle-animated">
-                <span class="typing-text">การใช้ปัญญาประดิษฐ์ AI ในงานสาธารณสุขและงานวิจัย</span>
+    <div class="page-shell">
+        <header class="site-header">
+            <div class="container-narrow nav-row">
+                <a href="#top" class="brand-mark" aria-label="AI Workshop">
+                    <i class="fas fa-leaf"></i>
+                    <span>AI Workshop</span>
+                </a>
+                <nav class="nav-links" aria-label="เมนูหลัก">
+                    <a href="#courses">หลักสูตร</a>
+                    <a href="#workflow">ขั้นตอนสมัคร</a>
+                    <a href="#curriculum">เนื้อหา</a>
+                    <a href="#registerModal" data-bs-toggle="modal">ลงทะเบียน</a>
+                    <a href="https://gemini.google.com/share/d55c3b7fca44" target="_blank" rel="noopener"
+                       style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#1a73e8;color:#fff;border-radius:7px;font-weight:700;text-decoration:none;">
+                        <i class="fas fa-comments"></i> พูดคุยสอบถามรายละเอียด
+                    </a>
+                    <a href="ai_workshop_dashboard.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--forest);color:#fff;border-radius:7px;font-weight:700;text-decoration:none;">
+                        <i class="fas fa-chart-bar"></i> Dashboard
+                    </a>
+                </nav>
             </div>
-        </div>
-        
-        <p class="fs-5 hero-description">ยกระดับศักยภาพทางการแพทย์และงานวิจัย ด้วยปัญญาประดิษฐ์</p>
-        <p class="fs-5 hero-description">เมื่อสมัครแล้วท่านจะถูกดึงเข้ากลุ่ม และติดต่อไปส่วนตัวทางไลน์เพื่อแจ้งสิ่งที่ต้องเตรียมครับ</p>
-        <div class="ai-tools-marquee">
-            <p><i class="fas fa-robot"></i> AI ที่ใช้ในการเรีนยรู้ : Claude • ChatGPT • Gemini • Grok • Manus • NotebookLM • Canva • Gamma • Napkin • Felo • Perplexity • SciSpace • Copilot</p>
-        </div>
-        
-        <!-- AI Particles Effect -->
-        <div class="ai-orb ai-orb-1"></div>
-        <div class="ai-orb ai-orb-2"></div>
-        <div class="ai-orb ai-orb-3"></div>
-    </div>
-</div>
+        </header>
 
-    <div class="container pb-5">
-        
-        <!-- Speaker Section -->
-        <div class="row justify-content-center mb-5" data-aos="zoom-in">
-            <div class="col-md-8">
-                <div class="speaker-card">
-                    <div class="speaker-content text-center">
-                        <h4 class="text-success fw-bold mb-3">
-                            <i class="fas fa-chalkboard-teacher"></i> วิทยากรผู้บรรยาย
-                        </h4>
-                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
-                             alt="Speaker" class="speaker-img mb-3">
-                        <h5 class="fw-bold fs-3">นายจรัญญู ทองเอนก</h5>
-                        <p class="text-muted">Line ID: 0821709518</p>
-                        <p class="text-muted">Senior AI Instructor & Healthcare Innovation Specialist</p>
+        <main id="top">
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="container-narrow hero-inner">
+                    <div class="hero-kicker">
+                        <i class="fas fa-bullhorn"></i>
+                        เปิดรับสมัคร Online / นอกเวลาราชการ
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course Cards -->
-        <div class="row g-4 mb-5">
-            
-            <!-- Medical Course -->
-            <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-right">
-                <div class="course-card w-100">
-                    <div class="course-header">
-                        <div class="course-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <h4 class="fw-bold mb-3">AI สำหรับการแพทย์และสาธารณสุข</h4>
-                        <div class="course-price" >ลงทะเบียนครั้งเดียวเรียนได้ตลอดชีพ<br>999 ฿<br>(ลงทะเบียนแล้วทักไลน์)</div>
-                        <div class="price-detail">
-                            <i class="far fa-clock"></i> สามารถเข้าเรียนในกลุ่ม Facebook กลุ่มปิดได้เลย
-                        </div>
-                        <div class="price-detail">
-                            <i class="far fa-clock"></i> มีคลิปสอนแยกเป็นเรื่องให้ดูแบบไม่ปวดหัว พร้อม Prompt ให้เอาไปใช้เลย
-
-มี Case จริงให้ศึกษาแบบ “มืออาชีพที่ทำงานจริงใช้กัน” ไม่ใช่ทฤษฎี
-                        </div>
-                        <div class="price-detail">
-                            <i class="fas fa-calculator" ></i>มี Zoom เพื่อ Update อยู่เรื่อย ๆ
-                        </div><br>
-                        <div class="seat-counter" id="badge-med">
-                            <i class="fas fa-users"></i> สมัครแล้ว: <span id="count-med" class="loading-spinner"></span> / Unlimited
-                        </div>
-                    </div>
-                    
-                    <div class="course-body">
-                        <div class="ai-tools-box">
-                            <strong><i class="fas fa-tools"></i> AI Tools:</strong>
-                            Claude • ChatGPT • Gemini • Grok • Manus • NotebookLM • Canva • Gamma • Napkin • Felo • Perplexity • SciSpace • Copilot
-                        </div>
-
-<ul class="course-list">
-    <li style="color: #c00; font-weight:bold;">เนื้อหาหลักของคอร์ส (ทำงานได้จริง)</li>
-    <li>Introduction ประวัติ + แนวคิดการใช้ AI + การสร้าง AI แบบเข้าใจง่าย</li>
-    <li>การตั้งค่า + เครื่องมือ AI ที่ต้องมีสำหรับการทำงานจริง</li>
-    <li>การใช้ AI เขียน Prompt /การใช้ AI ช่วยคิดไอเดียในการทำงาน</li>
-    <li>หลักการใช้ AI วิเคราะห์ข้อมูลทางการแพทย์ เช่น Lab, X-ray</li>
-    <li>ใช้ AI คิดชื่อโครงการ + เขียนโครงการแบบเป็นระบบ (พร้อมโครงร่าง)</li>
-    <li>ใช้ AI ทำระบบต่าง ๆ เช่น รายงานอุบัติเหตุ เยี่ยมบ้าน ลงทะเบียน + บันทึกไฟล์/รูปภาพ/สลิป อัตโนมัติ</li>
-    <li>แนวคิด และหลักการสร้าง Dashboard และระบบต่าง ๆ </li>
-    <li>ใช้ AI สร้างฐานข้อมูลใน Google Sheet และเขียน AppScript เพื่อทำ Dashboard และระบบต่าง ๆ </li>
-    <li>ใช้ AI สร้าง Dashboard แบบ Hybrid จากข้อมูล Excel/Google Sheets พร้อม Insight เพื่อรายงานผลให้ผู้บริหารได้ทันที</li>
-    <li>ใช้ AI สร้างระบบ Input Form ที่เชื่อมต่อฐานข้อมูลโดยอัตโนมัติ รองรับการเพิ่ม/แก้ไข/ลบข้อมูล</li>
-    <li>ใช้ AI ออกแบบระบบ Log in / Log out สำหรับการจัดสิทธิ์ผู้ใช้งานในระดับ WebApp จริง</li>
-    <li>ใช้ AI พัฒนา Application สำหรับแบบประเมิน Paperless เช่น ความรู้ ความพึงพอใจ และลงทะเบียนกิจกรรม</li>
-    <li>ใช้ AI สร้าง WebApp/Dashboard ที่ดึงข้อมูลจากฐานข้อมูลแบบ Realtime เพื่อการติดตามผลโครงการและงานสุขภาพ</li>
-    <li>ใช้ AI สร้างระบบปักหมุดบน Google Map สำหรับงานสาธารณสุข/พื้นที่เสี่ยง</li>
-    <li>ใช้ AI ถอดเสียง/YouTube/Web → สรุปเป็น MindMap + Infographic</li>
-    <li>ใช้ Canva AI ทำงานนำเสนอ งานวิจัย วิดีโอ โปสเตอร์ และเกียรติบัตรแบบมืออาชีพ</li>
-</ul>
-<ul class="system-showcase" style="margin-top:10px;">
-    <li style="color:#c00; font-weight:bold;">ระบบจริงที่พัฒนาด้วย AI และใช้งานจริงในพื้นที่</li>
-    <li><b>การสร้าง AI และแบบฝึกต่าง ๆ</b> — thonganek.github.io/ai-training</li>
-    <li><b>ระบบรายงานและสอบสวนอุบัติเหตุออนไลน์</b> — selaphum101.moph.go.th/RTI_Dashboard</li>
-    <li><b>ระบบ Dashboard วิเคราะห์ข้อมูลสุขภาพ</b> — thonganek.github.io/dashboard_test</li>
-    <li><b>ระบบแจ้งจุดเสี่ยงบนท้องถนนโดยประชาชน</b> — thonganek.github.io/risk_point</li>
-    <li><b>ระบบนัดหมายผู้ป่วย Echo</b> — thonganek.github.io/echo</li>
-    <li><b>ระบบประเมินความพร้อม DM Remission</b> — thonganek.github.io/survey_dm_remission</li>
-    <li><b>ระบบ Dashboard วิเคราะห์ข้อมูล</b> — thonganek.github.io/dashboard_test2</li>
-    <li><b>ระบบลงทะเบียนประชุม + Pre/Post Test + ประเมินพึงพอใจ (ครบในที่เดียว)</b> — thonganek.github.io/registration_ai</li>
-    <li><b>ระบบวิเคราะห์ข้อมูลทางสถิติออนไลน์</b> — thonganek.github.io/Ton_Stat_ProMax</li>
-    <li><b>ระบบส่งการบ้าน/ส่งรายงานออนไลน์</b> — thonganek.github.io/homework</li>
-    <li><b>ระบบอสม. อำเภอเสลภูมิ</b> — selaphum101.moph.go.th/healthVolunteers/osm_report.php</li>
-    <li><b>ระบบวิเคราะห์ข้อมูลอุบัติเหตุออนไลน์ (Realtime Analysis)</b> — selaphum101.moph.go.th/RTIAnalysis.html</li>
-    <li><b>ระบบลงทะเบียนเรียน + จัดการผู้เข้าเรียน</b> — thonganek.github.io/ai-workshop</li>
-</ul>
-
-
-
-                        <button id="btn-med" class="btn-modern w-100 mt-4" onclick="openModal('AI การแพทย์')">
-                            <span style="position: relative; z-index: 1;">
-                                <i class="fas fa-check-circle"></i> ลงทะเบียนหลักสูตรนี้
-                            </span>
+                    <h1 id="hero-title">AI Workshop สำหรับงานสาธารณสุขและงานวิจัย</h1>
+                    <p class="hero-lead">
+                        เรียนจากตัวอย่างระบบจริง ใช้ AI วางแผนงาน เขียนโครงการ วิเคราะห์ข้อมูล ทำ Dashboard
+                        และต่อยอดเป็น WebApp ที่ใช้งานได้จริง
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn-main" href="#courses">
+                            <i class="fas fa-seedling"></i>
+                            เลือกหลักสูตร
+                        </a>
+                        <button type="button" class="btn-ghost" onclick="openModal('AI การแพทย์')">
+                            <i class="fas fa-file-signature"></i>
+                            ลงทะเบียนทันที
                         </button>
                     </div>
+                    <ul class="hero-facts" aria-label="ข้อมูลสำคัญ">
+                        <li><i class="far fa-clock"></i> เรียนได้ตลอดชีพ</li>
+                        <li><i class="fab fa-facebook"></i> เข้ากลุ่มปิดหลังสมัคร</li>
+                        <li><i class="fab fa-line"></i> แจ้งรายละเอียดทาง Line</li>
+                    </ul>
                 </div>
-            </div>
+            </section>
 
-            <!-- Research Course -->
-            <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-left">
-                <div class="course-card w-100">
-                    <div class="course-header">
-                        <div class="course-icon">
-                            <i class="fas fa-microscope"></i>
+            <section class="section-tight">
+                <div class="container-narrow">
+                    <div class="instructor-strip">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="วิทยากร" class="speaker-img">
+                        <div>
+                            <h2>วิทยากร: นายจรัญญู ทองเอนก</h2>
+                            <p>ถ่ายทอดจากประสบการณ์พัฒนาระบบ AI, Dashboard, WebApp และงานวิเคราะห์ข้อมูลสุขภาพที่ใช้งานจริงในพื้นที่</p>
                         </div>
-                        <h4 class="fw-bold mb-3">การใช้ AI ในการทำวิจัย</h4>
-                        <div class="course-price">ลงทะเบียนรุ่นที่ 1<br>1,999 ฿ <br>(ลงทะเบียนแล้วทักไลน์)</div>
-                        <div class="price-detail">
-                            <i class="far fa-clock"></i> เรียนได้ตลอดชีพ
-                        </div>
-                        <div class="price-detail" style="background: rgba(255, 193, 7, 0.3);">
-                            <i class="fas fa-star"></i>เน้น R&D • Action Research • RCT • Quasi-Exp
-                        </div>
-                        <div class="seat-counter" id="badge-res">
-                            <i class="fas fa-users"></i> สมัครแล้ว: <span id="count-res" class="loading-spinner"></span> 
-                        </div><br>
-                        <div class="price-detail">
-                            <i class="fas fa-calculator" ></i> สมัครแล้วสามารถเข้าเรียนได้เลยครับ
+                        <div class="line-pill">
+                            <i class="fab fa-line"></i>
+                            Line ID: 0821709518
                         </div>
                     </div>
-                    <div class="course-body">
-                        <div class="ai-tools-box">
-                            <strong><i class="fas fa-tools"></i> AI Tools:</strong>
-                            Claude • ChatGPT • Gemini • Grok • Manus • NotebookLM • Canva • Gamma • Napkin • Felo • Perplexity • SciSpace • Copilot
-                        </div>
+                </div>
+            </section>
 
-                        <ul class="course-list">
-                            <li style="color: #c00;">ครั้งที่ 1</li>
-                            <li>Introduction ประวัติความเป็นมา AI + การสร้าง AI</li>
-                            <li>คุณสมบัติ + การตั้งค่า AI เครื่องมือต่างๆ</li>
-                            <li>แนวคิดในการใช้ AI ช่วยในงานวิจัย</li>
-                            <li>Research Methodology ประเภท/รูปแบบงานวิจัย/ขั้นตอนในการทำวิจัย</li>
-                            <li>การบ้าน</li>
-                            <li style="color: #c00;">ครั้งที่ 2</li>
-                            <li><strong>บันได 6 ขั้น ใช้ AI สร้างงานวิจัย:</strong> หา Research Gap/ชื่อเรื่อง/วัตถุประสงค์/กรอบแนวคิด/ขั้นตอนการดำเนินงาน</li>
-                            <li>การบ้าน</li>
-                            <li style="color: #c00;">ครั้งที่ 3</li>
-                            <li>การเขียนบทที่ 1 ในแต่ละหัวข้อ</li>
-                            <li>การบ้าน</li>
-                            <li style="color: #c00;">ครั้งที่ 4</li>
-                            <li>การเขียนบทที่ 2 การใช้ AI หาทฤษฎี งานวิจัยที่เกี่ยวข้อง</li>
-                            <li>การบ้าน</li>
-                            <li style="color: #c00;">ครั้งที่ 5</li>
-                            <li>การเขียนบทที่ 3 การใช้ AI ช่วยคิดไอเดียขั้นตอนการดำเนินงาน</li>
-                            <li>ใช้ AI ช่วยในการคำนวณขนาดตัวอย่าง</li>
-                            <li>ใช้ AI ช่วยทำแบบสอบถาม</li>
-                            <li>สถิติเบื้องต้นในงานวิจัย</li>
-                            <li>การบ้าน</li>
-                            <li style="color: #c00;">ครั้งที่ 6</li>
-                            <li>ใช้ AI ในการสร้าง Template บทที่ 4-5</li>
-                            <li>ใช้ AIช่วยเขียน Reference</li>
-                            <li>การใช้ AI detector ตรวจสอบ AI Content และ Plagiarism</li>
-                            <li>การเขียนบทความเพื่อตีพิมพ์</li>
+            <section class="section" id="courses">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>เลือกหลักสูตรที่ตรงกับงาน</h2>
+                        </div>
+                        <p>ทั้งสองหลักสูตรเน้นทำงานได้จริง เหมาะกับบุคลากรสาธารณสุข ผู้ทำโครงการ ผู้ดูแลข้อมูล และผู้ที่อยากนำ AI ไปใช้กับงานประจำ</p>
+                    </div>
+
+                    <div class="course-grid">
+                        <article class="course-card">
+                            <div class="course-head">
+                                <div class="course-label">
+                                    <i class="fas fa-user-md"></i>
+                                    หลักสูตรสาธารณสุข
+                                </div>
+                                <h3>AI สำหรับการแพทย์<br>และสาธารณสุข</h3>
+                                <div class="price-row">
+                                    <div class="course-price">999 ฿</div>
+                                    <div class="price-note">ลงทะเบียนครั้งเดียว เรียนได้ตลอดชีพ</div>
+                                </div>
+                                <div class="seat-counter" id="badge-med">
+                                    <i class="fas fa-users"></i>
+                                    สมัครแล้ว:
+                                    <span id="count-med" class="loading-spinner" aria-live="polite"></span>
+                                    / Unlimited
+                                </div>
+                            </div>
+                            <div class="course-body">
+                                <div class="tag-row">
+                                    <span>Prompt</span>
+                                    <span>Dashboard</span>
+                                    <span>Google Sheet</span>
+                                    <span>WebApp</span>
+                                    <span>Canva AI</span>
+                                </div>
+                                <ul class="course-list course-preview">
+                                    <li><i class="fas fa-check-circle"></i><span>ใช้ AI คิดโครงการ เขียนโครงร่าง และเตรียมเอกสารงานสุขภาพ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>วิเคราะห์ข้อมูลทางการแพทย์ เช่น Lab, X-ray และข้อมูลบริการ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>สร้าง Dashboard และระบบ Input Form เชื่อม Google Sheets แบบใช้งานจริง</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>ต่อยอดเป็น WebApp ลงทะเบียน ประเมินผล รายงาน และจัดเก็บไฟล์อัตโนมัติ</span></li>
+                                </ul>
+                                <details class="course-expand">
+                                    <summary>
+                                        <span>ดูเนื้อหาหลักสูตรทั้งหมด</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </summary>
+                                    <div class="course-full">
+                                        <section>
+                                            <h4>เนื้อหาหลักของคอร์ส (ทำงานได้จริง)</h4>
+                                            <ul class="outline-list">
+                                                <li>Introduction ประวัติ + แนวคิดการใช้ AI + การสร้าง AI แบบเข้าใจง่าย</li>
+                                                <li>การตั้งค่า + เครื่องมือ AI ที่ต้องมีสำหรับการทำงานจริง</li>
+                                                <li>การใช้ AI เขียน Prompt / การใช้ AI ช่วยคิดไอเดียในการทำงาน</li>
+                                                <li>หลักการใช้ AI วิเคราะห์ข้อมูลทางการแพทย์ เช่น Lab, X-ray</li>
+                                                <li>ใช้ AI คิดชื่อโครงการ + เขียนโครงการแบบเป็นระบบ (พร้อมโครงร่าง)</li>
+                                                <li>ใช้ AI ทำระบบต่าง ๆ เช่น รายงานอุบัติเหตุ เยี่ยมบ้าน ลงทะเบียน + บันทึกไฟล์/รูปภาพ/สลิป อัตโนมัติ</li>
+                                                <li>แนวคิด และหลักการสร้าง Dashboard และระบบต่าง ๆ</li>
+                                                <li>ใช้ AI สร้างฐานข้อมูลใน Google Sheet และเขียน AppScript เพื่อทำ Dashboard และระบบต่าง ๆ</li>
+                                                <li>ใช้ AI สร้าง Dashboard แบบ Hybrid จากข้อมูล Excel/Google Sheets พร้อม Insight เพื่อรายงานผลให้ผู้บริหารได้ทันที</li>
+                                                <li>ใช้ AI สร้างระบบ Input Form ที่เชื่อมต่อฐานข้อมูลโดยอัตโนมัติ รองรับการเพิ่ม/แก้ไข/ลบข้อมูล</li>
+                                                <li>ใช้ AI ออกแบบระบบ Log in / Log out สำหรับการจัดสิทธิ์ผู้ใช้งานในระดับ WebApp จริง</li>
+                                                <li>ใช้ AI พัฒนา Application สำหรับแบบประเมิน Paperless เช่น ความรู้ ความพึงพอใจ และลงทะเบียนกิจกรรม</li>
+                                                <li>ใช้ AI สร้าง WebApp/Dashboard ที่ดึงข้อมูลจากฐานข้อมูลแบบ Realtime เพื่อการติดตามผลโครงการและงานสุขภาพ</li>
+                                                <li>ใช้ AI สร้างระบบปักหมุดบน Google Map สำหรับงานสาธารณสุข/พื้นที่เสี่ยง</li>
+                                                <li>ใช้ AI ถอดเสียง/YouTube/Web → สรุปเป็น MindMap + Infographic</li>
+                                                <li>ใช้ Canva AI ทำงานนำเสนอ งานวิจัย วิดีโอ โปสเตอร์ และเกียรติบัตรแบบมืออาชีพ</li>
+                                                <li>Line OA พูดคุย/วิเคราะห์ผลแลป/วิเคราะห์ X-ray/วิเคราะห์บาดแผล</li>
+                                                <li>การให้ระบบที่บันทึกข้อมูลแล้วส่งข้อความมาเตือนใน Line</li>
+                                                <li>การใช้ Python วิเคราะห์ข้อมูลใน Excel ในรูปแบบต่าง ๆ</li>
+                                                <li>การเขียน WebApp เพื่อวิเคราะห์ข้อมูลทางสถิติ</li>
+                                                <li>เขียน Prompt เพื่อทำ Slide ใน NotebookLM และ Poster และนำ Template จาก Canva มาเป็นตัวอย่างเพื่อสร้าง</li>
+                                                <li>สร้างระบบการติดตามหญิงตั้งครรภ์ใช้สารเสพติดโดย อสม.</li>
+                                                <li>การทำ Video Animation ง่าย ๆ แบบสมจริง</li>
+                                                <li>การสร้างเพลงเพราะ ๆ ใน Gemini</li>
+                                                <li>การใช้ Claude Code ใน Visual Studio Code สร้าง Project</li>
+                                                <li>การใช้ API ของ AI สรุปงานประจำ หรือสรุปงานจาก Dashboard</li>
+                                                <li>การทำระบบคัดกรอง Paperless คัดกรองและ Dashboard ยกตัวอย่าง OVCCA</li>
+                                                <li>การสมัคร ChatGPT ที่ใช้ Codex ได้โดยไม่ต้องจ่ายเงิน</li>
+                                                <li>การติดตั้ง ChatGPT Codex</li>
+                                                <li>การนำข้อมูลที่มีอยู่ และกรณีที่ไม่มีข้อมูลแล้วใช้ AI สร้าง Content ให้แล้วใช้ Codex ในการทำสไลด์ทีเดียวหลาย ๆ สไลด์</li>
+                                                <li>สร้าง Infographic แบบ One Page ใน GPT</li>
+                                            </ul>
+                                        </section>
+                                        <section>
+                                            <h4>ระบบจริงที่พัฒนาด้วย AI และใช้งานจริงในพื้นที่</h4>
+                                            <ul class="system-mini-list">
+                                                <li><strong>การสร้าง AI และแบบฝึกต่าง ๆ:</strong> thonganek.github.io/ai-training</li>
+                                                <li><strong>ระบบรายงานและสอบสวนอุบัติเหตุออนไลน์:</strong> selaphum101.moph.go.th/RTI_Dashboard</li>
+                                                <li><strong>ระบบ Dashboard วิเคราะห์ข้อมูลสุขภาพ:</strong> thonganek.github.io/dashboard_test</li>
+                                                <li><strong>ระบบแจ้งจุดเสี่ยงบนท้องถนนโดยประชาชน:</strong> thonganek.github.io/risk_point</li>
+                                                <li><strong>ระบบนัดหมายผู้ป่วย Echo:</strong> thonganek.github.io/echo</li>
+                                                <li><strong>ระบบประเมินความพร้อม DM Remission:</strong> thonganek.github.io/survey_dm_remission</li>
+                                                <li><strong>ระบบ Dashboard วิเคราะห์ข้อมูล:</strong> thonganek.github.io/dashboard_test2</li>
+                                                <li><strong>ระบบลงทะเบียนประชุม + Pre/Post Test + ประเมินพึงพอใจ (ครบในที่เดียว):</strong> thonganek.github.io/registration_ai</li>
+                                                <li><strong>ระบบวิเคราะห์ข้อมูลทางสถิติออนไลน์:</strong> thonganek.github.io/Ton_Stat_ProMax</li>
+                                                <li><strong>ระบบส่งการบ้าน/ส่งรายงานออนไลน์:</strong> thonganek.github.io/homework</li>
+                                                <li><strong>ระบบอสม. อำเภอเสลภูมิ:</strong> selaphum101.moph.go.th/healthVolunteers/osm_report.php</li>
+                                                <li><strong>ระบบวิเคราะห์ข้อมูลอุบัติเหตุออนไลน์ (Realtime Analysis):</strong> selaphum101.moph.go.th/RTIAnalysis.html</li>
+                                                <li><strong>ระบบลงทะเบียนเรียน + จัดการผู้เข้าเรียน:</strong> thonganek.github.io/ai-workshop</li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </details>
+                                <button id="btn-med" type="button" class="btn-modern mt-4" onclick="openModal('AI การแพทย์')">
+                                    <i class="fas fa-check-circle"></i>
+                                    ลงทะเบียนหลักสูตรนี้
+                                </button>
+                            </div>
+                        </article>
+
+                        <article class="course-card research">
+                            <div class="course-head">
+                                <div class="course-label">
+                                    <i class="fas fa-microscope"></i>
+                                    หลักสูตรวิจัย
+                                </div>
+                                <h3>การใช้ AI ในการทำวิจัย</h3>
+                                <div class="price-row">
+                                    <div class="course-price">1,999 ฿</div>
+                                    <div class="price-note">รุ่นที่ 1 เรียนได้ตลอดชีพ</div>
+                                </div>
+                                <div class="seat-counter" id="badge-res">
+                                    <i class="fas fa-users"></i>
+                                    สมัครแล้ว:
+                                    <span id="count-res" class="loading-spinner" aria-live="polite"></span>
+                                </div>
+                            </div>
+                            <div class="course-body">
+                                <div class="tag-row">
+                                    <span>Research Gap</span>
+                                    <span>R&D</span>
+                                    <span>RCT</span>
+                                    <span>Quasi-Exp</span>
+                                    <span>Reference</span>
+                                </div>
+                                <ul class="course-list course-preview">
+                                    <li><i class="fas fa-check-circle"></i><span>ใช้ AI หา Research Gap ตั้งชื่อเรื่อง วัตถุประสงค์ และกรอบแนวคิด</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>เขียนบทที่ 1-5 พร้อมแนวทางทำแบบสอบถามและคำนวณขนาดตัวอย่าง</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>ค้นทฤษฎี งานวิจัยที่เกี่ยวข้อง และจัดการ Reference อย่างเป็นระบบ</span></li>
+                                    <li><i class="fas fa-check-circle"></i><span>เตรียมบทความเพื่อตีพิมพ์ ตรวจ AI Content และ Plagiarism</span></li>
+                                </ul>
+                                <details class="course-expand">
+                                    <summary>
+                                        <span>ดูรายละเอียดรายครั้งทั้งหมด</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </summary>
+                                    <div class="course-full">
+                                        <section>
+                                            <h4>เนื้อหาหลักสูตรวิจัย</h4>
+                                            <ul class="outline-list">
+                                                <li>Introduction ประวัติความเป็นมา AI + การสร้าง AI</li>
+                                                <li>คุณสมบัติ + การตั้งค่า AI เครื่องมือต่าง ๆ</li>
+                                                <li>แนวคิดในการใช้ AI ช่วยในงานวิจัย</li>
+                                                <li>Research Methodology ประเภท/รูปแบบงานวิจัย/ขั้นตอนในการทำวิจัย</li>
+                                                <li>บันได 6 ขั้น ใช้ AI สร้างงานวิจัย: หา Research Gap/ชื่อเรื่อง/วัตถุประสงค์/กรอบแนวคิด/ขั้นตอนการดำเนินงาน</li>
+                                                <li>การเขียนบทที่ 1 ที่มาและความสำคัญของปัญหา วัตถุประสงค์งานวิจัยแต่ละรูปแบบ การเขียนขอบเขตงานวิจัย นิยามศัพท์ ประโยชน์ที่คาดว่าจะได้รับ</li>
+                                                <li>การเขียนบทที่ 2 การใช้ AI หาทฤษฎี งานวิจัยที่เกี่ยวข้อง</li>
+                                                <li>การเขียนบทที่ 3 การใช้ AI ช่วยคิดไอเดียขั้นตอนการดำเนินงาน</li>
+                                                <li>การใช้โปรแกรมวิเคราะห์ทางสถิติ Easy Statistics</li>
+                                                <li>ใช้ AI ช่วยในการคำนวณขนาดตัวอย่าง</li>
+                                                <li>ใช้ AI ช่วยทำแบบสอบถาม</li>
+                                                <li>สถิติเบื้องต้นในงานวิจัย</li>
+                                                <li>ใช้ AI ในการสร้าง Template บทที่ 4</li>
+                                                <li>การอภิปรายผลใน บทที่ 5</li>
+                                                <li>ใช้ AI ช่วยเขียน Reference</li>
+                                                <li>การใช้ AI detector ตรวจสอบ AI Content และ Plagiarism</li>
+                                                <li>การเขียนบทความเพื่อตีพิมพ์</li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </details>
+                                <button id="btn-res" type="button" class="btn-modern mt-4" onclick="openModal('AI งานวิจัย')">
+                                    <i class="fas fa-check-circle"></i>
+                                    ลงทะเบียนหลักสูตรนี้
+                                </button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section tools-band">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>AI Tools ที่ใช้ในการเรียนรู้</h2>
+                        </div>
+                        <p>รวมเครื่องมือสำหรับคิด วิเคราะห์ สรุปข้อมูล ทำภาพ งานนำเสนอ งานวิจัย และพัฒนาเว็บแอป</p>
+                    </div>
+                    <ul class="tools-list">
+                        <li>Claude</li>
+                        <li>ChatGPT</li>
+                        <li>Gemini</li>
+                        <li>Grok</li>
+                        <li>Manus</li>
+                        <li>NotebookLM</li>
+                        <li>Canva</li>
+                        <li>Gamma</li>
+                        <li>Napkin</li>
+                        <li>Felo</li>
+                        <li>Perplexity</li>
+                        <li>SciSpace</li>
+                        <li>Copilot</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="workflow">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>ขั้นตอนสมัคร</h2>
+                        </div>
+                        <p>กรอกข้อมูล เลือกหลักสูตร แนบสลิป แล้วทัก Line เพื่อเข้ากลุ่มเรียนและรับรายละเอียดเตรียมตัว</p>
+                    </div>
+                    <div class="process-grid">
+                        <div class="process-item">
+                            <i class="fas fa-list-check"></i>
+                            <h3>เลือกหลักสูตร</h3>
+                            <p>เลือกคอร์สที่ตรงกับงานหรือเป้าหมายการเรียนรู้</p>
+                        </div>
+                        <div class="process-item">
+                            <i class="fas fa-building-columns"></i>
+                            <h3>โอนค่าลงทะเบียน</h3>
+                            <p>ชำระผ่านบัญชีธนาคารกรุงไทยตามข้อมูลในฟอร์ม</p>
+                        </div>
+                        <div class="process-item">
+                            <i class="fas fa-receipt"></i>
+                            <h3>แนบสลิป</h3>
+                            <p>อัปโหลดสลิปเพื่อให้ทีมงานตรวจสอบรายการสมัคร</p>
+                        </div>
+                        <div class="process-item">
+                            <i class="fab fa-line"></i>
+                            <h3>ทัก Line</h3>
+                            <p>รับการยืนยันและเข้ากลุ่มเรียนหลังลงทะเบียน</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="curriculum">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>เนื้อหาเรียนแบบเป็นหมวด</h2>
+                        </div>
+                        <p>จัดรายละเอียดให้สแกนง่ายขึ้น โดยยังคงแกนเนื้อหาจากหน้าเดิมไว้ครบถ้วน</p>
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-panel">
+                            <h3><i class="fas fa-notes-medical me-2"></i>สาธารณสุขและระบบงาน</h3>
+                            <ul>
+                                <li>พื้นฐาน AI, การตั้งค่าเครื่องมือ และการเขียน Prompt สำหรับงานจริง</li>
+                                <li>ใช้ AI ช่วยคิดไอเดีย เขียนโครงการ และออกแบบระบบรายงาน</li>
+                                <li>สร้างฐานข้อมูลด้วย Google Sheets และ AppScript</li>
+                                <li>ทำ Dashboard, Hybrid Dashboard และ WebApp ที่ดึงข้อมูลแบบ Realtime</li>
+                                <li>สร้างระบบ Log in / Log out, แบบประเมิน Paperless และระบบ Google Map</li>
                             </ul>
-                    <button id="btn-res" class="btn-modern w-100 mt-4" onclick="openModal('AI งานวิจัย')">
-                        <span style="position: relative; z-index: 1;">
-                            <i class="fas fa-check-circle"></i> ลงทะเบียนหลักสูตรนี้
-                        </span>
+                        </div>
+                        <div class="detail-panel">
+                            <h3><i class="fas fa-book-open-reader me-2"></i>งานวิจัยและบทความ</h3>
+                            <ul>
+                                <li>แนวคิดการใช้ AI ช่วยงานวิจัย และ Research Methodology</li>
+                                <li>บันได 6 ขั้นสำหรับหา Research Gap ชื่อเรื่อง วัตถุประสงค์ และกรอบแนวคิด</li>
+                                <li>เขียนบทที่ 1-3, วางขั้นตอนดำเนินงาน และเตรียมแบบสอบถาม</li>
+                                <li>สร้าง Template บทที่ 4-5, เขียน Reference และตรวจ AI Content</li>
+                                <li>เตรียมบทความเพื่อตีพิมพ์พร้อมแนวทางตรวจ Plagiarism</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container-narrow">
+                    <div class="section-title">
+                        <div>
+                            <h2>ตัวอย่างระบบจริง</h2>
+                        </div>
+                        <p>ระบบตัวอย่างที่พัฒนาด้วย AI และใช้เป็นกรณีศึกษาในการเรียน</p>
+                    </div>
+                    <ul class="system-list">
+                        <li><a href="https://thonganek.github.io/ai-training" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>การสร้าง AI และแบบฝึกต่าง ๆ</span></a></li>
+                        <li><a href="https://selaphum101.moph.go.th/RTI_Dashboard" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบรายงานและสอบสวนอุบัติเหตุออนไลน์</span></a></li>
+                        <li><a href="https://thonganek.github.io/dashboard_test" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบ Dashboard วิเคราะห์ข้อมูลสุขภาพ</span></a></li>
+                        <li><a href="https://thonganek.github.io/risk_point" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบแจ้งจุดเสี่ยงบนท้องถนนโดยประชาชน</span></a></li>
+                        <li><a href="https://thonganek.github.io/echo" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบนัดหมายผู้ป่วย Echo</span></a></li>
+                        <li><a href="https://thonganek.github.io/survey_dm_remission" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบประเมินความพร้อม DM Remission</span></a></li>
+                        <li><a href="https://thonganek.github.io/registration_ai" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบลงทะเบียนประชุม + Pre/Post Test + ประเมินผล</span></a></li>
+                        <li><a href="https://thonganek.github.io/Ton_Stat_ProMax" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบวิเคราะห์ข้อมูลทางสถิติออนไลน์</span></a></li>
+                        <li><a href="https://thonganek.github.io/homework" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบส่งการบ้าน/ส่งรายงานออนไลน์</span></a></li>
+                        <li><a href="https://thonganek.github.io/ai-workshop" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i><span>ระบบลงทะเบียนเรียน + จัดการผู้เข้าเรียน</span></a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section cta-band">
+                <div class="container-narrow cta-row">
+                    <div>
+                        <h2>พร้อมเริ่มเรียนแล้วใช่ไหมครับ</h2>
+                        <p>เลือกหลักสูตร กรอกข้อมูล และแนบสลิปการโอนเงินในฟอร์มเดียว</p>
+                    </div>
+                    <button type="button" class="btn-main" onclick="openModal('AI การแพทย์')">
+                        <i class="fas fa-paper-plane"></i>
+                        เปิดฟอร์มลงทะเบียน
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+            </section>
+        </main>
 
-<!-- Registration Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-file-signature"></i> แบบฟอร์มลงทะเบียน</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <footer class="site-footer">
+            <div class="container-narrow">
+                AI Workshop Registration • Line ID: 0821709518
             </div>
-            <div class="modal-body">
-                <form id="submit-to-google-sheet">
-                    <div class="mb-3">
-                        <label class="form-label">หลักสูตรที่เลือก <span class="text-danger">*</span></label>
-                        <select class="form-select" id="courseSelect" name="หลักสูตรที่เลือก" required>
-                            <option value="" disabled selected>กรุณาเลือกหลักสูตร...</option>
-                            <option value="AI การแพทย์ (999฿)">AI สำหรับการแพทย์และสาธารณสุข (999฿)</option>
-                            <option value="AI งานวิจัย (1,999฿)">การใช้ AI ในการทำวิจัย (1,999฿)</option>
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="ชื่อ-สกุล" required>
+        </footer>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-file-signature me-2"></i>แบบฟอร์มลงทะเบียน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="submit-to-google-sheet">
+                        <div class="mb-3">
+                            <label class="form-label" for="courseSelect">หลักสูตรที่เลือก <span class="text-danger">*</span></label>
+                            <select class="form-select" id="courseSelect" name="หลักสูตรที่เลือก" required>
+                                <option value="" disabled selected>กรุณาเลือกหลักสูตร...</option>
+                                <option value="AI การแพทย์ (999฿)">AI สำหรับการแพทย์และสาธารณสุข (999฿)</option>
+                                <option value="AI งานวิจัย (1,999฿)">การใช้ AI ในการทำวิจัย (1,999฿)</option>
+                            </select>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" name="เบอร์โทร" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">อีเมล <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" name="Email" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-success">Line ID <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fab fa-line fa-lg"></i></span>
-                                <input type="text" class="form-control" name="Line ID" required style="border-radius: 0 15px 15px 0;">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="fullName">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="fullName" name="ชื่อ-สกุล" autocomplete="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="phone">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone" name="เบอร์โทร" autocomplete="tel" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">หน่วยงาน</label>
-                        <input type="text" class="form-control" name="หน่วยงาน">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">ความคาดหวัง</label>
-                        <textarea class="form-control" name="ความคาดหวัง" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="alert alert-success text-center">
-                        <strong><i class="fas fa-money-bill"></i> บัญชีธนาคารกรุงไทย (KTB)</strong><br>
-                        เลขที่บัญชี: <strong>4291284322</strong><br>
-                        ชื่อบัญชี: นายจรัญญู ทองเอนก
-                    </div>
 
-                    <div class="mb-4">
-                        <label class="form-label">แนบสลิปการโอนเงิน <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="fileUpload" accept="image/*" required>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="email">อีเมล <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="Email" autocomplete="email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="lineId">Line ID <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fab fa-line fa-lg"></i></span>
+                                    <input type="text" class="form-control" id="lineId" name="Line ID" required>
+                                </div>
+                            </div>
+                        </div>
 
-                    <button type="submit" class="btn-modern w-100" id="submitBtn">
-                        <span style="position: relative; z-index: 1;">
-                            <i class="fas fa-paper-plane"></i> ยืนยันการลงทะเบียน
-                        </span>
-                    </button>
-                </form>
+                        <div class="mb-3">
+                            <label class="form-label" for="organization">หน่วยงาน</label>
+                            <input type="text" class="form-control" id="organization" name="หน่วยงาน">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="expectation">ความคาดหวัง</label>
+                            <textarea class="form-control" id="expectation" name="ความคาดหวัง" rows="3"></textarea>
+                        </div>
+
+                        <div class="payment-box mb-4">
+                            <strong><i class="fas fa-building-columns me-1"></i>บัญชีธนาคารกรุงไทย (KTB)</strong><br>
+                            เลขที่บัญชี: <strong>4291284322</strong><br>
+                            ชื่อบัญชี: <strong>นายจรัญญู ทองเอนก</strong>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label" for="fileUpload">แนบสลิปการโอนเงิน <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="fileUpload" accept="image/*" required>
+                        </div>
+
+                        <button type="submit" class="btn-modern w-100" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            ยืนยันการลงทะเบียน
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script>
-    // Initialize AOS Animation
-    AOS.init({
-        duration: 1000,
-        once: true
-    });
-
-    // Create Floating Particles
-    function createParticles() {
-        const container = document.getElementById('particles');
-        for(let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            container.appendChild(particle);
-        }
-    }
-    createParticles();
-
-    // ************************************************
-    // วาง URL Web App ที่ได้จากการ Deploy ใหม่ ตรงนี้ !!
-    // ************************************************
-    const scriptURL = 'https://script.google.com/macros/s/AKfycby_zag46Ly-FIW5ujpf6oVy-KK98diwJmX7FOHqNy4tgN8JopU83C9OanQT5tUiZFM5PA/exec';
-
-    // Fetch seat counts
-    window.onload = function() {
-        if(scriptURL === 'YOUR_WEB_APP_URL_HERE' || scriptURL === '') {
-            console.error("กรุณาใส่ Web App URL");
-            return;
-        }
-        
-        fetch(scriptURL + '?action=getCounts')
-            .then(response => response.json())
-            .then(counts => {
-                updateCounts(counts);
-            })
-            .catch(error => {
-                console.error("Error fetching counts:", error);
-                document.getElementById('count-med').innerText = "?";
-                document.getElementById('count-res').innerText = "?";
-            });
-    };
-
-    function updateCounts(counts) {
-        document.getElementById('count-med').innerText = counts.medical;
-        if(counts.medical >= 10000) disableBtn('btn-med', 'badge-med');
-
-        document.getElementById('count-res').innerText = counts.research;
-        if(counts.research >= 50000) disableBtn('btn-res', 'badge-res');
-    }
-
-    function disableBtn(btnId, badgeId) {
-        document.getElementById(badgeId).classList.add('seat-full');
-        const btn = document.getElementById(btnId);
-        btn.innerHTML = '<span style="position: relative; z-index: 1;"><i class="fas fa-times-circle"></i> เต็มแล้ว</span>';
-        btn.classList.add('btn-disabled');
-        btn.disabled = true;
-        btn.onclick = null;
-    }
-
-    // Open Modal
-    var registerModal;
-    function openModal(courseName) {
-        if(!registerModal) registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-        const select = document.getElementById('courseSelect');
-        for(let i=0; i<select.options.length; i++) {
-            if(select.options[i].text.includes(courseName)) { 
-                select.selectedIndex = i; 
-                break; 
-            }
-        }
-        registerModal.show();
-    }
-
-    // Form Submission
-    const form = document.forms['submit-to-google-sheet'];
-    const btn = document.getElementById('submitBtn');
-    const fileInput = document.getElementById('fileUpload');
-
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        btn.innerHTML = '<span style="position: relative; z-index: 1;"><i class="fas fa-spinner fa-spin"></i> กำลังส่งข้อมูล...</span>';
-        btn.disabled = true;
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-            data.fileData = e.target.result.split(',')[1];
-            data.fileName = file.name;
-            data.fileMimeType = file.type;
-
-            fetch(scriptURL, { 
-                method: 'POST', 
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                if(result.result === 'success') {
-                    if(registerModal) registerModal.hide();
-                    Swal.fire({
-                        title: 'สำเร็จ!',
-                        text: 'บันทึกข้อมูลเรียบร้อยแล้ว',
-                        icon: 'success',
-                        confirmButtonColor: '#38ef7d',
-                        background: '#1e293b',
-                        color: '#e2e8f0'
-                    }).then(() => window.location.reload());
-                } else {
-                    throw new Error(result.error);
-                }
-            })
-            .catch(error => {
-                console.error("Submission Error:", error);
-                Swal.fire({ 
-                    title: 'เกิดข้อผิดพลาด', 
-                    text: error.message || 'ไม่สามารถติดต่อ Server ได้', 
-                    icon: 'error',
-                    background: '#1e293b',
-                    color: '#e2e8f0'
-                });
-                btn.innerHTML = '<span style="position: relative; z-index: 1;"><i class="fas fa-paper-plane"></i> ยืนยันการลงทะเบียน</span>';
-                btn.disabled = false;
-            });
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby_zag46Ly-FIW5ujpf6oVy-KK98diwJmX7FOHqNy4tgN8JopU83C9OanQT5tUiZFM5PA/exec';
+        const COURSE_LIMITS = {
+            medical: 10000,
+            research: 50000
         };
 
-        if(file) {
-            reader.readAsDataURL(file);
-        } else { 
-            alert("กรุณาแนบสลิป"); 
-            btn.disabled = false;
-            btn.innerHTML = '<span style="position: relative; z-index: 1;"><i class="fas fa-paper-plane"></i> ยืนยันการลงทะเบียน</span>';
-        }
-    });
+        let registerModal;
 
-    // Scroll Reveal Effect
-    window.addEventListener('scroll', reveal);
-    function reveal() {
-        const reveals = document.querySelectorAll('.reveal');
-        reveals.forEach(element => {
-            const windowHeight = window.innerHeight;
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            if (elementTop < windowHeight - elementVisible) {
-                element.classList.add('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalElement = document.getElementById('registerModal');
+            registerModal = new bootstrap.Modal(modalElement);
+            fetchCounts();
+            bindRegistrationForm();
+            if (window.location.hash === '#registerModal') {
+                openModal('');
             }
         });
-    }
-</script>
+
+        function openModal(courseName) {
+            const select = document.getElementById('courseSelect');
+            for (let i = 0; i < select.options.length; i++) {
+                const option = select.options[i];
+                if (option.text.includes(courseName) || option.value.includes(courseName)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            if (!registerModal) {
+                registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            }
+            registerModal.show();
+        }
+
+        window.openModal = openModal;
+
+        function fetchCounts() {
+            if (!scriptURL || scriptURL === 'YOUR_WEB_APP_URL_HERE') {
+                setCountText('count-med', '?');
+                setCountText('count-res', '?');
+                return;
+            }
+
+            fetch(scriptURL + '?action=getCounts')
+                .then(response => response.json())
+                .then(updateCounts)
+                .catch(error => {
+                    console.error('Error fetching counts:', error);
+                    setCountText('count-med', '?');
+                    setCountText('count-res', '?');
+                });
+        }
+
+        function updateCounts(counts) {
+            const medical = Number(counts.medical) || 0;
+            const research = Number(counts.research) || 0;
+
+            setCountText('count-med', medical.toLocaleString('th-TH'));
+            setCountText('count-res', research.toLocaleString('th-TH'));
+
+            if (medical >= COURSE_LIMITS.medical) {
+                disableBtn('btn-med', 'badge-med');
+            }
+            if (research >= COURSE_LIMITS.research) {
+                disableBtn('btn-res', 'badge-res');
+            }
+        }
+
+        function setCountText(id, text) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            element.classList.add('loaded');
+            element.textContent = text;
+        }
+
+        function disableBtn(btnId, badgeId) {
+            const badge = document.getElementById(badgeId);
+            const btn = document.getElementById(btnId);
+            if (badge) badge.classList.add('seat-full');
+            if (!btn) return;
+            btn.innerHTML = '<i class="fas fa-times-circle"></i> เต็มแล้ว';
+            btn.classList.add('btn-disabled');
+            btn.disabled = true;
+            btn.onclick = null;
+        }
+
+        function bindRegistrationForm() {
+            const form = document.forms['submit-to-google-sheet'];
+            const btn = document.getElementById('submitBtn');
+            const fileInput = document.getElementById('fileUpload');
+
+            form.addEventListener('submit', async event => {
+                event.preventDefault();
+
+                const file = fileInput.files[0];
+                if (!file) {
+                    showAlert('กรุณาแนบสลิป', 'โปรดแนบรูปสลิปการโอนเงินก่อนยืนยันการลงทะเบียน', 'warning');
+                    return;
+                }
+
+                setSubmitState(btn, true);
+
+                try {
+                    const filePayload = await readFileAsBase64(file);
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+
+                    data.fileData = filePayload;
+                    data.fileName = file.name;
+                    data.fileMimeType = file.type || 'image/jpeg';
+
+                    const response = await fetch(scriptURL, {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (result.result !== 'success') {
+                        throw new Error(result.error || 'ไม่สามารถบันทึกข้อมูลได้');
+                    }
+
+                    if (registerModal) registerModal.hide();
+                    await Swal.fire({
+                        title: 'ลงทะเบียนสำเร็จ',
+                        text: 'บันทึกข้อมูลเรียบร้อยแล้ว กรุณาทัก Line เพื่อรับรายละเอียดการเข้าเรียน',
+                        icon: 'success',
+                        confirmButtonColor: '#16a34a'
+                    });
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Submission Error:', error);
+                    showAlert('เกิดข้อผิดพลาด', error.message || 'ไม่สามารถติดต่อ Server ได้', 'error');
+                    setSubmitState(btn, false);
+                }
+            });
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const result = String(event.target.result || '');
+                    resolve(result.split(',')[1] || '');
+                };
+                reader.onerror = () => reject(new Error('ไม่สามารถอ่านไฟล์สลิปได้'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function setSubmitState(button, isLoading) {
+            button.disabled = isLoading;
+            button.innerHTML = isLoading
+                ? '<i class="fas fa-spinner fa-spin"></i> กำลังส่งข้อมูล...'
+                : '<i class="fas fa-paper-plane"></i> ยืนยันการลงทะเบียน';
+        }
+
+        function showAlert(title, text, icon) {
+            Swal.fire({
+                title,
+                text,
+                icon,
+                confirmButtonColor: '#16a34a'
+            });
+        }
+
+    </script>
 </body>
 </html>
