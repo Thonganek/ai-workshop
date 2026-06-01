@@ -185,26 +185,19 @@ function sendApprovalNotification_(row) {
   var org    = String(row[6] || '-');
   var expect = String(row[7] || '-').substring(0, 120);
 
-  var lineMsg = '✅ อนุมัติผู้สมัครแล้ว!\n' +
-                '━━━━━━━━━━━━━━━━\n' +
-                '📚 หลักสูตร: ' + course + '\n' +
-                '👤 ชื่อ: '     + name   + '\n' +
-                '📞 เบอร์: '    + phone  + '\n' +
-                '📧 Email: '    + email  + '\n' +
-                '💬 Line ID: '  + lineId + '\n' +
-                '🏢 หน่วยงาน: ' + org    + '\n' +
-                '💡 ความคาดหวัง: ' + expect + '\n' +
-                '━━━━━━━━━━━━━━━━\n' +
-                '📌 สถานะ: อนุมัติแล้ว ✔';
+  var lineMsg = '👤 ชื่อ: '    + name   + '\n' +
+                '📞 เบอร์: '   + phone  + '\n' +
+                '💬 Line ID: ' + lineId + '\n' +
+                '🏢 หน่วยงาน: '+ org    + '\n' +
+                'อนุมัติแล้ว ✅';
 
-  // LINE OA push
+  // LINE OA broadcast → ส่งหาทุกคนที่ follow OA (ครั้งเดียว)
   try {
-    var res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+    var res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/broadcast', {
       method:             'POST',
       contentType:        'application/json',
       headers:            { 'Authorization': 'Bearer ' + LINE_TOKEN },
       payload:            JSON.stringify({
-        to:       LINE_USER_ID,
         messages: [{ type: 'text', text: lineMsg }]
       }),
       muteHttpExceptions: true
@@ -212,21 +205,6 @@ function sendApprovalNotification_(row) {
     Logger.log('LINE approval HTTP ' + res.getResponseCode() + ': ' + res.getContentText());
   } catch (err) {
     Logger.log('LINE approval error: ' + err.toString());
-  }
-
-  // Email
-  try {
-    var htmlBody =
-      '<div style="font-family:sans-serif;max-width:560px;padding:24px;background:#f0fdf4;border-radius:12px">' +
-      '<h2 style="color:#15803d;margin:0 0 16px">✅ อนุมัติผู้สมัครแล้ว!</h2>' +
-      '<table style="width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)">' +
-      row_('หลักสูตร',    course) + row_('ชื่อ-สกุล',   name)  +
-      row_('เบอร์โทร',    phone)  + row_('Email',       email) +
-      row_('Line ID',     lineId) + row_('หน่วยงาน',   org)   +
-      '</table></div>';
-    GmailApp.sendEmail(NOTIFY_EMAIL, '✅ อนุมัติแล้ว: ' + name, lineMsg, { htmlBody: htmlBody });
-  } catch (err) {
-    Logger.log('Email approval error: ' + err.toString());
   }
 }
 
@@ -304,16 +282,18 @@ function sendLineNotification_(data, fileUrl) {
                 '🏢 หน่วยงาน: ' + org    + '\n' +
                 '💡 ความคาดหวัง: ' + expect + '\n' +
                 '━━━━━━━━━━━━━━━━\n' +
-                '🧾 สลิป: ' + fileUrl;
+                '🧾 สลิป: ' + fileUrl + '\n' +
+                '━━━━━━━━━━━━━━━━\n' +
+                '🌐 หน้าลงทะเบียน:\nhttps://thonganek.github.io/ai-workshop/\n' +
+                '📊 Dashboard:\nhttps://thonganek.github.io/ai-workshop/ai_workshop_dashboard.html';
 
-  // LINE OA push
+  // LINE OA broadcast → ส่งหาทุกคนที่ follow OA
   try {
-    var res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+    var res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/broadcast', {
       method:             'POST',
       contentType:        'application/json',
       headers:            { 'Authorization': 'Bearer ' + LINE_TOKEN },
       payload:            JSON.stringify({
-        to:       LINE_USER_ID,
         messages: [{ type: 'text', text: lineMsg }]
       }),
       muteHttpExceptions: true
@@ -353,13 +333,12 @@ function row_(label, value) {
 function testNotify() {
   var testMsg = '✅ ทดสอบแจ้งเตือน AI Workshop\nเวลา: ' + new Date();
 
-  // LINE OA
-  var lineRes = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+  // LINE OA broadcast
+  var lineRes = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/broadcast', {
     method:             'POST',
     contentType:        'application/json',
     headers:            { 'Authorization': 'Bearer ' + LINE_TOKEN },
     payload:            JSON.stringify({
-      to:       LINE_USER_ID,
       messages: [{ type: 'text', text: testMsg }]
     }),
     muteHttpExceptions: true

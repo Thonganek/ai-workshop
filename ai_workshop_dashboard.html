@@ -1599,6 +1599,27 @@
         .key-ok{
             color:var(--alert-success);
         }
+
+        /* LINE status & delete/restore buttons */
+        .act-btn.line-added{background:#06c755;color:#fff;}
+        .act-btn.line-added:hover{background:#04a84a;}
+        .act-btn.line-not{background:rgba(6,199,85,0.1);color:#06c755;border:1.5px solid rgba(6,199,85,0.35);}
+        .act-btn.line-not:hover{background:rgba(6,199,85,0.22);}
+        .act-btn.del{background:rgba(220,38,38,0.08);color:#dc2626;border:none;}
+        .act-btn.del:hover{background:rgba(220,38,38,0.18);}
+        .act-btn.restore{background:rgba(217,119,6,0.12);color:#b45309;border:none;}
+        .act-btn.restore:hover{background:rgba(217,119,6,0.24);}
+        /* Duplicate row alternating groups */
+        table.data-table tr.dup-even td{background:#fff7ed;}
+        table.data-table tr.dup-even:hover td{background:#ffedd5;}
+        /* Dup tab */
+        #tab-dup{color:#92400e;background:#fff7ed;border-color:#fcd34d;}
+        #tab-dup .tab-count{background:#f59e0b;color:#fff;}
+        #tab-dup.active{color:#fff;background:linear-gradient(135deg,#f59e0b,#ef4444);border-color:#f59e0b;}
+        /* Hidden/deleted tab */
+        #tab-hidden{color:#991b1b;background:#fee2e2;border-color:#fca5a5;}
+        #tab-hidden .tab-count{background:#dc2626;color:#fff;}
+        #tab-hidden.active{color:#fff;background:linear-gradient(135deg,#dc2626,#7f1d1d);border-color:#dc2626;}
     </style>
 </head>
 <body>
@@ -1779,6 +1800,8 @@
             <button class="tab-btn"        onclick="switchTab('med')"      id="tab-med">      <i class="fas fa-user-md"></i>       AI การแพทย์    <span class="tab-count" id="cnt-med">0</span></button>
             <button class="tab-btn"        onclick="switchTab('res')"      id="tab-res">      <i class="fas fa-microscope"></i>    AI งานวิจัย    <span class="tab-count" id="cnt-res">0</span></button>
             <button class="tab-btn"        onclick="switchTab('both')"     id="tab-both">     <i class="fas fa-star"></i>          สมัคร 2 หลักสูตร <span class="tab-count" id="cnt-both">0</span></button>
+            <button class="tab-btn"        onclick="switchTab('dup')"      id="tab-dup">      <i class="fas fa-copy"></i>          รายชื่อซ้ำ      <span class="tab-count" id="cnt-dup">0</span></button>
+            <button class="tab-btn"        onclick="switchTab('hidden')"   id="tab-hidden">   <i class="fas fa-trash"></i>         ลบแล้ว          <span class="tab-count" id="cnt-hidden">0</span></button>
         </div>
 
         <!-- Table -->
@@ -1797,6 +1820,13 @@
                     </label>
                     <input type="search" class="search-box" id="searchBox"
                         placeholder="🔍  ค้นหาชื่อ / หลักสูตร / หน่วยงาน…" oninput="filterTable()">
+                    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+                        <span style="font-size:0.84rem;font-weight:700;color:var(--muted);white-space:nowrap"><i class="fas fa-calendar-days"></i> วันที่:</span>
+                        <input type="date" id="dateFrom" class="search-box" style="width:140px;padding:7px 10px" onchange="filterTable()" title="วันที่เริ่มต้น">
+                        <span style="color:var(--muted)">—</span>
+                        <input type="date" id="dateTo" class="search-box" style="width:140px;padding:7px 10px" onchange="filterTable()" title="วันที่สิ้นสุด">
+                        <button onclick="clearDateFilter()" class="pg-btn" style="white-space:nowrap;padding:7px 10px" title="ล้างช่วงวันที่"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="table-wrap">
@@ -1839,6 +1869,9 @@ https://www.facebook.com/share/g/18j7nvnyH9/`,
 https://www.facebook.com/share/g/1ETXXEEu7j/`
     };
 
+    const LINE_ADDED_KEY='aw_line_added';
+    const HIDDEN_KEY='aw_hidden';
+
     let allRows=[], activeTab='all', modalRow=null, chartDaily=null, chartCourse=null;
 
     /* ===== Boot ===== */
@@ -1867,7 +1900,9 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
             const d=await(await fetch(`${SCRIPT_URL}?action=dashboard&token=${encodeURIComponent(token)}`)).json();
             if(!d.ok){ sessionStorage.removeItem(TOKEN_KEY); showLogin();
                 Swal.fire({title:'หมดเวลา',text:'Session หมดอายุ กรุณาเข้าสู่ระบบใหม่',icon:'warning',confirmButtonColor:'#f59e0b'}); return; }
-            allRows=d.rows||[]; renderAll();
+            allRows=d.rows||[];
+            allRows.sort((a,b)=>(parseDateStr(b.date)||0)-(parseDateStr(a.date)||0));
+            renderAll();
         }catch{ Swal.fire({title:'ข้อผิดพลาด',text:'ไม่สามารถโหลดข้อมูลได้',icon:'error',confirmButtonColor:'#dc2626'}); }
         finally{ setLoading(false); }
     }
@@ -1881,9 +1916,10 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
 
     /* ===== Render All ===== */
     function renderAll(){
-        const total=allRows.length;
-        const med=allRows.filter(isMedRow).length, res=total-med;
-        const approved=allRows.filter(isApproved).length, pending=allRows.filter(isPending).length;
+        const visible=getVisibleRows();
+        const total=visible.length;
+        const med=visible.filter(isMedRow).length, res=total-med;
+        const approved=visible.filter(isApproved).length, pending=visible.filter(isPending).length;
         const revenue=(med*999)+(res*1999);
         const pct=v=>total?Math.round(v/total*100):0;
 
@@ -1905,8 +1941,10 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
         if(pending>0){ bar.classList.add('show'); setText('pendingBarText',`มี ${pending} คน จ่ายเงินแล้วแต่ยังไม่ได้รับการอนุมัติ`); }
         else bar.classList.remove('show');
 
-        const bothPhones = getBothPhones();
-        const bothCount  = allRows.filter(r => bothPhones.has((r.phone||'').trim())).length;
+        const bothPhones=getBothPhones(visible);
+        const bothCount=visible.filter(r=>bothPhones.has((r.phone||'').trim())).length;
+        const dupCount=getDuplicateRows(visible).length;
+        const hiddenCount=getHidden().size;
 
         setText('cnt-all',      total.toLocaleString('th-TH'));
         setText('cnt-pending',  pending.toLocaleString('th-TH'));
@@ -1914,9 +1952,11 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
         setText('cnt-med',      med.toLocaleString('th-TH'));
         setText('cnt-res',      res.toLocaleString('th-TH'));
         setText('cnt-both',     bothCount.toLocaleString('th-TH'));
+        setText('cnt-dup',      dupCount.toLocaleString('th-TH'));
+        setText('cnt-hidden',   hiddenCount.toLocaleString('th-TH'));
 
         renderOrgs(); renderChartCourse(med,res); renderChartDaily();
-        renderTable(getTabRows());
+        filterTable();
     }
 
     /* ===== Tab ===== */
@@ -1937,28 +1977,78 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
             approved: 'อนุมัติแล้ว',
             med:      'AI สำหรับการแพทย์และสาธารณสุข',
             res:      'การใช้ AI ในการทำวิจัย',
-            both:     'ผู้สมัครทั้ง 2 หลักสูตร'
+            both:     'ผู้สมัครทั้ง 2 หลักสูตร',
+            dup:      'รายชื่อที่ซ้ำกัน (เบอร์โทรเดียวกัน)',
+            hidden:   'รายการที่ถูกลบ — สามารถกู้คืนได้'
         };
         document.getElementById('tableTitle').innerHTML=`<i class="fas fa-list-ul" style="color:var(--leaf)"></i> ${titles[tab]||''}`;
-        renderTable(getTabRows());
+        filterTable();
     }
 
-    function getBothPhones(){
-        const medPhones = new Set(allRows.filter(isMedRow).map(r=>(r.phone||'').trim()).filter(Boolean));
-        const resPhones = new Set(allRows.filter(r=>!isMedRow(r)).map(r=>(r.phone||'').trim()).filter(Boolean));
+    function getBothPhones(rows){
+        const src=rows||getVisibleRows();
+        const medPhones=new Set(src.filter(isMedRow).map(r=>(r.phone||'').trim()).filter(Boolean));
+        const resPhones=new Set(src.filter(r=>!isMedRow(r)).map(r=>(r.phone||'').trim()).filter(Boolean));
         return new Set([...medPhones].filter(p=>resPhones.has(p)));
     }
 
     function getTabRows(){
-        if(activeTab==='pending')  return allRows.filter(isPending);
-        if(activeTab==='approved') return allRows.filter(isApproved);
-        if(activeTab==='med')      return allRows.filter(isMedRow);
-        if(activeTab==='res')      return allRows.filter(r=>!isMedRow(r));
+        const visible=getVisibleRows();
+        if(activeTab==='pending')  return visible.filter(isPending);
+        if(activeTab==='approved') return visible.filter(isApproved);
+        if(activeTab==='med')      return visible.filter(isMedRow);
+        if(activeTab==='res')      return visible.filter(r=>!isMedRow(r));
         if(activeTab==='both'){
-            const bp=getBothPhones();
-            return allRows.filter(r=>bp.has((r.phone||'').trim()));
+            const bp=getBothPhones(visible);
+            return visible.filter(r=>bp.has((r.phone||'').trim()));
         }
-        return allRows;
+        if(activeTab==='dup')    return getDuplicateRows(visible);
+        if(activeTab==='hidden') return allRows.filter(r=>getHidden().has(r.rowNum));
+        return visible;
+    }
+
+    /* ===== LINE & Delete Tracking (localStorage) ===== */
+    function getLineAdded(){
+        try{return new Set(JSON.parse(localStorage.getItem(LINE_ADDED_KEY)||'[]'));}catch{return new Set();}
+    }
+    function toggleLineAdded(rowNum){
+        const s=getLineAdded();
+        if(s.has(rowNum))s.delete(rowNum);else s.add(rowNum);
+        localStorage.setItem(LINE_ADDED_KEY,JSON.stringify([...s]));
+        filterTable();
+    }
+    function getHidden(){
+        try{return new Set(JSON.parse(localStorage.getItem(HIDDEN_KEY)||'[]'));}catch{return new Set();}
+    }
+    function getVisibleRows(){
+        const hidden=getHidden();
+        return allRows.filter(r=>!hidden.has(r.rowNum));
+    }
+    function hideRowLocal(rowNum){
+        const s=getHidden();s.add(rowNum);
+        localStorage.setItem(HIDDEN_KEY,JSON.stringify([...s]));
+        renderAll();
+    }
+    function restoreRow(rowNum){
+        const s=getHidden();s.delete(rowNum);
+        localStorage.setItem(HIDDEN_KEY,JSON.stringify([...s]));
+        renderAll();
+    }
+    async function confirmDelete(rowNum){
+        const row=allRows.find(r=>r.rowNum===rowNum);
+        const name=row?row.name:'รายการนี้';
+        const res=await Swal.fire({title:'ลบรายการนี้?',
+            html:`<b>${name}</b><br><small style="color:#6b7280">สามารถกู้คืนได้จากแท็บ "ลบแล้ว"</small>`,
+            icon:'warning',showCancelButton:true,
+            confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',
+            confirmButtonText:'<i class="fas fa-trash"></i> ลบ',cancelButtonText:'ยกเลิก'});
+        if(res.isConfirmed)hideRowLocal(rowNum);
+    }
+    function getDuplicateRows(rows){
+        const cnt={};
+        rows.forEach(r=>{const p=(r.phone||'').trim();if(p)cnt[p]=(cnt[p]||0)+1;});
+        return rows.filter(r=>(cnt[(r.phone||'').trim()]||0)>1)
+            .sort((a,b)=>(a.phone||'').localeCompare(b.phone||''));
     }
 
     /* ===== Org List ===== */
@@ -2053,19 +2143,35 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
         const start = (currentPage - 1) * size;
         const pageRows = rows.slice(start, start + size);
 
-        const bothPhones = activeTab==='both' ? getBothPhones() : new Set();
+        const lineAddedSet=getLineAdded();
+        const isHiddenTab=activeTab==='hidden';
+        const dupGroupMap={};
+        if(activeTab==='dup'){
+            let gIdx=0,lastPhone='';
+            rows.forEach(r=>{const p=(r.phone||'').trim();if(p!==lastPhone){gIdx++;lastPhone=p;}dupGroupMap[r.rowNum]=gIdx;});
+        }
+        const bothPhones=activeTab==='both'?getBothPhones():new Set();
         tbody.innerHTML=pageRows.map((r,i)=>{
             const med=isMedRow(r), pend=isPending(r);
-            const isBothHighlight = bothPhones.has((r.phone||'').trim());
+            const isBothHighlight=bothPhones.has((r.phone||'').trim());
+            const isDupEven=activeTab==='dup'&&dupGroupMap[r.rowNum]%2===0;
             const expectShort=(r.expect||'').length>40?(r.expect||'').substring(0,40)+'…':(r.expect||'—');
+            const isLAdded=lineAddedSet.has(r.rowNum);
+            const lineBadge=isLAdded
+                ?`<button class="act-btn line-added" onclick="toggleLineAdded(${r.rowNum})" title="ดึงเข้าไลน์แล้ว — คลิกเพื่อยกเลิก"><i class="fab fa-line"></i>ไลน์แล้ว ✓</button>`
+                :`<button class="act-btn line-not" onclick="toggleLineAdded(${r.rowNum})" title="ยังไม่ได้ดึงเข้าไลน์"><i class="fab fa-line"></i>ดึงไลน์</button>`;
+            const delOrRestore=isHiddenTab
+                ?`<button class="act-btn restore" onclick="restoreRow(${r.rowNum})" title="กู้คืน"><i class="fas fa-rotate-left"></i>กู้คืน</button>`
+                :`<button class="act-btn del" onclick="confirmDelete(${r.rowNum})" title="ลบ"><i class="fas fa-trash"></i></button>`;
             const actionBtns=pend
                 ?`<div class="action-btns">
                     <button class="act-btn line" onclick='openModal(${JSON.stringify(r)})'><i class="fab fa-line"></i>ไลน์</button>
                     <button class="act-btn face" onclick='openModal(${JSON.stringify(r)})'><i class="fab fa-facebook"></i>เฟส</button>
                     <button class="act-btn approve" onclick='quickApprove(${JSON.stringify(r)},this)'><i class="fas fa-check"></i>อนุมัติ</button>
-                </div>`
-                :`<span style="color:var(--leaf);font-size:0.78rem"><i class="fas fa-check-circle"></i> ดำเนินการแล้ว</span>`;
-            return `<tr class="${pend?'pending-row':''} ${isBothHighlight?'both-row':''}">
+                    ${lineBadge}${delOrRestore}</div>`
+                :`<div class="action-btns"><span style="color:var(--leaf);font-size:0.78rem;white-space:nowrap"><i class="fas fa-check-circle"></i> ดำเนินการแล้ว</span>
+                    ${lineBadge}${delOrRestore}</div>`;
+            return `<tr class="${pend?'pending-row':''} ${isBothHighlight?'both-row':''} ${isDupEven?'dup-even':''}">
                 <td>${start+i+1}</td>
                 <td style="white-space:nowrap">${r.date}</td>
                 <td><span class="pill ${med?'med':'res'}">${r.course}</span></td>
@@ -2113,10 +2219,39 @@ https://www.facebook.com/share/g/1ETXXEEu7j/`
         Swal.fire({title:'ความคาดหวัง',text:txt,icon:'info',confirmButtonColor:'#2563eb'});
     }
 
+    function parseDateStr(str){
+        if(!str) return null;
+        const p=(str||'').trim().split('/');
+        if(p.length<2) return null;
+        const day=parseInt(p[0])||1, month=(parseInt(p[1])||1)-1;
+        let year=p.length>=3?(parseInt(p[2])||new Date().getFullYear()):new Date().getFullYear();
+        if(year>2500) year-=543;
+        return new Date(year,month,day);
+    }
+
+    function clearDateFilter(){
+        document.getElementById('dateFrom').value='';
+        document.getElementById('dateTo').value='';
+        filterTable();
+    }
+
     function filterTable(){
         currentPage = 1;
         const q=document.getElementById('searchBox').value.toLowerCase().trim();
-        const base=getTabRows();
+        const fromVal=document.getElementById('dateFrom').value;
+        const toVal=document.getElementById('dateTo').value;
+        let base=getTabRows();
+        if(fromVal||toVal){
+            const fromDate=fromVal?new Date(fromVal):null;
+            const toDate=toVal?new Date(toVal+'T23:59:59'):null;
+            base=base.filter(r=>{
+                const d=parseDateStr(r.date);
+                if(!d) return true;
+                if(fromDate&&d<fromDate) return false;
+                if(toDate&&d>toDate) return false;
+                return true;
+            });
+        }
         if(!q){renderTable(base);return;}
         renderTable(base.filter(r=>[r.name,r.course,r.org,r.phone,r.line,r.date,r.expect,displayStatus(r)]
             .some(v=>v&&String(v).toLowerCase().includes(q))));
